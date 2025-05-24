@@ -1,0 +1,33 @@
+<resources>
+    <!-- Custom button style -->
+    <style name="Widget.Akuntansi.Button" parent="Widget.MaterialComponents.Button">
+        <item name="android:textColor">@color/colorOnPrimary</item>
+        <item name="backgroundTint">@color/colorPrimary</item>
+    </style>
+    
+    <!-- Custom tab text style -->
+    <style name="TabTextAppearance" parent="TextAppearance.Design.Tab">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textStyle">normal</item>
+        <item name="textAllCaps">false</item>
+    </style>
+
+    <color name="colorChipUnselected">#E0E0E0</color>
+
+    <!-- Custom BottomSheet Dialog Fragment    -->
+    <style name="AppBottomSheetDialogTheme"
+        parent="Theme.Design.Light.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/AppModalStyle</item>
+    </style>
+    <style name="AppModalStyle"
+        parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@drawable/bg_bottom_sheet</item>
+    </style>
+
+    <!-- Custom bottom navigation style -->
+    <style name="Widget.Akuntansi.BottomNavigation" parent="Widget.MaterialComponents.BottomNavigationView">
+        <item name="itemIconTint">@color/colorPrimary</item>
+        <item name="itemTextColor">@color/colorPrimary</item>
+        <item name="itemRippleColor">@color/colorPrimaryDark</item>
+    </style>
+</resources>

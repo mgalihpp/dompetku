@@ -1,0 +1,24 @@
+<resources>
+    <!-- Base application theme -->
+    <style name="Theme.Akuntansi" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <!-- Primary brand color -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorSecondary">@color/colorSecondary</item>
+        
+        <!-- Status bar color -->
+        <item name="android:statusBarColor">@color/colorPrimaryDark</item>
+        
+        <!-- Background colors -->
+        <item name="android:colorBackground">@color/colorBackground</item>
+        
+        <!-- Text colors -->
+        <item name="android:textColorPrimary">@color/colorPrimaryText</item>
+        <item name="android:textColorSecondary">@color/colorSecondaryText</item>
+        
+        <!-- Widget styles -->
+        <item name="materialButtonStyle">@style/Widget.Akuntansi.Button</item>
+        <item name="bottomNavigationStyle">@style/Widget.Akuntansi.BottomNavigation</item>
+    </style>
+</resources>

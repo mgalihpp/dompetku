@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/navigation_home">
+
+    <fragment
+        android:id="@+id/navigation_home"
+        android:name="com.neurallift.keuanganku.ui.home.HomeFragment"
+        android:label="@string/beranda"
+        tools:layout="@layout/fragment_home" />
+
+    <fragment
+        android:id="@+id/navigation_transaksi"
+        android:name="com.neurallift.keuanganku.ui.transaksi.TransaksiFragment"
+        android:label="@string/transaksi"
+        tools:layout="@layout/fragment_transaksi" />
+
+    <fragment
+        android:id="@+id/navigation_laporan"
+        android:name="com.neurallift.keuanganku.ui.laporan.LaporanFragment"
+        android:label="@string/laporan"
+        tools:layout="@layout/fragment_laporan" />
+</navigation>

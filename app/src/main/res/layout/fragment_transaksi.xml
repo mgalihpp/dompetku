@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBackground">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/colorPrimary"
+            android:elevation="4dp"
+            app:title="@string/transaksi"
+            app:titleTextColor="@color/colorOnPrimary" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvTransaksi"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/toolbar"
+            android:clipToPadding="false"
+            android:padding="8dp"
+            android:paddingBottom="80dp"
+            tools:listitem="@layout/item_transaksi" />
+
+        <TextView
+            android:id="@+id/tvEmpty"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:text="@string/tidak_ada_transaksi"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+            android:textColor="@color/colorSecondaryText"
+            android:visibility="gone" />
+
+    </RelativeLayout>
+
+    <!-- Filter FAB -->
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabFilter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|start"
+        android:layout_margin="16dp"
+        android:contentDescription="@string/filter_transaksi"
+        app:backgroundTint="@color/colorSecondary"
+        app:srcCompat="@android:drawable/ic_menu_search"
+        app:tint="@color/colorOnSecondary" />
+
+    <!-- Add Transaction FAB -->
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabAdd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="16dp"
+        android:contentDescription="@string/tambah_transaksi"
+        app:srcCompat="@android:drawable/ic_input_add"
+        app:tint="@color/colorOnPrimary" />
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

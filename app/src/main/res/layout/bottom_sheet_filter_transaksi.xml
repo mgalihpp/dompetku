@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <View
+        android:layout_width="40dp"
+        android:layout_height="4dp"
+        android:layout_gravity="center"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/bg_handle_strip" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/filter_transaksi"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+        android:textColor="@color/colorPrimaryText"
+        android:layout_marginBottom="16dp" />
+
+    <!-- Kategori -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/kategori"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+        android:textColor="@color/colorPrimaryText" />
+
+    <TextView
+        android:id="@+id/tvKategori"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/card_background"
+        android:drawableEnd="@android:drawable/arrow_down_float"
+        android:gravity="start|center_vertical"
+        android:padding="12dp"
+        android:text="@string/pilih_kategori"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+        android:textColor="@color/colorPrimaryText" />
+
+    <!-- Jenis Transaksi -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/jenis_transaksi"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+        android:textColor="@color/colorPrimaryText" />
+
+    <com.google.android.material.chip.ChipGroup
+        android:id="@+id/chipGroupJenis"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:singleSelection="true"
+        app:selectionRequired="false"
+        >
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chipPemasukan"
+            style="@style/Widget.MaterialComponents.Chip.Choice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/pemasukan"
+            android:checkable="true"
+            android:textColor="@drawable/chip_pemasukan_text"
+            app:chipBackgroundColor="@drawable/chip_pemasukan_bg" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chipPengeluaran"
+            style="@style/Widget.MaterialComponents.Chip.Choice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/pengeluaran"
+            android:checkable="true"
+            android:textColor="@drawable/chip_pengeluaran_text"
+            app:chipBackgroundColor="@drawable/chip_pengeluaran_bg" />
+    </com.google.android.material.chip.ChipGroup>
+
+    <!-- Periode Tanggal -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/periode"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+        android:textColor="@color/colorPrimaryText" />
+
+    <TextView
+        android:id="@+id/tvTanggalMulai"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:background="@drawable/card_background"
+        android:drawableEnd="@android:drawable/ic_menu_my_calendar"
+        android:gravity="start|center_vertical"
+        android:padding="12dp"
+        android:text="@string/tanggal_mulai"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+        android:textColor="@color/colorPrimaryText" />
+
+    <TextView
+        android:id="@+id/tvTanggalSelesai"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/card_background"
+        android:drawableEnd="@android:drawable/ic_menu_my_calendar"
+        android:gravity="start|center_vertical"
+        android:padding="12dp"
+        android:text="@string/tanggal_selesai"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+        android:textColor="@color/colorPrimaryText" />
+
+    <!-- Buttons -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btnReset"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_weight="1"
+            android:text="@string/reset"
+            android:textColor="@color/colorPrimary" />
+
+        <Button
+            android:id="@+id/btnTerapkan"
+            style="@style/Widget.MaterialComponents.Button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_weight="1"
+            android:text="@string/terapkan"
+            android:textColor="@color/colorOnPrimary"
+            app:backgroundTint="@color/colorPrimary" />
+    </LinearLayout>
+</LinearLayout>

@@ -1,0 +1,76 @@
+<resources>
+    <string name="app_name">Akuntansi</string>
+    
+    <!-- Bottom Navigation -->
+    <string name="beranda">Beranda</string>
+    <string name="transaksi">Transaksi</string>
+    <string name="laporan">Laporan</string>
+    
+    <!-- Onboarding -->
+    <string name="lewati">Lewati</string>
+    <string name="lanjut">Lanjut</string>
+    <string name="selesai">Selesai</string>
+    <string name="onboarding_title_1">Kelola Keuangan Anda</string>
+    <string name="onboarding_desc_1">Catat semua transaksi keuangan Anda dengan mudah dan cepat</string>
+    <string name="onboarding_title_2">Pantau Penjualan dan Pembelian</string>
+    <string name="onboarding_desc_2">Kelola transaksi penjualan dan pembelian dalam satu aplikasi</string>
+    <string name="onboarding_title_3">Kelola Persediaan</string>
+    <string name="onboarding_desc_3">Pantau persediaan barang Anda dengan efisien dan akurat</string>
+    <string name="onboarding_title_4">Laporan Keuangan</string>
+    <string name="onboarding_desc_4">Dapatkan laporan laba rugi dan analisis keuangan dengan mudah</string>
+    <string name="onboarding_image">Gambar Onboarding</string>
+    
+    <!-- Home Screen -->
+    <string name="total_saldo">Total Saldo</string>
+    <string name="pemasukan">Pemasukan</string>
+    <string name="pengeluaran">Pengeluaran</string>
+    <string name="ringkasan_keuangan">Ringkasan Keuangan</string>
+    <string name="keuangan">Keuangan</string>
+    <string name="transaksi_terakhir">Transaksi Terakhir</string>
+    <string name="tambah_transaksi">Tambah Transaksi</string>
+    <string name="edit_transaksi">Edit Transaksi</string>
+    <string name="empty_state_transaksi">Tidak ada transaksi saat ini</string>
+    <string name="harian">Harian</string>
+    <string name="mingguan">Mingguan</string>
+    <string name="bulanan">Bulanan</string>
+    
+    <!-- Transaksi Screen -->
+    <string name="filter_transaksi">Filter Transaksi</string>
+    <string name="kategori">Kategori</string>
+    <string name="akun">Akun</string>
+    <string name="jenis_transaksi">Jenis Transaksi</string>
+    <string name="nominal">Nominal</string>
+    <string name="masukkan_nominal">Masukkan nominal</string>
+    <string name="tanggal">Tanggal</string>
+    <string name="jam">Jam</string>
+    <string name="catatan_opsional">Catatan (Opsional)</string>
+    <string name="tambahkan_catatan">Tambahkan catatan</string>
+    <string name="batal">Batal</string>
+    <string name="simpan">Simpan</string>
+    <string name="perbarui">Perbarui</string>
+    <string name="hapus">Hapus</string>
+    <string name="pilih_kategori">Pilih Kategori</string>
+    <string name="pilih_akun">Pilih Akun</string>
+    <string name="periode">Periode</string>
+    <string name="tanggal_mulai">Tanggal Mulai</string>
+    <string name="tanggal_selesai">Tanggal Selesai</string>
+    <string name="reset">Reset</string>
+    <string name="terapkan">Terapkan</string>
+    <string name="tidak_ada_transaksi">Tidak ada transaksi</string>
+    <string name="konfirmasi_hapus">Hapus transaksi ini?</string>
+    <string name="transaksi_dihapus">Transaksi berhasil dihapus</string>
+    <string name="transaksi_disimpan">Transaksi berhasil disimpan</string>
+    <string name="transaksi_diperbarui">Transaksi berhasil diperbarui</string>
+    <string name="kategori_kosong">Kategori tidak boleh kosong</string>
+    <string name="akun_kosong">Akun tidak boleh kosong</string>
+    <string name="nominal_kosong">Nominal tidak boleh kosong</string>
+    <string name="jenis_kosong">Pilih jenis transaksi</string>
+    
+    <!-- Laporan Screen -->
+    <string name="periode_kustom">Periode Kustom</string>
+    <string name="total_pemasukan">Total Pemasukan</string>
+    <string name="total_pengeluaran">Total Pengeluaran</string>
+    <string name="laba_rugi">Laba/Rugi</string>
+    <string name="grafik_laba_rugi">Grafik Laba Rugi</string>
+    <string name="tidak_ada_data">Tidak ada data</string>
+</resources>

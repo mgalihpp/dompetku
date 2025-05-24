@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Base Theme Colors -->
+    <color name="colorPrimary">#212121</color>
+    <color name="colorPrimaryDark">#000000</color>
+    <color name="colorAccent">#757575</color>
+    <color name="colorSecondary">#757575</color>
+    
+    <!-- Text Colors -->
+    <color name="colorPrimaryText">#212121</color>
+    <color name="colorSecondaryText">#757575</color>
+    <color name="colorOnPrimary">#FFFFFF</color>
+    <color name="colorOnSecondary">#FFFFFF</color>
+    
+    <!-- Background Colors -->
+    <color name="colorBackground">#F5F5F5</color>
+    <color name="colorCardBackground">#FFFFFF</color>
+    <color name="colorChipBackground">#EEEEEE</color>
+    
+    <!-- Helper Colors -->
+    <color name="colorDivider">#EEEEEE</color>
+    <color name="colorIncome">#4CAF50</color>
+    <color name="colorExpense">#F44336</color>
+    <color name="colorPieIncome">#4CAF50</color>
+    <color name="colorPieExpense">#F44336</color>
+    <color name="colorOnBackground">#212121</color>
+    
+    <!-- Tab Indicator Colors -->
+    <color name="colorTabIndicatorActive">#212121</color>
+    <color name="colorTabIndicatorInactive">#BDBDBD</color>
+</resources>
