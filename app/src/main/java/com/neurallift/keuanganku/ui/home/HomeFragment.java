@@ -97,7 +97,11 @@ public class HomeFragment extends Fragment {
         SharedPreferences prefs = getContext().getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
         int savedIndex = prefs.getInt(SELECTED_TAB_KEY, 0);
         TabLayout.Tab tab = tabLayout.getTabAt(savedIndex);
-        if (tab != null) tab.select();
+        if (tab != null) {
+            currentPeriod = savedIndex;
+            tab.select();
+            loadDataByPeriod();
+        }
 
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override

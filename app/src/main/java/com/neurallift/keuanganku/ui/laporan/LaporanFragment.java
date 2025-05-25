@@ -103,7 +103,11 @@ public class LaporanFragment extends Fragment {
 
         // Default selection
         TabLayout.Tab tab = tabLayout.getTabAt(savedIndex); // Monthly by default
-        if (tab != null) tab.select();
+        if (tab != null) {
+            tab.select();
+
+            loadDataByPeriod(tab);
+        }
 
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
@@ -113,17 +117,7 @@ public class LaporanFragment extends Fragment {
                 editor.putInt(SELECTED_TAB_KEY, tab.getPosition());
                 editor.apply();
 
-                switch (tab.getPosition()) {
-                    case 0:
-                        laporanViewModel.setDailyPeriod();
-                        break;
-                    case 1:
-                        laporanViewModel.setWeeklyPeriod();
-                        break;
-                    case 2:
-                        laporanViewModel.setMonthlyPeriod();
-                        break;
-                }
+                loadDataByPeriod(tab);
             }
 
             @Override
@@ -268,6 +262,20 @@ public class LaporanFragment extends Fragment {
         lineChart.getLegend().setEnabled(true);
         lineChart.animateY(1000);
         lineChart.invalidate();
+    }
+
+    private void loadDataByPeriod(TabLayout.Tab tab){
+        switch (tab.getPosition()) {
+            case 0:
+                laporanViewModel.setDailyPeriod();
+                break;
+            case 1:
+                laporanViewModel.setWeeklyPeriod();
+                break;
+            case 2:
+                laporanViewModel.setMonthlyPeriod();
+                break;
+        }
     }
 
     private String formatPeriodText(String startDate, String endDate) {

@@ -86,16 +86,22 @@ public class DateTimeUtils {
     public static String[] getWeekDateRange() {
         Calendar calendar = Calendar.getInstance();
 
-        // Set to start of week (Monday)
-        calendar.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+        // Atur agar minggu dimulai dari Senin
+        calendar.setFirstDayOfWeek(Calendar.MONDAY);
+
+        // Cari hari ini dan geser ke Senin minggu ini
+        int currentDay = calendar.get(Calendar.DAY_OF_WEEK);
+        int delta = (currentDay == Calendar.SUNDAY) ? -6 : Calendar.MONDAY - currentDay;
+        calendar.add(Calendar.DAY_OF_MONTH, delta);
         String startDate = DATE_FORMAT.format(calendar.getTime());
 
-        // Set to end of week (Sunday)
-        calendar.add(Calendar.DAY_OF_WEEK, 6);
+        // Tambahkan 6 hari untuk dapatkan akhir minggu (Minggu)
+        calendar.add(Calendar.DAY_OF_MONTH, 6);
         String endDate = DATE_FORMAT.format(calendar.getTime());
 
         return new String[]{startDate, endDate};
     }
+
 
     /**
      * Get date range for current month (1st to last day)
