@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Akuntansi</string>
+    <string name="app_name">DompetKu</string>
     
     <!-- Bottom Navigation -->
     <string name="beranda">Beranda</string>
