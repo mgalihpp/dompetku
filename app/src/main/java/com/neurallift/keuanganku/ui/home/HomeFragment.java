@@ -5,8 +5,10 @@ import static android.content.Context.MODE_PRIVATE;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -19,6 +21,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.neurallift.keuanganku.R;
 import com.neurallift.keuanganku.data.model.Transaksi;
+import com.neurallift.keuanganku.ui.AccessibleLinearLayout;
 import com.neurallift.keuanganku.ui.transaksi.TambahTransaksiBottomSheet;
 import com.neurallift.keuanganku.ui.transaksi.TransaksiAdapter;
 import com.neurallift.keuanganku.utils.FormatUtils;
@@ -86,6 +89,9 @@ public class HomeFragment extends Fragment {
         // Setup Period Tabs
         setupTabLayout();
 
+        // Setup swipe gesture to navigate between periods
+        setupSwipeGesture();
+
         // Load data based on current period
         loadDataByPeriod();
     }
@@ -121,6 +127,30 @@ public class HomeFragment extends Fragment {
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
+            }
+        });
+    }
+
+    private void setupSwipeGesture() {
+        AccessibleLinearLayout mainLayout = getView().findViewById(R.id.home_main_layout);
+        mainLayout.setOnSwipeListener(new AccessibleLinearLayout.OnSwipeListener() {
+            @Override
+            public void onSwipeLeft() {
+                if (currentPeriod < 2) {
+                    tabLayout.selectTab(tabLayout.getTabAt(currentPeriod + 1));
+                }
+            }
+
+            @Override
+            public void onSwipeRight() {
+                if (currentPeriod > 0) {
+                    tabLayout.selectTab(tabLayout.getTabAt(currentPeriod - 1));
+                }
+            }
+
+            @Override
+            public void onClick() {
+                // Handle click if needed, e.g., show a toast or trigger an action
             }
         });
     }

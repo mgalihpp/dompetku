@@ -11,7 +11,8 @@
         android:layout_height="match_parent"
         android:fillViewport="true">
 
-        <LinearLayout
+        <com.neurallift.keuanganku.ui.AccessibleLinearLayout
+            android:id="@+id/laporan_main_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
@@ -403,6 +404,6 @@
                         android:layout_marginTop="8dp" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
-        </LinearLayout>
+        </com.neurallift.keuanganku.ui.AccessibleLinearLayout>
     </androidx.core.widget.NestedScrollView>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

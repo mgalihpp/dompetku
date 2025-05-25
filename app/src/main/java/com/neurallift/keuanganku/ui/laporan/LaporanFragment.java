@@ -18,6 +18,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.neurallift.keuanganku.R;
 import com.neurallift.keuanganku.data.model.Transaksi;
+import com.neurallift.keuanganku.ui.AccessibleLinearLayout;
 import com.neurallift.keuanganku.utils.DateTimeUtils;
 import com.neurallift.keuanganku.utils.FormatUtils;
 import com.github.mikephil.charting.charts.LineChart;
@@ -49,6 +50,7 @@ public class LaporanFragment extends Fragment {
     private LineChart lineChart;
     private TabLayout tabLayout;
     private Button btnCustomPeriode;
+    private int currentPeriod = 0; // 0: daily, 1: weekly, 2: monthly
 
     private static final String PREFS_NAME = "REPORT_PERIOD_PREFS";
     private static final String SELECTED_TAB_KEY = "SelectedTab";
@@ -79,6 +81,9 @@ public class LaporanFragment extends Fragment {
         // Setup period tabs
         setupTabLayout();
 
+        // Setup swipe gesture to navigate between periods
+        setupSwipeGesture();
+
         // Setup custom period button
         btnCustomPeriode.setOnClickListener(v -> showCustomPeriodPickers());
 
@@ -104,9 +109,9 @@ public class LaporanFragment extends Fragment {
         // Default selection
         TabLayout.Tab tab = tabLayout.getTabAt(savedIndex); // Monthly by default
         if (tab != null) {
+            currentPeriod = savedIndex;
             tab.select();
-
-            loadDataByPeriod(tab);
+            loadDataByPeriod();
         }
 
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
@@ -117,7 +122,8 @@ public class LaporanFragment extends Fragment {
                 editor.putInt(SELECTED_TAB_KEY, tab.getPosition());
                 editor.apply();
 
-                loadDataByPeriod(tab);
+                currentPeriod = tab.getPosition();
+                loadDataByPeriod();
             }
 
             @Override
@@ -126,6 +132,30 @@ public class LaporanFragment extends Fragment {
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
+            }
+        });
+    }
+
+    private void setupSwipeGesture() {
+        AccessibleLinearLayout mainLayout = getView().findViewById(R.id.laporan_main_layout);
+        mainLayout.setOnSwipeListener(new AccessibleLinearLayout.OnSwipeListener() {
+            @Override
+            public void onSwipeLeft() {
+                if (currentPeriod < 2) {
+                    tabLayout.selectTab(tabLayout.getTabAt(currentPeriod + 1));
+                }
+            }
+
+            @Override
+            public void onSwipeRight() {
+                if (currentPeriod > 0) {
+                    tabLayout.selectTab(tabLayout.getTabAt(currentPeriod - 1));
+                }
+            }
+
+            @Override
+            public void onClick() {
+                // Handle click if needed, e.g., show a toast or trigger an action
             }
         });
     }
@@ -264,8 +294,8 @@ public class LaporanFragment extends Fragment {
         lineChart.invalidate();
     }
 
-    private void loadDataByPeriod(TabLayout.Tab tab){
-        switch (tab.getPosition()) {
+    private void loadDataByPeriod(){
+        switch (currentPeriod) {
             case 0:
                 laporanViewModel.setDailyPeriod();
                 break;

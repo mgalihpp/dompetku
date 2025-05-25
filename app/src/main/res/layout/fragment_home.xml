@@ -11,7 +11,8 @@
         android:layout_height="match_parent"
         android:fillViewport="true">
 
-        <LinearLayout
+        <com.neurallift.keuanganku.ui.AccessibleLinearLayout
+            android:id="@+id/home_main_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
@@ -240,7 +241,7 @@
                 tools:visibility="visible"
                 />
 
-        </LinearLayout>
+        </com.neurallift.keuanganku.ui.AccessibleLinearLayout>
     </androidx.core.widget.NestedScrollView>
 
     <!-- FAB -->
