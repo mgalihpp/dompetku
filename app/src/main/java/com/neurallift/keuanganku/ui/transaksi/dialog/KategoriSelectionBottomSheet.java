@@ -1,9 +1,10 @@
-package com.neurallift.keuanganku.ui.transaksi;
+package com.neurallift.keuanganku.ui.transaksi.dialog;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -15,16 +16,20 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.neurallift.keuanganku.R;
 import com.neurallift.keuanganku.data.model.Kategori;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
+import com.neurallift.keuanganku.ui.akun.dialog.TambahAkunBottomSheet;
+import com.neurallift.keuanganku.ui.kategori.dialog.TambahKategoriBottomSheet;
+import com.neurallift.keuanganku.ui.transaksi.viewmodel.TransaksiViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class KategoriSelectionBottomSheet extends BottomSheetDialogFragment {
+public class KategoriSelectionBottomSheet extends BottomSheetDialogFragment implements TambahKategoriBottomSheet.OnKategoriSavedListener {
 
     private TransaksiViewModel transaksiViewModel;
     private RecyclerView recyclerView;
     private KategoriAdapter adapter;
     private KategoriSelectedListener listener;
+    private Button btnTambahKategori;
 
     public interface KategoriSelectedListener {
 
@@ -51,6 +56,9 @@ public class KategoriSelectionBottomSheet extends BottomSheetDialogFragment {
         tvTitle.setText(R.string.pilih_kategori);
 
         recyclerView = view.findViewById(R.id.recyclerView);
+        btnTambahKategori = view.findViewById(R.id.tambah_selection);
+        btnTambahKategori.setText(R.string.tambah_kategori);
+
         setupRecyclerView();
 
         transaksiViewModel = new ViewModelProvider(requireActivity()).get(TransaksiViewModel.class);
@@ -62,6 +70,11 @@ public class KategoriSelectionBottomSheet extends BottomSheetDialogFragment {
                 kategoriNames.add(kategori.getNama());
             }
             adapter.setItems(kategoriNames);
+        });
+
+
+        btnTambahKategori.setOnClickListener(v -> {
+            showTambahKategoriBottomSheet();
         });
 
         return view;
@@ -133,5 +146,21 @@ public class KategoriSelectionBottomSheet extends BottomSheetDialogFragment {
                 });
             }
         }
+    }
+    private void showTambahKategoriBottomSheet(){
+        TambahKategoriBottomSheet bottomSheet = new TambahKategoriBottomSheet();
+        bottomSheet.setOnKategoriSavedListener(this);
+
+        bottomSheet.show(getParentFragmentManager(), "TambahKategoriBottomSheet");
+    }
+
+    @Override
+    public void onKategoriSaved(Kategori kategori) {
+        transaksiViewModel.insert(kategori);
+    }
+
+    @Override
+    public void onKategoriUpdated(Kategori kategori) {
+        transaksiViewModel.update(kategori);
     }
 }

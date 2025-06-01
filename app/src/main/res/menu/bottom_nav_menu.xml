@@ -6,6 +6,11 @@
         android:title="@string/beranda" />
 
     <item
+        android:id="@+id/navigation_akun"
+        android:icon="@drawable/ic_akun"
+        android:title="@string/akun" />
+
+    <item
         android:id="@+id/navigation_transaksi"
         android:icon="@drawable/ic_transaksi"
         android:title="@string/transaksi" />

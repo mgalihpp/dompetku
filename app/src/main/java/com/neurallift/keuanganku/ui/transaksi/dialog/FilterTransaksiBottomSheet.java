@@ -1,4 +1,4 @@
-package com.neurallift.keuanganku.ui.transaksi;
+package com.neurallift.keuanganku.ui.transaksi.dialog;
 
 import android.app.DatePickerDialog;
 import android.os.Bundle;
@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.neurallift.keuanganku.R;
+import com.neurallift.keuanganku.ui.transaksi.viewmodel.TransaksiViewModel;
 import com.neurallift.keuanganku.utils.DateTimeUtils;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.android.material.chip.Chip;
@@ -24,6 +25,8 @@ public class FilterTransaksiBottomSheet extends BottomSheetDialogFragment {
     private TransaksiViewModel transaksiViewModel;
 
     private TextView tvKategori;
+
+    private TextView tvAkun;
     private ChipGroup chipGroupJenis;
     private Chip chipPemasukan;
     private Chip chipPengeluaran;
@@ -33,6 +36,7 @@ public class FilterTransaksiBottomSheet extends BottomSheetDialogFragment {
     private Button btnTerapkan;
 
     private String selectedKategori = "";
+    private String selectedAkun = "";
     private String selectedJenis = "";
     private String tanggalMulai = "";
     private String tanggalSelesai = "";
@@ -54,6 +58,7 @@ public class FilterTransaksiBottomSheet extends BottomSheetDialogFragment {
         View view = inflater.inflate(R.layout.bottom_sheet_filter_transaksi, container, false);
 
         // Initialize views
+        tvAkun = view.findViewById(R.id.tvAkun);
         tvKategori = view.findViewById(R.id.tvKategori);
         chipGroupJenis = view.findViewById(R.id.chipGroupJenis);
         chipPemasukan = view.findViewById(R.id.chipPemasukan);
@@ -63,7 +68,54 @@ public class FilterTransaksiBottomSheet extends BottomSheetDialogFragment {
         btnReset = view.findViewById(R.id.btnReset);
         btnTerapkan = view.findViewById(R.id.btnTerapkan);
 
+        if(transaksiViewModel != null){
+            // Set kategori
+            String kategori = transaksiViewModel.getFilterKategori().getValue();
+            if (kategori != null && !kategori.isEmpty()) {
+                selectedKategori = kategori;
+                tvKategori.setText(kategori);
+            } else {
+                tvKategori.setText(R.string.pilih_kategori);
+            }
+
+            String akun = transaksiViewModel.getFilterAkun().getValue();
+            if (akun != null && !akun.isEmpty()) {
+                selectedAkun = akun;
+                tvAkun.setText(akun);
+            } else {
+                tvAkun.setText(R.string.pilih_akun);
+            }
+
+            String jenis = transaksiViewModel.getFilterJenis().getValue();
+            if (jenis != null && !jenis.isEmpty()) {
+                selectedJenis = jenis;
+                if (jenis.equals("pemasukan")) {
+                    chipGroupJenis.check(R.id.chipPemasukan);
+                } else if (jenis.equals("pengeluaran")) {
+                    chipGroupJenis.check(R.id.chipPengeluaran);
+                }
+            }
+
+            String mulai = transaksiViewModel.getFilterTanggalMulai().getValue();
+            if (mulai != null && !mulai.isEmpty()) {
+                tanggalMulai = mulai;
+                tvTanggalMulai.setText(mulai);
+            } else {
+                tvTanggalMulai.setText(R.string.tanggal_mulai);
+            }
+
+            // Set tanggal selesai
+            String selesai = transaksiViewModel.getFilterTanggalSelesai().getValue();
+            if (selesai != null && !selesai.isEmpty()) {
+                tanggalSelesai = selesai;
+                tvTanggalSelesai.setText(selesai);
+            } else {
+                tvTanggalSelesai.setText(R.string.tanggal_selesai);
+            }
+        }
+
         // Set click listeners
+        tvAkun.setOnClickListener(v -> showAkunBottomSheet());
         tvKategori.setOnClickListener(v -> showKategoriBottomSheet());
         tvTanggalMulai.setOnClickListener(v -> showDatePickerMulai());
         tvTanggalSelesai.setOnClickListener(v -> showDatePickerSelesai());
@@ -91,6 +143,15 @@ public class FilterTransaksiBottomSheet extends BottomSheetDialogFragment {
         });
 
         return view;
+    }
+
+    private void showAkunBottomSheet() {
+        AkunSelectionBottomSheet bottomSheet = new AkunSelectionBottomSheet();
+        bottomSheet.setAkunSelectedListener(akun -> {
+            selectedAkun = akun;
+            tvAkun.setText(akun);
+        });
+        bottomSheet.show(getChildFragmentManager(), "pilihAkun");
     }
 
     private void showKategoriBottomSheet() {
@@ -138,11 +199,13 @@ public class FilterTransaksiBottomSheet extends BottomSheetDialogFragment {
 
     private void resetFilters() {
         selectedKategori = "";
+        selectedAkun = "";
         selectedJenis = "";
         tanggalMulai = "";
         tanggalSelesai = "";
 
         tvKategori.setText(R.string.pilih_kategori);
+        tvAkun.setText(R.string.pilih_akun);
         chipGroupJenis.clearCheck();
         tvTanggalMulai.setText(R.string.tanggal_mulai);
         tvTanggalSelesai.setText(R.string.tanggal_selesai);
@@ -154,6 +217,11 @@ public class FilterTransaksiBottomSheet extends BottomSheetDialogFragment {
 
     private void applyFilters() {
         if (transaksiViewModel != null) {
+
+            if(!selectedAkun.isEmpty()){
+                transaksiViewModel.setFilterAkun(selectedAkun);
+            }
+
             if (!selectedKategori.isEmpty()) {
                 transaksiViewModel.setFilterKategori(selectedKategori);
             }
@@ -165,6 +233,8 @@ public class FilterTransaksiBottomSheet extends BottomSheetDialogFragment {
             if (!tanggalMulai.isEmpty() && !tanggalSelesai.isEmpty()) {
                 transaksiViewModel.setFilterPeriode(tanggalMulai, tanggalSelesai);
             }
+
+            transaksiViewModel.applyFilters();
         }
     }
 }

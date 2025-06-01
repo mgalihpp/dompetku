@@ -8,7 +8,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Transformations;
 
-import com.neurallift.keuanganku.data.TransaksiRepository;
+import com.neurallift.keuanganku.data.repository.TransaksiRepository;
 import com.neurallift.keuanganku.data.model.Transaksi;
 import com.neurallift.keuanganku.utils.DateTimeUtils;
 

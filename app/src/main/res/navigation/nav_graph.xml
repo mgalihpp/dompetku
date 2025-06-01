@@ -12,10 +12,43 @@
         tools:layout="@layout/fragment_home" />
 
     <fragment
+        android:id="@+id/navigation_akun"
+        android:name="com.neurallift.keuanganku.ui.akun.fragment.AkunFragment"
+        android:label="@string/akun"
+        tools:layout="@layout/fragment_akun" />
+
+    <fragment
+        android:id="@+id/navigation_detail_akun"
+        android:name="com.neurallift.keuanganku.ui.akun.fragment.DetailAkunFragment"
+        android:label="@string/detail_akun"
+        tools:layout="@layout/fragment_detail_akun"
+        >
+        <argument
+            android:name="akun_id"
+            app:argType="integer" />
+        <argument
+            android:name="akun_nama"
+            app:argType="string" />
+    </fragment>
+
+
+    <fragment
         android:id="@+id/navigation_transaksi"
-        android:name="com.neurallift.keuanganku.ui.transaksi.TransaksiFragment"
+        android:name="com.neurallift.keuanganku.ui.transaksi.fragment.TransaksiFragment"
         android:label="@string/transaksi"
         tools:layout="@layout/fragment_transaksi" />
+
+    <fragment
+        android:id="@+id/navigation_detail_transaksi"
+        android:name="com.neurallift.keuanganku.ui.transaksi.fragment.DetailTransaksiFragment"
+        android:label="@string/detail_transaksi"
+        tools:layout="@layout/fragment_detail_transaksi"
+        >
+        <argument
+            android:name="transaksi_id"
+            app:argType="integer" />
+    </fragment>
+
 
     <fragment
         android:id="@+id/navigation_laporan"

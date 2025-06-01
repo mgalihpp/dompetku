@@ -35,6 +35,7 @@
     <string name="bulanan">Bulanan</string>
     
     <!-- Transaksi Screen -->
+    <string name="semua_transaksi">Semua Transaksi</string>
     <string name="filter_transaksi">Filter Transaksi</string>
     <string name="kategori">Kategori</string>
     <string name="akun">Akun</string>
@@ -43,11 +44,13 @@
     <string name="masukkan_nominal">Masukkan nominal</string>
     <string name="tanggal">Tanggal</string>
     <string name="jam">Jam</string>
+    <string name="catatan">Catatan</string>
     <string name="catatan_opsional">Catatan (Opsional)</string>
     <string name="tambahkan_catatan">Tambahkan catatan</string>
     <string name="batal">Batal</string>
     <string name="simpan">Simpan</string>
     <string name="perbarui">Perbarui</string>
+    <string name="edit">Edit</string>
     <string name="hapus">Hapus</string>
     <string name="pilih_kategori">Pilih Kategori</string>
     <string name="pilih_akun">Pilih Akun</string>
@@ -65,7 +68,33 @@
     <string name="akun_kosong">Akun tidak boleh kosong</string>
     <string name="nominal_kosong">Nominal tidak boleh kosong</string>
     <string name="jenis_kosong">Pilih jenis transaksi</string>
-    
+
+    <!-- Akun Screen -->
+    <string name="daftar_akun">Daftar Akun</string>
+    <string name="edit_akun">Edit Akun</string>
+    <string name="tambah_akun">Tambah Akun</string>
+    <string name="nama_akun">Nama Akun</string>
+    <string name="masukkan_nama_akun">Masukkan nama akun</string>
+    <string name="saldo">Saldo</string>
+    <string name="tidak_ada_akun">Tidak ada akun</string>
+    <string name="akun_berhasil_disimpan">Akun berhasil disimpan</string>
+    <string name="akun_berhasil_dihapus">Akun berhasil dihapus</string>
+    <string name="nama_akun_kosong">Nama akun tidak boleh kosong</string>
+    <string name="konfirmasi_hapus_akun">Hapus akun ini?</string>
+    <string name="tambah_kategori">Tambah Kategori</string>
+    <string name="masukkan_nama">Masukkan Nama</string>
+
+    <!-- Detail Akun -->
+    <string name="detail_akun">Detail Akun</string>
+    <string name="saldo_akhir">Saldo Akhir</string>
+    <string name="riwayat_transaksi">Riwayat Transaksi</string>
+    <string name="tidak_ada_transaksi_akun">Tidak ada transaksi untuk akun ini</string>
+
+    <!-- Detail Transaksi -->
+    <string name="detail_transaksi">Detail Transaksi</string>
+    <string name="share_detail_transaksi">Bagikan</string>
+    <string name="konfirmasi_hapus_transaksi">Hapus transaksi ini?</string>
+
     <!-- Laporan Screen -->
     <string name="periode_kustom">Periode Kustom</string>
     <string name="total_pemasukan">Total Pemasukan</string>

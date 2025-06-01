@@ -5,7 +5,6 @@ import static android.content.Context.MODE_PRIVATE;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -14,22 +13,19 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.neurallift.keuanganku.R;
-import com.neurallift.keuanganku.data.model.Transaksi;
 import com.neurallift.keuanganku.ui.AccessibleLinearLayout;
-import com.neurallift.keuanganku.ui.transaksi.TambahTransaksiBottomSheet;
-import com.neurallift.keuanganku.ui.transaksi.TransaksiAdapter;
+import com.neurallift.keuanganku.ui.transaksi.dialog.TambahTransaksiBottomSheet;
+import com.neurallift.keuanganku.ui.transaksi.adapter.TransaksiAdapter;
 import com.neurallift.keuanganku.utils.FormatUtils;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
-import com.github.mikephil.charting.utils.ColorTemplate;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 
@@ -42,7 +38,7 @@ public class HomeFragment extends Fragment {
     private TextView tvSaldoTotal;
     private TextView tvPemasukan;
     private TextView tvPengeluaran;
-    private TextView tvEmptyState;
+    private LinearLayout tvEmptyState;
     private RecyclerView rvTransaksi;
     private TransaksiAdapter transaksiAdapter;
     private PieChart pieChart;
@@ -69,7 +65,7 @@ public class HomeFragment extends Fragment {
         tvSaldoTotal = view.findViewById(R.id.tvSaldoTotal);
         tvPemasukan = view.findViewById(R.id.tvPemasukan);
         tvPengeluaran = view.findViewById(R.id.tvPengeluaran);
-        tvEmptyState = view.findViewById(R.id.tvEmptyState);
+        tvEmptyState = view.findViewById(R.id.layout_empty_state);
         rvTransaksi = view.findViewById(R.id.rvTransaksi);
         pieChart = view.findViewById(R.id.pieChart);
         tabLayout = view.findViewById(R.id.tabLayout);
@@ -91,6 +87,9 @@ public class HomeFragment extends Fragment {
 
         // Setup swipe gesture to navigate between periods
         setupSwipeGesture();
+
+        // Load chart
+        updateChart();
 
         // Load data based on current period
         loadDataByPeriod();
@@ -185,12 +184,12 @@ public class HomeFragment extends Fragment {
 
         homeViewModel.getTotalPemasukanHarian().observe(getViewLifecycleOwner(), pemasukan -> {
             tvPemasukan.setText(FormatUtils.formatCurrency(pemasukan != null ? pemasukan : 0));
-            updateChart();
+            //updateChart();
         });
 
         homeViewModel.getTotalPengeluaranHarian().observe(getViewLifecycleOwner(), pengeluaran -> {
             tvPengeluaran.setText(FormatUtils.formatCurrency(pengeluaran != null ? pengeluaran : 0));
-            updateChart();
+            //updateChart();
         });
 
         updateSaldoTotal();
@@ -211,12 +210,12 @@ public class HomeFragment extends Fragment {
 
         homeViewModel.getTotalPemasukanMingguan().observe(getViewLifecycleOwner(), pemasukan -> {
             tvPemasukan.setText(FormatUtils.formatCurrency(pemasukan != null ? pemasukan : 0));
-            updateChart();
+            //updateChart();
         });
 
         homeViewModel.getTotalPengeluaranMingguan().observe(getViewLifecycleOwner(), pengeluaran -> {
             tvPengeluaran.setText(FormatUtils.formatCurrency(pengeluaran != null ? pengeluaran : 0));
-            updateChart();
+            //updateChart();
         });
 
         updateSaldoTotal();
@@ -237,12 +236,12 @@ public class HomeFragment extends Fragment {
 
         homeViewModel.getTotalPemasukanBulanan().observe(getViewLifecycleOwner(), pemasukan -> {
             tvPemasukan.setText(FormatUtils.formatCurrency(pemasukan != null ? pemasukan : 0));
-            updateChart();
+            //updateChart();
         });
 
         homeViewModel.getTotalPengeluaranBulanan().observe(getViewLifecycleOwner(), pengeluaran -> {
             tvPengeluaran.setText(FormatUtils.formatCurrency(pengeluaran != null ? pengeluaran : 0));
-            updateChart();
+            //updateChart();
         });
 
         updateSaldoTotal();

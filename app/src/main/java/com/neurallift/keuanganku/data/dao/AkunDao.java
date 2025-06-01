@@ -31,4 +31,11 @@ public interface AkunDao {
 
     @Query("SELECT * FROM akun WHERE nama = :nama")
     LiveData<Akun> getAkunByNama(String nama);
+
+    @Query("SELECT COALESCE(SUM(CASE WHEN jenis = 'pemasukan' THEN nominal ELSE -nominal END), 0) FROM transaksi WHERE akun = :akun")
+    LiveData<Double> getSaldoByAkun(String akun);
+
+    @Query("SELECT COALESCE(SUM(CASE WHEN jenis = 'pemasukan' THEN nominal ELSE -nominal END), 0) FROM transaksi WHERE akun = (SELECT nama FROM akun WHERE id = :akunId)")
+    LiveData<Double> getSaldoAkunById(int akunId);
+
 }

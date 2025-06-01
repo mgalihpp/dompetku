@@ -26,6 +26,16 @@ public interface TransaksiDao {
     @Query("SELECT * FROM transaksi ORDER BY tanggal DESC, jam DESC")
     LiveData<List<Transaksi>> getAllTransaksi();
 
+    @Query("SELECT * FROM transaksi WHERE " +
+            "(:kategori IS NULL OR kategori = :kategori) AND " +
+            "(:jenis IS NULL OR jenis = :jenis) AND " +
+            "(:akun IS NULL OR akun = :akun) AND " +
+            "(:startDate IS NULL OR :endDate IS NULL OR tanggal BETWEEN :startDate AND :endDate) ORDER BY tanggal DESC, jam DESC")
+    LiveData<List<Transaksi>> getTransaksiByFilters(String kategori, String jenis,  String akun, String startDate, String endDate);
+
+    @Query("SELECT * FROM transaksi WHERE id = :transaksiId")
+    LiveData<Transaksi> getTransaksiById(int transaksiId);
+
     @Query("SELECT * FROM transaksi WHERE tanggal = :tanggal ORDER BY jam DESC")
     LiveData<List<Transaksi>> getTransaksiByTanggal(String tanggal);
 
@@ -49,4 +59,13 @@ public interface TransaksiDao {
 
     @Query("SELECT * FROM transaksi WHERE tanggal BETWEEN :startDate AND :endDate ORDER BY tanggal DESC, jam DESC")
     LiveData<List<Transaksi>> getTransaksiByPeriode(String startDate, String endDate);
+
+    @Query("UPDATE transaksi SET akun = :namaAkun WHERE akun = (SELECT nama FROM akun where id = :akunId)")
+    void updateByAkun(String namaAkun, int akunId);
+
+    @Query("DELETE FROM transaksi WHERE akun = :akun")
+    void deleteByAkun(String akun);
+
+    @Query("SELECT * FROM transaksi WHERE akun = (SELECT nama FROM akun where id = :akunId) ORDER BY tanggal DESC, jam DESC")
+    LiveData<List<Transaksi>> getTransaksiByAkunId(int akunId);
 }

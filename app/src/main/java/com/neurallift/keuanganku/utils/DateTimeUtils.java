@@ -16,8 +16,20 @@ public class DateTimeUtils {
     private static final Locale INDONESIA_LOCALE = new Locale("in", "ID");
     private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd", INDONESIA_LOCALE);
     private static final SimpleDateFormat TIME_FORMAT = new SimpleDateFormat("HH:mm", INDONESIA_LOCALE);
-    private static final SimpleDateFormat DATE_FORMAT_FULL = new SimpleDateFormat("d MMMM yyyy", INDONESIA_LOCALE);
+    private static final SimpleDateFormat DATE_FORMAT_FULL = new SimpleDateFormat("d MMMM yyyy", INDONESIA_LOCALE); private static final SimpleDateFormat DATE_FORMAT_MEDIUM = new SimpleDateFormat("dd MMMM yyyy", INDONESIA_LOCALE);
     private static final SimpleDateFormat DATE_FORMAT_SHORT = new SimpleDateFormat("d MMM", INDONESIA_LOCALE);
+    private static final SimpleDateFormat DATE_FORMAT_HOUR_MINUTE = new SimpleDateFormat("HH:mm", INDONESIA_LOCALE);
+
+    public static Date parseDate(String dateStr) {
+            try {
+                final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+
+                return sdf.parse(dateStr);
+            } catch (ParseException e) {
+                e.printStackTrace();
+                return null; // Atau lempar exception sesuai kebutuhan
+            }
+    }
 
     /**
      * Get today's date in yyyy-MM-dd format

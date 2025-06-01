@@ -6,7 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
-import com.neurallift.keuanganku.data.TransaksiRepository;
+import com.neurallift.keuanganku.data.repository.TransaksiRepository;
 import com.neurallift.keuanganku.data.model.Transaksi;
 import com.neurallift.keuanganku.utils.DateTimeUtils;
 

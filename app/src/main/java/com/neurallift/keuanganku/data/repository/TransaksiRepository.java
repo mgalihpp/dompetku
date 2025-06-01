@@ -1,9 +1,10 @@
-package com.neurallift.keuanganku.data;
+package com.neurallift.keuanganku.data.repository;
 
 import android.app.Application;
 
 import androidx.lifecycle.LiveData;
 
+import com.neurallift.keuanganku.data.AppDatabase;
 import com.neurallift.keuanganku.data.dao.AkunDao;
 import com.neurallift.keuanganku.data.dao.KategoriDao;
 import com.neurallift.keuanganku.data.dao.TransaksiDao;
@@ -20,12 +21,8 @@ import java.util.List;
 public class TransaksiRepository {
 
     private TransaksiDao transaksiDao;
-    private KategoriDao kategoriDao;
-    private AkunDao akunDao;
 
     private LiveData<List<Transaksi>> allTransaksi;
-    private LiveData<List<Kategori>> allKategori;
-    private LiveData<List<Akun>> allAkun;
 
     private LiveData<Double> totalPemasukan;
     private LiveData<Double> totalPengeluaran;
@@ -33,12 +30,8 @@ public class TransaksiRepository {
     public TransaksiRepository(Application application) {
         AppDatabase db = AppDatabase.getDatabase(application);
         transaksiDao = db.transaksiDao();
-        kategoriDao = db.kategoriDao();
-        akunDao = db.akunDao();
 
         allTransaksi = transaksiDao.getAllTransaksi();
-        allKategori = kategoriDao.getAllKategori();
-        allAkun = akunDao.getAllAkun();
 
         totalPemasukan = transaksiDao.getTotalPemasukan();
         totalPengeluaran = transaksiDao.getTotalPengeluaran();
@@ -47,6 +40,14 @@ public class TransaksiRepository {
     // Transaksi methods
     public LiveData<List<Transaksi>> getAllTransaksi() {
         return allTransaksi;
+    }
+
+    public LiveData<List<Transaksi>> getTransaksiByFilters(String kategori, String jenis, String akun, String startDate, String endDate) {
+        return transaksiDao.getTransaksiByFilters(kategori, jenis, akun, startDate, endDate);
+    };
+
+    public LiveData<Transaksi> getTransaksiById(int transaksiId) {
+        return transaksiDao.getTransaksiById(transaksiId);
     }
 
     public LiveData<List<Transaksi>> getTransaksiByTanggal(String tanggal) {
@@ -83,28 +84,6 @@ public class TransaksiRepository {
         });
     }
 
-    // Kategori methods
-    public LiveData<List<Kategori>> getAllKategori() {
-        return allKategori;
-    }
-
-    public void insert(Kategori kategori) {
-        AppDatabase.databaseWriteExecutor.execute(() -> {
-            kategoriDao.insert(kategori);
-        });
-    }
-
-    // Akun methods
-    public LiveData<List<Akun>> getAllAkun() {
-        return allAkun;
-    }
-
-    public void insert(Akun akun) {
-        AppDatabase.databaseWriteExecutor.execute(() -> {
-            akunDao.insert(akun);
-        });
-    }
-
     // Financial summary methods
     public LiveData<Double> getTotalPemasukan() {
         return totalPemasukan;
@@ -120,5 +99,9 @@ public class TransaksiRepository {
 
     public LiveData<Double> getTotalPengeluaranByPeriode(String startDate, String endDate) {
         return transaksiDao.getTotalPengeluaranByPeriode(startDate, endDate);
+    }
+
+    public LiveData<List<Transaksi>> getTransaksiByAkunId(int akunId) {
+        return transaksiDao.getTransaksiByAkunId(akunId);
     }
 }

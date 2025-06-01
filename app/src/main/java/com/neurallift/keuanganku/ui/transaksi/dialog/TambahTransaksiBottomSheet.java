@@ -1,4 +1,4 @@
-package com.neurallift.keuanganku.ui.transaksi;
+package com.neurallift.keuanganku.ui.transaksi.dialog;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
@@ -20,9 +20,11 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.neurallift.keuanganku.R;
 import com.neurallift.keuanganku.data.model.Transaksi;
+import com.neurallift.keuanganku.ui.transaksi.viewmodel.TransaksiViewModel;
 import com.neurallift.keuanganku.utils.DateTimeUtils;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
+import java.text.DecimalFormat;
 import java.util.Calendar;
 
 public class TambahTransaksiBottomSheet extends BottomSheetDialogFragment {
@@ -134,7 +136,10 @@ public class TambahTransaksiBottomSheet extends BottomSheetDialogFragment {
             tvAkun.setText(selectedAkun);
             tvTanggal.setText(selectedTanggal);
             tvJam.setText(selectedJam);
-            etNominal.setText(String.valueOf(existingTransaksi.getNominal()));
+
+            DecimalFormat df = new DecimalFormat("#.##");
+            etNominal.setText(df.format(existingTransaksi.getNominal()));
+
             etCatatan.setText(existingTransaksi.getCatatan());
 
             if (existingTransaksi.getJenis().equals("pemasukan")) {

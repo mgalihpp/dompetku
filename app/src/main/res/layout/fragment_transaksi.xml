@@ -6,41 +6,67 @@
     android:layout_height="match_parent"
     android:background="@color/colorBackground">
 
-    <RelativeLayout
+    <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:background="@color/colorBackground"
+        app:elevation="0dp">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="@color/colorPrimary"
             android:elevation="4dp"
-            app:title="@string/transaksi"
-            app:titleTextColor="@color/colorOnPrimary" />
+            app:title="@string/semua_transaksi"
+            app:titleTextColor="@color/colorPrimaryText" />
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        >
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvTransaksi"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@id/toolbar"
             android:clipToPadding="false"
             android:padding="8dp"
             android:paddingBottom="80dp"
             tools:listitem="@layout/item_transaksi" />
 
-        <TextView
-            android:id="@+id/tvEmpty"
+        <!-- Empty State -->
+        <LinearLayout
+            android:id="@+id/layout_empty_state"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
             android:gravity="center"
-            android:text="@string/tidak_ada_transaksi"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
-            android:textColor="@color/colorSecondaryText"
-            android:visibility="gone" />
+            android:padding="32dp"
+            android:visibility="gone"
+            tools:visibility="visible">
 
-    </RelativeLayout>
+            <ImageView
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:src="@drawable/ic_transaksi"
+                android:alpha="0.3"
+                android:layout_marginBottom="16dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/tidak_ada_transaksi"
+                android:textSize="16sp"
+                android:textColor="@color/colorSecondaryText"
+                android:gravity="center" />
+
+        </LinearLayout>
+
+    </LinearLayout>
 
     <!-- Filter FAB -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton

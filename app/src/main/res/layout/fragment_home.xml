@@ -228,18 +228,33 @@
                 tools:itemCount="3"
                 tools:listitem="@layout/item_transaksi" />
 
-            <TextView
-                android:id="@+id/tvEmptyState"
+            <!-- Empty State -->
+            <LinearLayout
+                android:id="@+id/layout_empty_state"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
                 android:gravity="center"
-                android:text="@string/empty_state_transaksi"
-                android:textColor="@android:color/darker_gray"
-                android:textSize="16sp"
+                android:padding="32dp"
                 android:visibility="gone"
-                tools:visibility="visible"
-                />
+                tools:visibility="visible">
+
+                <ImageView
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:src="@drawable/ic_transaksi"
+                    android:alpha="0.3"
+                    android:layout_marginBottom="16dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/tidak_ada_transaksi"
+                    android:textSize="16sp"
+                    android:textColor="@color/colorSecondaryText"
+                    android:gravity="center" />
+
+            </LinearLayout>
 
         </com.neurallift.keuanganku.ui.AccessibleLinearLayout>
     </androidx.core.widget.NestedScrollView>

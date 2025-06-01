@@ -1,4 +1,4 @@
-package com.neurallift.keuanganku.ui.transaksi;
+package com.neurallift.keuanganku.ui.transaksi.adapter;
 
 import android.view.LayoutInflater;
 import android.view.View;

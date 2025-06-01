@@ -1,10 +1,12 @@
-package com.neurallift.keuanganku.ui.transaksi;
+package com.neurallift.keuanganku.ui.transaksi.dialog;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -15,14 +17,20 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.neurallift.keuanganku.R;
 import com.neurallift.keuanganku.data.model.Akun;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
+import com.neurallift.keuanganku.ui.akun.viewmodel.AkunViewModel;
+import com.neurallift.keuanganku.ui.akun.dialog.TambahAkunBottomSheet;
+import com.neurallift.keuanganku.ui.transaksi.viewmodel.TransaksiViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class AkunSelectionBottomSheet extends BottomSheetDialogFragment {
+public class AkunSelectionBottomSheet extends BottomSheetDialogFragment implements TambahAkunBottomSheet.OnAkunSavedListener {
 
     private TransaksiViewModel transaksiViewModel;
+    private AkunViewModel akunViewModel;
     private RecyclerView recyclerView;
+
+    private Button btnTambahAkun;
     private AkunAdapter adapter;
     private AkunSelectedListener listener;
 
@@ -51,9 +59,13 @@ public class AkunSelectionBottomSheet extends BottomSheetDialogFragment {
         tvTitle.setText(R.string.pilih_akun);
 
         recyclerView = view.findViewById(R.id.recyclerView);
+        btnTambahAkun = view.findViewById(R.id.tambah_selection);
+        btnTambahAkun.setText(R.string.tambah_akun);
+
         setupRecyclerView();
 
         transaksiViewModel = new ViewModelProvider(requireActivity()).get(TransaksiViewModel.class);
+        akunViewModel = new ViewModelProvider(requireActivity()).get(AkunViewModel.class);
 
         // Observe akun list
         transaksiViewModel.getAllAkun().observe(getViewLifecycleOwner(), akuns -> {
@@ -62,6 +74,10 @@ public class AkunSelectionBottomSheet extends BottomSheetDialogFragment {
                 akunNames.add(akun.getNama());
             }
             adapter.setItems(akunNames);
+        });
+
+        btnTambahAkun.setOnClickListener(v -> {
+            showTambahAkunBottomSheet();
         });
 
         return view;
@@ -77,6 +93,13 @@ public class AkunSelectionBottomSheet extends BottomSheetDialogFragment {
 
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
+    }
+
+    private void showTambahAkunBottomSheet(){
+        TambahAkunBottomSheet bottomSheet = new TambahAkunBottomSheet();
+        bottomSheet.setOnAkunSavedListener(this);
+
+        bottomSheet.show(getParentFragmentManager(), "TambahAkunBottomSheet");
     }
 
     // Inner adapter class for akun list
@@ -133,5 +156,17 @@ public class AkunSelectionBottomSheet extends BottomSheetDialogFragment {
                 });
             }
         }
+    }
+
+    @Override
+    public void onAkunSaved(Akun akun) {
+        akunViewModel.insert(akun);
+        Toast.makeText(getContext(), getString(R.string.akun_berhasil_disimpan), Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onAkunUpdated(Akun akun) {
+        akunViewModel.update(akun);
+        Toast.makeText(getContext(), getString(R.string.akun_berhasil_disimpan), Toast.LENGTH_SHORT).show();
     }
 }
