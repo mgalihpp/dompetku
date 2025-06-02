@@ -169,7 +169,7 @@ public class DetailTransaksiFragment extends Fragment {
         tvJam.setText(transaksi.getJam());
         tvAkun.setText(transaksi.getAkun());
         tvKategori.setText(transaksi.getKategori());
-        tvCatatan.setText(transaksi.getCatatan());
+        tvCatatan.setText(transaksi.getCatatan().isEmpty() ? "-" : transaksi.getCatatan());
 
         // Set icon and text color based on jenis
         if (transaksi.getJenis().equals("pemasukan")) {
@@ -208,13 +208,13 @@ public class DetailTransaksiFragment extends Fragment {
 
     private String generateShareText(Transaksi transaksi) {
         return "📄 Detail Transaksi:\n" +
-                "🗓️ Tanggal: " + DateTimeUtils.formatDateFull(transaksi.getTanggal()) + "\n" +
-                "⏰ Jam: " + transaksi.getJam() + "\n" +
                 "💰 Nominal: " + FormatUtils.formatCurrency(transaksi.getNominal()) + "\n" +
                 "📂 Jenis: " + transaksi.getJenis().toUpperCase() + "\n" +
                 "🏦 Akun: " + transaksi.getAkun() + "\n" +
                 "🗃️ Kategori: " + transaksi.getKategori() + "\n" +
-                "📝 Catatan: " + (transaksi.getCatatan().isEmpty() ? "-" : transaksi.getCatatan());
+                "📝 Catatan: " + (transaksi.getCatatan().isEmpty() ? "-" : transaksi.getCatatan() + "\n" +
+                "🗓️ Tanggal: " + DateTimeUtils.formatDateFull(transaksi.getTanggal()) + "\n" +
+                "⏰ Jam: " + transaksi.getJam() + "\n");
     }
 
 }

@@ -60,6 +60,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="+Rp 150.000"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:autoSizeTextType="uniform"
+        android:autoSizeMinTextSize="12sp"
+        android:autoSizeMaxTextSize="30sp"
+        android:autoSizeStepGranularity="2sp"
         android:textSize="14sp"
         android:textStyle="bold"
         android:textColor="@color/colorIncome" />

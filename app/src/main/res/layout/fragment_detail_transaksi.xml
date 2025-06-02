@@ -29,59 +29,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="16dp"
+        android:padding="12dp"
         app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
         >
-
-        <!-- Amount and Type -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:id="@+id/ivJenisIcon"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:contentDescription="Jenis Transaksi"
-                tools:src="@drawable/ic_arrow_upward" />
-
-            <TextView
-                android:id="@+id/tvNominal"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_weight="1"
-                android:textAppearance="?attr/textAppearanceHeadline5"
-                android:textStyle="bold"
-                tools:text="Rp100.000"
-                tools:textColor="@color/colorIncome" />
-
-            <com.google.android.material.chip.Chip
-                android:id="@+id/chipPemasukan"
-                style="@style/Widget.MaterialComponents.Chip.Choice"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/pemasukan"
-                android:checked="true"
-                android:textColor="@drawable/chip_pemasukan_text"
-                app:chipBackgroundColor="@drawable/chip_pemasukan_bg" />
-
-            <com.google.android.material.chip.Chip
-                android:id="@+id/chipPengeluaran"
-                style="@style/Widget.MaterialComponents.Chip.Choice"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/pengeluaran"
-                android:checked="true"
-                android:textColor="@drawable/chip_pengeluaran_text"
-                app:chipBackgroundColor="@drawable/chip_pengeluaran_bg"
-                tools:visibility="gone"
-                />
-
-        </LinearLayout>
 
         <!-- Details -->
         <com.google.android.material.card.MaterialCardView
@@ -91,134 +41,229 @@
             app:cardCornerRadius="12dp"
             app:cardElevation="4dp"
             app:cardBackgroundColor="?attr/colorSurface"
-            app:strokeColor="@color/colorAccent"
-            app:strokeWidth="1dp">
+            app:cardUseCompatPadding="true"
+            >
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="20dp">
+                android:padding="20dp"
+                >
 
-                <!-- Date -->
+            <!-- Amount and Type -->
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center_horizontal"
+                >
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:paddingVertical="4dp">
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    >
 
-                    <TextView
-                        android:layout_width="120dp"
-                        android:layout_height="wrap_content"
-                        android:text="@string/tanggal"
-                        android:textAppearance="?attr/textAppearanceBody2"
-                        android:textColor="@color/colorSecondaryText" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Nominal"
+                    android:gravity="center"
+                    />
 
-                    <TextView
-                        android:id="@+id/tvTanggal"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:textAppearance="?attr/textAppearanceBody1"
-                        tools:text="01 Januari 2023" />
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
-                    android:orientation="horizontal"
-                    android:paddingVertical="4dp">
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/ivJenisIcon"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:contentDescription="Jenis Transaksi"
+                        tools:src="@drawable/ic_arrow_upward" />
 
                     <TextView
-                        android:layout_width="120dp"
-                        android:layout_height="wrap_content"
-                        android:text="@string/jam"
-                        android:textAppearance="?attr/textAppearanceBody2"
-                        android:textColor="@color/colorSecondaryText" />
-
-                    <TextView
-                        android:id="@+id/tvJam"
+                        android:id="@+id/tvNominal"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginEnd="8dp"
                         android:layout_weight="1"
-                        android:textAppearance="?attr/textAppearanceBody1"
-                        tools:text="14:00" />
-                </LinearLayout>
+                        android:textAppearance="?attr/textAppearanceHeadline5"
+                        android:textStyle="bold"
+                        tools:text="Rp100.000"
+                        tools:textColor="@color/colorIncome" />
 
-                <!-- Account -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
-                    android:orientation="horizontal"
-                    android:paddingVertical="4dp">
-
-                    <TextView
-                        android:layout_width="120dp"
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chipPemasukan"
+                        style="@style/Widget.MaterialComponents.Chip.Choice"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/akun"
-                        android:textAppearance="?attr/textAppearanceBody2"
-                        android:textColor="@color/colorSecondaryText" />
+                        android:checked="true"
+                        android:text="@string/pemasukan"
+                        android:textColor="@drawable/chip_pemasukan_text"
+                        app:chipBackgroundColor="@drawable/chip_pemasukan_bg" />
 
-                    <TextView
-                        android:id="@+id/tvAkun"
-                        android:layout_width="0dp"
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chipPengeluaran"
+                        style="@style/Widget.MaterialComponents.Chip.Choice"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:textAppearance="?attr/textAppearanceBody1"
-                        tools:text="Kas Utama" />
-                </LinearLayout>
+                        android:checked="true"
+                        android:text="@string/pengeluaran"
+                        android:textColor="@drawable/chip_pengeluaran_text"
+                        app:chipBackgroundColor="@drawable/chip_pengeluaran_bg"
+                        tools:visibility="gone" />
 
-                <!-- Category -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
-                    android:orientation="horizontal"
-                    android:paddingVertical="4dp">
-
-                    <TextView
-                        android:layout_width="120dp"
-                        android:layout_height="wrap_content"
-                        android:text="@string/kategori"
-                        android:textAppearance="?attr/textAppearanceBody2"
-                        android:textColor="@color/colorSecondaryText" />
-
-                    <TextView
-                        android:id="@+id/tvKategori"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:textAppearance="?attr/textAppearanceBody1"
-                        tools:text="Penjualan" />
-                </LinearLayout>
-
-                <!-- Note -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
-                    android:orientation="horizontal"
-                    android:paddingVertical="4dp">
-
-                    <TextView
-                        android:layout_width="120dp"
-                        android:layout_height="wrap_content"
-                        android:text="@string/catatan"
-                        android:textAppearance="?attr/textAppearanceBody2"
-                        android:textColor="@color/colorSecondaryText" />
-
-                    <TextView
-                        android:id="@+id/tvCatatan"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:textAppearance="?attr/textAppearanceBody1"
-                        tools:text="Penjualan produk A" />
                 </LinearLayout>
             </LinearLayout>
-        </com.google.android.material.card.MaterialCardView>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/colorDivider"
+                    android:layout_marginBottom="8dp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <!-- Account -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:paddingVertical="4dp">
+
+                        <TextView
+                            android:layout_width="120dp"
+                            android:layout_height="wrap_content"
+                            android:text="@string/akun"
+                            android:textAppearance="?attr/textAppearanceBody2"
+                            android:textColor="@color/colorSecondaryText" />
+
+                        <TextView
+                            android:id="@+id/tvAkun"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="end"
+                            android:textAppearance="?attr/textAppearanceBody1"
+                            tools:text="Kas Utama" />
+                    </LinearLayout>
+
+                    <!-- Category -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:orientation="horizontal"
+                        android:paddingVertical="4dp">
+
+                        <TextView
+                            android:layout_width="120dp"
+                            android:layout_height="wrap_content"
+                            android:text="@string/kategori"
+                            android:textAppearance="?attr/textAppearanceBody2"
+                            android:textColor="@color/colorSecondaryText" />
+
+                        <TextView
+                            android:id="@+id/tvKategori"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="end"
+                            android:textAppearance="?attr/textAppearanceBody1"
+                            tools:text="Penjualan" />
+                    </LinearLayout>
+
+                    <!-- Note -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:orientation="horizontal"
+                        android:paddingVertical="4dp">
+
+                        <TextView
+                            android:layout_width="120dp"
+                            android:layout_height="wrap_content"
+                            android:text="@string/catatan"
+                            android:textAppearance="?attr/textAppearanceBody2"
+                            android:textColor="@color/colorSecondaryText" />
+
+                        <TextView
+                            android:id="@+id/tvCatatan"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="end"
+                            android:textAppearance="?attr/textAppearanceBody1"
+                            tools:text="Penjualan produk A" />
+                    </LinearLayout>
+
+                    <!-- Date -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginTop="12dp"
+                        android:paddingVertical="4dp">
+
+                        <TextView
+                            android:layout_width="120dp"
+                            android:layout_height="wrap_content"
+                            android:text="@string/tanggal"
+                            android:textAppearance="?attr/textAppearanceBody2"
+                            android:textColor="@color/colorSecondaryText" />
+
+                        <TextView
+                            android:id="@+id/tvTanggal"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="end"
+                            android:textAppearance="?attr/textAppearanceBody1"
+                            tools:text="01 Januari 2023" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:orientation="horizontal"
+                        android:paddingVertical="4dp">
+
+                        <TextView
+                            android:layout_width="120dp"
+                            android:layout_height="wrap_content"
+                            android:text="@string/jam"
+                            android:textAppearance="?attr/textAppearanceBody2"
+                            android:textColor="@color/colorSecondaryText" />
+
+                        <TextView
+                            android:id="@+id/tvJam"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="end"
+                            android:textAppearance="?attr/textAppearanceBody1"
+                            tools:text="14:00" />
+                    </LinearLayout>
+
+                </LinearLayout>
+        </LinearLayout>
+
+
+</com.google.android.material.card.MaterialCardView>
 
         <!-- Share Button -->
         <com.google.android.material.button.MaterialButton
@@ -227,9 +272,9 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:text="@string/share_detail_transaksi"
-            app:icon="@android:drawable/ic_menu_share"
+            app:icon="@drawable/ic_share"
             app:iconGravity="textStart"
-            app:iconPadding="8dp"
+            app:iconPadding="12dp"
             app:iconTint="@color/colorOnPrimary"
             />
     </LinearLayout>
@@ -245,7 +290,7 @@
         android:layout_marginBottom="154dp"
         android:visibility="gone"
         android:contentDescription="Edit"
-        app:srcCompat="@android:drawable/ic_menu_edit"
+        app:srcCompat="@drawable/ic_edit"
         app:backgroundTint="@color/colorPrimary"
         app:tint="@android:color/white" />
 
@@ -259,7 +304,7 @@
         android:layout_marginBottom="84dp"
         android:visibility="gone"
         android:contentDescription="Delete"
-        app:srcCompat="@android:drawable/ic_menu_delete"
+        app:srcCompat="@drawable/ic_delete"
         app:backgroundTint="@color/colorExpense"
         app:tint="@android:color/white" />
 

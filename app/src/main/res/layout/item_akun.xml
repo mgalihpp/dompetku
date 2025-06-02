@@ -52,6 +52,12 @@
                 android:layout_height="wrap_content"
                 android:text="Rp 1.500.000"
                 android:textSize="14sp"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:autoSizeTextType="uniform"
+                android:autoSizeMinTextSize="12sp"
+                android:autoSizeMaxTextSize="30sp"
+                android:autoSizeStepGranularity="2sp"
                 android:textStyle="bold" />
 
         </LinearLayout>
