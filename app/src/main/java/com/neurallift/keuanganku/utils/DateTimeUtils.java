@@ -37,7 +37,8 @@ public class DateTimeUtils {
      * @return Today's date string
      */
     public static String getTodayDate() {
-        return DATE_FORMAT.format(new Date());
+        Calendar calendar = Calendar.getInstance();
+        return DATE_FORMAT.format(calendar.getTime());
     }
 
     /**

@@ -11,6 +11,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
+import androidx.navigation.NavOptions;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -128,9 +129,17 @@ public class AkunFragment extends Fragment implements TambahAkunBottomSheet.OnAk
         args.putString(DetailAkunFragment.ARG_AKUN_NAMA, akunWithSaldo.getAkun().getNama());
 
         NavController navController = NavHostFragment.findNavController(this);
-        navController.navigate(R.id.navigation_detail_akun, args);
+        navController.navigate(R.id.navigation_detail_akun, args, getNavOptions());
     }
 
+    private NavOptions getNavOptions() {
+        return new NavOptions.Builder()
+                .setEnterAnim(R.anim.enter_from_right)
+                .setExitAnim(R.anim.exit_to_left)
+                .setPopEnterAnim(R.anim.enter_from_left)
+                .setPopExitAnim(R.anim.exit_to_right)
+                .build();
+    }
     @Override
     public void onAkunSaved(Akun akun) {
         akunViewModel.insert(akun);

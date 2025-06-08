@@ -3,11 +3,16 @@ package com.neurallift.keuanganku.data.dao;
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
+import androidx.room.Embedded;
 import androidx.room.Insert;
 import androidx.room.Query;
+import androidx.room.Relation;
+import androidx.room.Transaction;
 import androidx.room.Update;
 
 import com.neurallift.keuanganku.data.model.Akun;
+import com.neurallift.keuanganku.data.model.Transaksi;
+import com.neurallift.keuanganku.ui.laporan.model.AkunWithTransaksi;
 
 import java.util.List;
 
@@ -37,5 +42,4 @@ public interface AkunDao {
 
     @Query("SELECT COALESCE(SUM(CASE WHEN jenis = 'pemasukan' THEN nominal ELSE -nominal END), 0) FROM transaksi WHERE akun = (SELECT nama FROM akun WHERE id = :akunId)")
     LiveData<Double> getSaldoAkunById(int akunId);
-
 }

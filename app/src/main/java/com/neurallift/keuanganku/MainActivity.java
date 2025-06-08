@@ -6,6 +6,7 @@ import android.preference.PreferenceManager;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
+import androidx.navigation.NavOptions;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
 
@@ -18,6 +19,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setTheme(R.style.Theme_Akuntansi);
         super.onCreate(savedInstanceState);
 
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
@@ -41,7 +43,38 @@ public class MainActivity extends AppCompatActivity {
                 getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment)
         );
 
-        NavigationUI.setupWithNavController(bottomNavigationView, navController);
+        bottomNavigationView.setOnItemSelectedListener(item -> {
+            int destinationId = navController.getCurrentDestination().getId();
+
+            int id = item.getItemId();
+            int currentId = navController.getCurrentDestination().getId();
+
+            if (id == R.id.navigation_home && currentId != R.id.navigation_home) {
+                navController.navigate(R.id.navigation_home, null, getNavOptions());
+                return true;
+            } else if (id == R.id.navigation_akun && currentId != R.id.navigation_akun) {
+                navController.navigate(R.id.navigation_akun, null, getNavOptions());
+                return true;
+            } else if (id == R.id.navigation_transaksi && currentId != R.id.navigation_transaksi) {
+                navController.navigate(R.id.navigation_transaksi, null, getNavOptions());
+                return true;
+            } else if (id == R.id.navigation_laporan && currentId != R.id.navigation_laporan) {
+                navController.navigate(R.id.navigation_laporan, null, getNavOptions());
+                return true;
+            }
+            return false;
+        });
+
     }
+
+    private NavOptions getNavOptions() {
+        return new NavOptions.Builder()
+                .setEnterAnim(R.anim.zoom_in)
+                .setExitAnim(R.anim.zoom_out)
+                .setPopEnterAnim(R.anim.zoom_in)
+                .setPopExitAnim(R.anim.zoom_out)
+                .build();
+    }
+
 
 }

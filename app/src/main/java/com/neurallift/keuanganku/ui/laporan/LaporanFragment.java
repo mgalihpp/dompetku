@@ -4,7 +4,9 @@ import static android.content.Context.MODE_PRIVATE;
 
 import android.app.DatePickerDialog;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,10 +17,22 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.github.mikephil.charting.animation.Easing;
+import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.data.PieData;
+import com.github.mikephil.charting.data.PieDataSet;
+import com.github.mikephil.charting.data.PieEntry;
+import com.github.mikephil.charting.formatter.PercentFormatter;
+import com.github.mikephil.charting.utils.ColorTemplate;
 import com.neurallift.keuanganku.R;
+import com.neurallift.keuanganku.data.model.Akun;
 import com.neurallift.keuanganku.data.model.Transaksi;
 import com.neurallift.keuanganku.ui.AccessibleLinearLayout;
+import com.neurallift.keuanganku.ui.laporan.adapter.ChartLegendAdapter;
+import com.neurallift.keuanganku.ui.laporan.model.AkunWithTransaksi;
+import com.neurallift.keuanganku.ui.laporan.model.ChartLegendItem;
 import com.neurallift.keuanganku.utils.DateTimeUtils;
 import com.neurallift.keuanganku.utils.FormatUtils;
 import com.github.mikephil.charting.charts.LineChart;
@@ -48,6 +62,10 @@ public class LaporanFragment extends Fragment {
     private TextView tvTotalPengeluaran;
     private TextView tvLaba;
     private LineChart lineChart;
+    private PieChart pemasukanChart;
+    private PieChart pengeluaranChart;
+    private RecyclerView rvPemasukan;
+    private RecyclerView rvPengeluaran;
     private TabLayout tabLayout;
     private Button btnCustomPeriode;
     private int currentPeriod = 0; // 0: daily, 1: weekly, 2: monthly
@@ -66,6 +84,10 @@ public class LaporanFragment extends Fragment {
         tvTotalPengeluaran = view.findViewById(R.id.tvTotalPengeluaran);
         tvLaba = view.findViewById(R.id.tvLaba);
         lineChart = view.findViewById(R.id.lineChart);
+        pemasukanChart = view.findViewById(R.id.pemasukanChart);
+        pengeluaranChart = view.findViewById(R.id.pengeluaranChart);
+        rvPemasukan = view.findViewById(R.id.rvPemasukan);
+        rvPengeluaran = view.findViewById(R.id.rvPengeluaran);
         tabLayout = view.findViewById(R.id.tabLayout);
         btnCustomPeriode = view.findViewById(R.id.btnCustomPeriode);
 
@@ -185,7 +207,41 @@ public class LaporanFragment extends Fragment {
 
         // Observe transactions for charts
         laporanViewModel.getTransaksiByPeriod().observe(getViewLifecycleOwner(), transaksiList -> {
+
+            if(transaksiList.isEmpty()){
+                lineChart.setNoDataText(getString(R.string.tidak_ada_data));
+                lineChart.invalidate();
+                return;
+            }
+
             updateLineChart(transaksiList);
+        });
+
+        // Obeserve pie chart
+        laporanViewModel.getAllIncomeCategories().observe(getViewLifecycleOwner(), transaksiList -> {
+
+            if(transaksiList.isEmpty()){
+                pemasukanChart.setNoDataText(getString(R.string.tidak_ada_data));
+                pemasukanChart.setData(null);
+                rvPemasukan.setAdapter(null);
+                pemasukanChart.invalidate();
+                return;
+            }
+
+            updateIncomePieChart(transaksiList);
+        });
+
+        laporanViewModel.getAllExpenseCategories().observe(getViewLifecycleOwner(), transaksiList -> {
+
+            if(transaksiList.isEmpty()){
+                pengeluaranChart.setNoDataText(getString(R.string.tidak_ada_data));
+                pengeluaranChart.setData(null);
+                rvPengeluaran.setAdapter(null);
+                pengeluaranChart.invalidate();
+                return;
+            }
+
+            updateExpensePieChart(transaksiList);
         });
     }
 
@@ -289,9 +345,206 @@ public class LaporanFragment extends Fragment {
         // Set data to chart
         lineChart.setData(lineData);
         lineChart.getDescription().setEnabled(false);
-        lineChart.getLegend().setEnabled(true);
+        lineChart.getLegend().setEnabled(false);
         lineChart.animateY(1000);
         lineChart.invalidate();
+    }
+
+    private void updateIncomePieChart(List<Transaksi> transaksiList){
+        List<PieEntry> entries = new ArrayList<>();
+        List<Integer> colors = new ArrayList<>();
+        List<ChartLegendItem> pemasukanItems = new ArrayList<>();
+
+        Map<String, Double> incomeMap = new HashMap<>();
+        Map<String, Integer> kategoriColorMap = new HashMap<>();
+
+        int index = 0;
+        for(Transaksi transaksi : transaksiList){
+            String kategori = transaksi.getKategori();
+            Double nomimal = transaksi.getNominal();
+
+            if (!kategoriColorMap.containsKey(kategori)) {
+                float[] hues = {120f, 60f, 0f, 240f, 300f};
+                float hue = hues[index % hues.length];
+                float saturation = 0.65f;
+                float brightness = 0.85f;
+
+                int color = Color.HSVToColor(new float[]{hue, saturation, brightness});
+                kategoriColorMap.put(kategori, color);
+                index++;
+            }
+
+            incomeMap.put(kategori, incomeMap.getOrDefault(kategori, 0.0) + nomimal);
+        }
+
+        for (Map.Entry<String, Double> entry : incomeMap.entrySet()) {
+            entries.add(new PieEntry(
+                    (float) entry.getValue().doubleValue(),
+                    entry.getKey()));
+            colors.add(kategoriColorMap.get(entry.getKey()));
+            pemasukanItems.add(new ChartLegendItem(
+                    entry.getKey(),
+                    entry.getValue(),
+                    kategoriColorMap.get(entry.getKey())
+            ));
+        }
+
+        ChartLegendAdapter adapter = new ChartLegendAdapter(pemasukanItems);
+        rvPemasukan.setAdapter(adapter);
+
+        PieDataSet dataSet = new PieDataSet(entries, "");
+        dataSet.setValueFormatter(new PercentFormatter(pemasukanChart));
+        dataSet.setColors(colors);
+        dataSet.setValueTextSize(14f);
+        dataSet.setValueTextColor(Color.WHITE);
+
+        PieData data = new PieData(dataSet);
+        pemasukanChart.setData(data);
+        pemasukanChart.setUsePercentValues(true);
+        pemasukanChart.setEntryLabelColor(Color.BLACK);
+        pemasukanChart.setEntryLabelTextSize(12f);
+        pemasukanChart.setDrawHoleEnabled(false);
+        pemasukanChart.setHoleColor(Color.TRANSPARENT);
+        pemasukanChart.setCenterText(null);
+        pemasukanChart.setCenterTextSize(16f);
+
+        pemasukanChart.getDescription().setEnabled(false);
+        pemasukanChart.getLegend().setEnabled(false);
+        pemasukanChart.animateY(1000, Easing.EaseInOutQuad);
+        pemasukanChart.invalidate();
+    }
+
+    private void updateExpensePieChart(List<Transaksi> transaksiList){
+        List<PieEntry> entries = new ArrayList<>();
+        List<Integer> colors = new ArrayList<>();
+        List<ChartLegendItem> pengeluaranItems = new ArrayList<>();
+
+        Map<String, Double> expenseMap = new HashMap<>();
+        Map<String, Integer> kategoriColorMap = new HashMap<>();
+
+        int index = 0;
+        for(Transaksi transaksi : transaksiList){
+            String kategori = transaksi.getKategori();
+            Double nomimal = transaksi.getNominal();
+
+            if (!kategoriColorMap.containsKey(kategori)) {
+                float[] hues = {120f, 60f, 0f, 240f, 300f};
+                float hue = hues[(index + 111) % hues.length];
+                float saturation = 0.65f;
+                float brightness = 0.85f;
+
+                int color = Color.HSVToColor(new float[]{hue, saturation, brightness});
+                kategoriColorMap.put(kategori, color);
+                index++;
+            }
+
+            expenseMap.put(kategori, expenseMap.getOrDefault(kategori, 0.0) + nomimal);
+        }
+
+        for (Map.Entry<String, Double> entry : expenseMap.entrySet()) {
+            entries.add(new PieEntry(
+                    (float) entry.getValue().doubleValue(),
+                    entry.getKey()));
+            colors.add(kategoriColorMap.get(entry.getKey()));
+            pengeluaranItems.add(new ChartLegendItem(
+                    entry.getKey(),
+                    entry.getValue(),
+                    kategoriColorMap.get(entry.getKey())
+            ));
+        }
+
+        ChartLegendAdapter adapter = new ChartLegendAdapter(pengeluaranItems);
+        rvPengeluaran.setAdapter(adapter);
+
+        PieDataSet dataSet = new PieDataSet(entries, "");
+        dataSet.setValueFormatter(new PercentFormatter(pengeluaranChart));
+        dataSet.setColors(colors);
+        dataSet.setValueTextSize(14f);
+        dataSet.setValueTextColor(Color.WHITE);
+
+        PieData data = new PieData(dataSet);
+        pengeluaranChart.setData(data);
+        pengeluaranChart.setUsePercentValues(true);
+        pengeluaranChart.setEntryLabelColor(Color.BLACK);
+        pengeluaranChart.setEntryLabelTextSize(12f);
+        pengeluaranChart.setDrawHoleEnabled(false);
+        pengeluaranChart.setHoleColor(Color.TRANSPARENT);
+        pengeluaranChart.setCenterText(null);
+        pengeluaranChart.setCenterTextSize(16f);
+
+        pengeluaranChart.getDescription().setEnabled(false);
+        pengeluaranChart.getLegend().setEnabled(false);
+        pengeluaranChart.animateY(1000, Easing.EaseInOutQuad);
+        pengeluaranChart.invalidate();
+    }
+
+    private void updatePieChart(List<AkunWithTransaksi> akunList){
+        List<PieEntry> pemasukanEntries = new ArrayList<>();
+        List<PieEntry> pengeluaranEntries = new ArrayList<>();
+
+        for (AkunWithTransaksi item : akunList) {
+            Akun akun = item.getAkun();
+            double totalPemasukan = 0;
+            double totalPengeluaran = 0;
+
+            for (Transaksi t : item.getTransaksiList()) {
+                if ("pemasukan".equalsIgnoreCase(t.getJenis())) {
+                    totalPemasukan += t.getNominal();
+                } else if ("pengeluaran".equalsIgnoreCase(t.getJenis())) {
+                    totalPengeluaran += t.getNominal();
+                } else {
+                    Log.e("LaporanFragment", "Invalid transaction type: " + t.getJenis());
+                }
+            }
+
+            if (totalPemasukan > 0) {
+                pemasukanEntries.add(new PieEntry((float) totalPemasukan, akun.getNama()));
+            } else if (totalPengeluaran > 0) {
+                pengeluaranEntries.add(new PieEntry((float) totalPengeluaran, akun.getNama()));
+            } else {
+                Log.d("LaporanFragment", "No transactions for akun: " + akun.getNama());
+            }
+        }
+
+        PieDataSet dataSet = new PieDataSet(pemasukanEntries, "");
+        dataSet.setValueFormatter(new PercentFormatter(pemasukanChart));
+        dataSet.setColors(ColorTemplate.MATERIAL_COLORS);
+        dataSet.setValueTextSize(14f);
+        dataSet.setValueTextColor(Color.WHITE);
+
+        PieDataSet pengeluaranDataSet = new PieDataSet(pengeluaranEntries, "");
+        pengeluaranDataSet.setValueFormatter(new PercentFormatter(pengeluaranChart));
+        pengeluaranDataSet.setColors(ColorTemplate.MATERIAL_COLORS);
+
+        PieData data = new PieData(dataSet);
+        pemasukanChart.setData(data);
+        pemasukanChart.setUsePercentValues(true);
+        pemasukanChart.setEntryLabelColor(Color.BLACK);
+        pemasukanChart.setEntryLabelTextSize(12f);
+        pemasukanChart.setDrawHoleEnabled(false);
+        pemasukanChart.setHoleColor(Color.TRANSPARENT);
+        pemasukanChart.setCenterText(null);
+        pemasukanChart.setCenterTextSize(16f);
+
+        pemasukanChart.getDescription().setEnabled(false);
+        pemasukanChart.getLegend().setEnabled(true);
+        pemasukanChart.animateY(1000, Easing.EaseInOutQuad);
+        pemasukanChart.invalidate();
+
+        PieData pengeluaranData = new PieData(pengeluaranDataSet);
+        pengeluaranChart.setData(pengeluaranData);
+        pengeluaranChart.setUsePercentValues(true);
+        pengeluaranChart.setEntryLabelColor(Color.BLACK);
+        pengeluaranChart.setEntryLabelTextSize(12f);
+        pengeluaranChart.setDrawHoleEnabled(false);
+        pengeluaranChart.setHoleColor(Color.TRANSPARENT);
+        pengeluaranChart.setCenterText(null);
+        pengeluaranChart.setCenterTextSize(16f);
+
+        pengeluaranChart.getDescription().setEnabled(false);
+        pengeluaranChart.getLegend().setEnabled(true);
+        pengeluaranChart.animateY(1000, Easing.EaseInOutQuad);
+        pengeluaranChart.invalidate();
     }
 
     private void loadDataByPeriod(){

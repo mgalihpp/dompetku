@@ -17,6 +17,7 @@ import androidx.core.widget.ImageViewCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
+import androidx.navigation.NavOptions;
 import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -178,6 +179,15 @@ public class DetailAkunFragment extends Fragment implements TransaksiGroupAdapte
         Bundle args = new Bundle();
         args.putInt(DetailTransaksiFragment.ARG_TRANSAKSI_ID, transaksi.getId());
         NavController navController = NavHostFragment.findNavController(this);
-        navController.navigate(R.id.navigation_detail_transaksi, args);
+        navController.navigate(R.id.navigation_detail_transaksi, args, getNavOptions());
+    }
+
+    private NavOptions getNavOptions() {
+        return new NavOptions.Builder()
+                .setEnterAnim(R.anim.enter_from_right)
+                .setExitAnim(R.anim.exit_to_left)
+                .setPopEnterAnim(R.anim.enter_from_left)
+                .setPopExitAnim(R.anim.exit_to_right)
+                .build();
     }
 }

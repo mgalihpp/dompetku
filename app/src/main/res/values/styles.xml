@@ -1,4 +1,12 @@
 <resources>
+    <!-- Splash Theme -->
+    <style name="SplashTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowBackground">@drawable/splash_screen</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowTranslucentNavigation">true</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+    </style>
+
     <!-- Custom button style -->
     <style name="Widget.Akuntansi.Button" parent="Widget.MaterialComponents.Button">
         <item name="android:textColor">@color/colorOnPrimary</item>
@@ -18,6 +26,8 @@
     <style name="AppBottomSheetDialogTheme"
         parent="Theme.Design.Light.BottomSheetDialog">
         <item name="bottomSheetStyle">@style/AppModalStyle</item>
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:windowSoftInputMode">adjustResize</item>
     </style>
     <style name="AppModalStyle"
         parent="Widget.Design.BottomSheet.Modal">
