@@ -23,6 +23,10 @@ public class KategoriViewModel extends AndroidViewModel {
         return kategoriRepository.getAllKategori();
     }
 
+    public LiveData<Kategori> getKategoriByNama(String kategori) {
+        return kategoriRepository.getKategoriByNama(kategori);
+    }
+
     public void insert(Kategori kategori){
         kategoriRepository.insert(kategori);
     }

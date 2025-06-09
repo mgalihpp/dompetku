@@ -23,9 +23,10 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <androidx.core.widget.NestedScrollView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:orientation="vertical"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
@@ -119,8 +120,10 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_transaksi"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1"
                 android:clipToPadding="false"
+                android:nestedScrollingEnabled="false"
                 tools:listitem="@layout/item_transaksi_group" />
 
             <!-- Empty State -->
@@ -153,6 +156,6 @@
 
         </LinearLayout>
 
-    </androidx.core.widget.NestedScrollView>
+    </LinearLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

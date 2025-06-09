@@ -92,6 +92,10 @@ public class AkunViewModel extends AndroidViewModel {
         return akunWithSaldoLiveData;
     }
 
+    public LiveData<Akun> getAkunByNama(String akun) {
+        return akunRepository.getAkunByNama(akun);
+    }
+
     public void insert(Akun akun) {
         akunRepository.insert(akun);
     }

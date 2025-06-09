@@ -4,10 +4,12 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -107,16 +109,21 @@ public class KategoriFragment extends Fragment implements TambahKategoriBottomSh
                 .setMessage(getString(R.string.konfirmasi_hapus_kategori))
                 .setPositiveButton(getString(R.string.hapus), (dialog, which) -> {
                     kategoriViewModel.delete(kategori);
-                });
+                    Toast.makeText(getContext(), getString(R.string.kategori_berhasil_dihapus), Toast.LENGTH_SHORT).show();
+                })
+                .setNegativeButton(getString(R.string.batal), null)
+                .show();
     }
 
     @Override
     public void onKategoriSaved(Kategori kategori) {
         kategoriViewModel.insert(kategori);
+        Toast.makeText(getContext(), getString(R.string.kategori_berhasil_disimpan), Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onKategoriUpdated(Kategori kategori) {
         kategoriViewModel.update(kategori);
+        Toast.makeText(getContext(), getString(R.string.kategori_berhasil_disimpan), Toast.LENGTH_SHORT).show();
     }
 }

@@ -11,11 +11,13 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.neurallift.keuanganku.R;
 import com.neurallift.keuanganku.data.model.Akun;
 import com.neurallift.keuanganku.data.model.Kategori;
+import com.neurallift.keuanganku.ui.kategori.viewmodel.KategoriViewModel;
 
 public class TambahKategoriBottomSheet extends BottomSheetDialogFragment {
 
@@ -88,29 +90,37 @@ public class TambahKategoriBottomSheet extends BottomSheetDialogFragment {
         }
 
         btnSimpan.setOnClickListener(v -> {
-            saveAkun();
+            saveKategori();
         });
 
         return view;
     }
 
-    private void saveAkun(){
+    private void saveKategori(){
         String namaKategori = etNamaKategori.getText().toString().trim();
 
         if(TextUtils.isEmpty(namaKategori)){
-            etNamaKategori.setError(getString(R.string.nama_akun_kosong));
-        } else {
-            if (onKategoriSavedListener != null) {
-                if(isEditMode){
-                    existingKategori.setNama(namaKategori);
-                    onKategoriSavedListener.onKategoriUpdated(existingKategori);
-                } else {
-                    Kategori kategori = new Kategori(namaKategori);
-                    onKategoriSavedListener.onKategoriSaved(kategori);
-                }
-            }
+            etNamaKategori.setError(getString(R.string.nama_kategori_kosong));
+            return;
+        }
 
-            dismiss();
+        if (onKategoriSavedListener != null) {
+            KategoriViewModel kategoriViewModel = new ViewModelProvider(requireActivity()).get(KategoriViewModel.class);
+
+            kategoriViewModel.getKategoriByNama(namaKategori).observe(getViewLifecycleOwner(),exitsKategori -> {
+                if (exitsKategori == null) {
+                    if (isEditMode) {
+                        existingKategori.setNama(namaKategori);
+                        onKategoriSavedListener.onKategoriUpdated(existingKategori);
+                    } else {
+                        Kategori kategori = new Kategori(namaKategori);
+                        onKategoriSavedListener.onKategoriSaved(kategori);
+                    }
+                    dismiss();
+                } else {
+                    etNamaKategori.setError(getString(R.string.ada_kategori));
+                }
+            });
         }
     }
 

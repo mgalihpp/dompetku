@@ -77,6 +77,7 @@
     <string name="masukkan_nama_akun">Masukkan nama akun</string>
     <string name="saldo">Saldo</string>
     <string name="tidak_ada_akun">Tidak ada akun</string>
+    <string name="ada_akun">Nama akun sudah ada</string>
     <string name="akun_berhasil_disimpan">Akun berhasil disimpan</string>
     <string name="akun_berhasil_dihapus">Akun berhasil dihapus</string>
     <string name="nama_akun_kosong">Nama akun tidak boleh kosong</string>
@@ -90,10 +91,11 @@
     <string name="nama_kategori">Nama Kategori</string>
     <string name="masukkan_nama_kategori">Masukkan nama kategori</string>
     <string name="tidak_ada_kategori">Tidak ada kategori</string>
+    <string name="ada_kategori">Nama kategori sudah ada</string>
     <string name="kategori_berhasil_disimpan">Kategori berhasil disimpan</string>
     <string name="kategori_berhasil_dihapus">Kategori berhasil dihapus</string>
     <string name="nama_kategori_kosong">Nama akun tidak boleh kosong</string>
-    <string name="konfirmasi_hapus_kategori">Hapus kateogri ini?</string>
+    <string name="konfirmasi_hapus_kategori">Hapus kategori ini?</string>
 
     <!-- Detail Akun -->
     <string name="detail_akun">Detail Akun</string>

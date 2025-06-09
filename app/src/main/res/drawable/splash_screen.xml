@@ -9,7 +9,7 @@
 
     <!-- Centered logo/icon layer -->
     <item
-        android:drawable="@drawable/ic_launcher"
+        android:drawable="@drawable/ic_launcher2"
         android:gravity="center"
         android:width="250dp"
         android:height="250dp" />

@@ -147,7 +147,9 @@ public class DetailAkunFragment extends Fragment implements TransaksiGroupAdapte
             if (transaksiGroups != null && !transaksiGroups.isEmpty()) {
                 transaksiGroupAdapter.setTransaksiGroups(transaksiGroups);
                 rvTransaksi.setAdapter(transaksiGroupAdapter);
-                rvTransaksi.setItemViewCacheSize(transaksiGroups.size());
+                rvTransaksi.setItemViewCacheSize(20); // Cache 20 items
+                rvTransaksi.setDrawingCacheEnabled(true);
+                rvTransaksi.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
                 rvTransaksi.setVisibility(View.VISIBLE);
                 layoutEmptyState.setVisibility(View.GONE);
             } else {

@@ -28,6 +28,10 @@ public class KategoriRepository {
         return allKategori;
     }
 
+    public LiveData<Kategori> getKategoriByNama(String nama) {
+        return kategoriDao.getKategoriByNama(nama);
+    }
+
     public void insert(Kategori kategori) {
         AppDatabase.databaseWriteExecutor.execute(() -> {
             kategoriDao.insert(kategori);

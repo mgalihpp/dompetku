@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
+import androidx.lifecycle.MutableLiveData;
 
 import com.neurallift.keuanganku.data.model.Transaksi;
 import com.neurallift.keuanganku.data.repository.AkunRepository;
@@ -14,14 +15,18 @@ import com.neurallift.keuanganku.ui.akun.model.TransaksiGroup;
 import com.neurallift.keuanganku.utils.DateTimeUtils;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 public class DetailAkunViewModel extends AndroidViewModel {
     private AkunRepository akunRepository;
     private TransaksiRepository transaksiRepository;
     private MediatorLiveData<List<TransaksiGroup>> groupedTransaksiLiveData;
+    private final Map<Integer, List<TransaksiGroup>> transaksiCache = new HashMap<>();
 
     public DetailAkunViewModel(@NonNull Application application){
         super(application);
@@ -36,13 +41,25 @@ public class DetailAkunViewModel extends AndroidViewModel {
         return akunRepository.getSaldoAkunById(akunId);
     }
 
-    public LiveData<List<TransaksiGroup>> getGroupedTransaksiByAkunId(int akunId){
+    public LiveData<List<TransaksiGroup>> getGroupedTransaksiByAkunId(int akunId) {
+
+        if(transaksiCache.containsKey(akunId)){
+            groupedTransaksiLiveData.setValue(transaksiCache.getOrDefault(akunId, new ArrayList<>()));
+            return groupedTransaksiLiveData;
+        }
+
         LiveData<List<Transaksi>> transaksiListLiveData = transaksiRepository.getTransaksiByAkunId(akunId);
 
+        // Use a background executor for grouping
+        Executor executor = Executors.newSingleThreadExecutor();
+
         groupedTransaksiLiveData.addSource(transaksiListLiveData, transaksiList -> {
-            if(transaksiList != null){
-                List<TransaksiGroup> groups = groupTransaksiByDate(transaksiList);
-                groupedTransaksiLiveData.postValue(groups);
+            if (transaksiList != null) {
+                executor.execute(() -> {
+                    List<TransaksiGroup> groups = groupTransaksiByDate(transaksiList);
+                    transaksiCache.put(akunId, groups);
+                    groupedTransaksiLiveData.postValue(groups);
+                });
             }
         });
 

@@ -35,7 +35,7 @@
             android:layout_height="match_parent"
             android:clipToPadding="false"
             android:padding="8dp"
-            android:paddingBottom="80dp"
+            android:nestedScrollingEnabled="true"
             tools:listitem="@layout/item_transaksi" />
 
         <!-- Empty State -->

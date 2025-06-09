@@ -11,10 +11,12 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.neurallift.keuanganku.R;
 import com.neurallift.keuanganku.data.model.Akun;
+import com.neurallift.keuanganku.ui.akun.viewmodel.AkunViewModel;
 
 public class TambahAkunBottomSheet extends BottomSheetDialogFragment {
 
@@ -98,19 +100,29 @@ public class TambahAkunBottomSheet extends BottomSheetDialogFragment {
 
         if(TextUtils.isEmpty(namaAkun)){
             etNamaAkun.setError(getString(R.string.nama_akun_kosong));
-        } else {
-            if (onAkunSavedListener != null) {
-                if(isEditMode){
-                    existingAkun.setNama(namaAkun);
-                    onAkunSavedListener.onAkunUpdated(existingAkun);
-                } else {
-                    Akun akun = new Akun(namaAkun);
-                    onAkunSavedListener.onAkunSaved(akun);
-                }
-            }
-
-            dismiss();
+            return;
         }
+
+        if (onAkunSavedListener != null) {
+            AkunViewModel akunViewModel = new ViewModelProvider(requireActivity()).get(AkunViewModel.class);
+
+            akunViewModel.getAkunByNama(namaAkun).observe(getViewLifecycleOwner(), exitsAkun -> {
+                if (exitsAkun == null) {
+                    if(isEditMode){
+                        existingAkun.setNama(namaAkun);
+                        onAkunSavedListener.onAkunUpdated(existingAkun);
+                    } else {
+                        Akun akun = new Akun(namaAkun);
+                        onAkunSavedListener.onAkunSaved(akun);
+                    }
+
+                    dismiss();
+                } else {
+                    etNamaAkun.setError(getString(R.string.ada_akun));
+                }
+            });
+        }
+
     }
 
 

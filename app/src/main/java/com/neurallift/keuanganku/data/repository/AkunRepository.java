@@ -30,6 +30,10 @@ public class AkunRepository {
         return akunDao.getAkunById(id);
     }
 
+    public LiveData<Akun> getAkunByNama(String nama) {
+        return akunDao.getAkunByNama(nama);
+    }
+
     public void insert(Akun akun) {
         AppDatabase.databaseWriteExecutor.execute(() -> {
                 akunDao.insert(akun);

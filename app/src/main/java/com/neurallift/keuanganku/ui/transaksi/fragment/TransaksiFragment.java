@@ -76,7 +76,9 @@ public class TransaksiFragment extends Fragment implements TransaksiGroupAdapter
             if (transaksiGroups != null && !transaksiGroups.isEmpty()) {
                 adapter.setTransaksiGroups(transaksiGroups);
                 recyclerView.setAdapter(adapter);
-                recyclerView.setItemViewCacheSize(transaksiGroups.size());
+                recyclerView.setItemViewCacheSize(20); // Cache 20 items
+                recyclerView.setDrawingCacheEnabled(true);
+                recyclerView.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
                 recyclerView.setVisibility(View.VISIBLE);
                 tvEmpty.setVisibility(View.GONE);
             } else {
