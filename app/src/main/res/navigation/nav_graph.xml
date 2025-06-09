@@ -31,6 +31,11 @@
             app:argType="string" />
     </fragment>
 
+    <fragment
+        android:id="@+id/navigation_kategori"
+        android:name="com.neurallift.keuanganku.ui.kategori.fragment.KategoriFragment"
+        android:label="@string/kategori"
+        tools:layout="@layout/fragment_kategori" />
 
     <fragment
         android:id="@+id/navigation_transaksi"

@@ -201,7 +201,7 @@
 
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
-                    android:layout_height="280dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     app:cardBackgroundColor="@color/colorCardBackground"
                     app:cardCornerRadius="12dp"
@@ -210,7 +210,7 @@
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         android:orientation="vertical"
                         android:padding="16dp">
 
@@ -223,23 +223,22 @@
 
                         <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_height="0dp"
-                            android:layout_weight="1"
-                            android:orientation="horizontal"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
                             android:layout_marginTop="8dp">
 
                             <com.github.mikephil.charting.charts.PieChart
                                 android:id="@+id/pemasukanChart"
-                                android:layout_width="0dp"
-                                android:layout_height="match_parent"
+                                android:layout_width="match_parent"
+                                android:layout_height="280dp"
                                 android:layout_weight="1" />
 
                             <androidx.recyclerview.widget.RecyclerView
                                 android:id="@+id/rvPemasukan"
-                                android:layout_width="0dp"
-                                android:layout_height="match_parent"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:paddingStart="8dp"
+                                android:layout_marginTop="6dp"
                                 android:nestedScrollingEnabled="true"
                                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                                 tools:listitem="@layout/item_chart_legend" />
@@ -250,7 +249,7 @@
 
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
-                    android:layout_height="280dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     app:cardBackgroundColor="@color/colorCardBackground"
                     app:cardCornerRadius="12dp"
@@ -272,23 +271,22 @@
 
                         <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_height="0dp"
-                            android:layout_weight="1"
-                            android:orientation="horizontal"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
                             android:layout_marginTop="8dp">
 
                             <com.github.mikephil.charting.charts.PieChart
                                 android:id="@+id/pengeluaranChart"
-                                android:layout_width="0dp"
-                                android:layout_height="match_parent"
+                                android:layout_width="match_parent"
+                                android:layout_height="280dp"
                                 android:layout_weight="1" />
 
                             <androidx.recyclerview.widget.RecyclerView
                                 android:id="@+id/rvPengeluaran"
-                                android:layout_width="0dp"
-                                android:layout_height="match_parent"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:paddingStart="8dp"
+                                android:layout_marginTop="6dp"
                                 android:nestedScrollingEnabled="true"
                                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                                 tools:listitem="@layout/item_chart_legend" />

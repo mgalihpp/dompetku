@@ -84,6 +84,17 @@
     <string name="tambah_kategori">Tambah Kategori</string>
     <string name="masukkan_nama">Masukkan Nama</string>
 
+    <!-- Kategori Screen -->
+    <string name="daftar_kategori">Daftar Kategori</string>
+    <string name="edit_kategori">Edit Kategori</string>
+    <string name="nama_kategori">Nama Kategori</string>
+    <string name="masukkan_nama_kategori">Masukkan nama kategori</string>
+    <string name="tidak_ada_kategori">Tidak ada kategori</string>
+    <string name="kategori_berhasil_disimpan">Kategori berhasil disimpan</string>
+    <string name="kategori_berhasil_dihapus">Kategori berhasil dihapus</string>
+    <string name="nama_kategori_kosong">Nama akun tidak boleh kosong</string>
+    <string name="konfirmasi_hapus_kategori">Hapus kateogri ini?</string>
+
     <!-- Detail Akun -->
     <string name="detail_akun">Detail Akun</string>
     <string name="saldo_akhir">Saldo Akhir</string>

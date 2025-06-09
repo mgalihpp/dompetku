@@ -22,6 +22,8 @@ public class FormatUtils {
      */
     public static String formatCurrency(double value) {
         NumberFormat currencyFormatter = NumberFormat.getCurrencyInstance(INDONESIA_LOCALE);
+        currencyFormatter.setMinimumFractionDigits(0);
+        currencyFormatter.setMaximumFractionDigits(0);
         return currencyFormatter.format(value);
     }
 

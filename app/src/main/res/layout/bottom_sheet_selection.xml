@@ -8,12 +8,41 @@
     android:orientation="vertical"
     android:padding="16dp">
 
-    <View
-        android:layout_width="40dp"
-        android:layout_height="4dp"
-        android:layout_gravity="center"
-        android:layout_marginBottom="8dp"
-        android:background="@drawable/bg_handle_strip" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <!-- Empty space to push View to center -->
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1.25" />
+
+        <View
+            android:layout_width="40dp"
+            android:layout_height="4dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/bg_handle_strip" />
+
+        <!-- Empty space to push ImageView to the right -->
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <ImageView
+            android:id="@+id/edit_kategori"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_edit"
+            android:layout_gravity="end|center_vertical"
+            android:visibility="invisible"
+            android:background="?android:attr/selectableItemBackground"
+            />
+    </LinearLayout>
 
     <TextView
         android:id="@+id/tvTitle"

@@ -9,7 +9,6 @@ import com.neurallift.keuanganku.data.AppDatabase;
 import com.neurallift.keuanganku.data.dao.AkunDao;
 import com.neurallift.keuanganku.data.dao.TransaksiDao;
 import com.neurallift.keuanganku.data.model.Akun;
-import com.neurallift.keuanganku.ui.laporan.model.AkunWithTransaksi;
 
 import java.util.List;
 

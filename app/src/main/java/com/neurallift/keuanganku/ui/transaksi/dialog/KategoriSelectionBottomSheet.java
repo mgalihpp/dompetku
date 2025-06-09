@@ -5,11 +5,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.NavOptions;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -30,6 +34,7 @@ public class KategoriSelectionBottomSheet extends BottomSheetDialogFragment impl
     private KategoriAdapter adapter;
     private KategoriSelectedListener listener;
     private Button btnTambahKategori;
+    private ImageView btnEditKategori;
 
     public interface KategoriSelectedListener {
 
@@ -57,7 +62,10 @@ public class KategoriSelectionBottomSheet extends BottomSheetDialogFragment impl
 
         recyclerView = view.findViewById(R.id.recyclerView);
         btnTambahKategori = view.findViewById(R.id.tambah_selection);
+        btnEditKategori = view.findViewById(R.id.edit_kategori);
+
         btnTambahKategori.setText(R.string.tambah_kategori);
+        btnEditKategori.setVisibility(View.VISIBLE);
 
         setupRecyclerView();
 
@@ -75,6 +83,10 @@ public class KategoriSelectionBottomSheet extends BottomSheetDialogFragment impl
 
         btnTambahKategori.setOnClickListener(v -> {
             showTambahKategoriBottomSheet();
+        });
+
+        btnEditKategori.setOnClickListener(v -> {
+            navigateToKategori();
         });
 
         return view;
@@ -152,6 +164,20 @@ public class KategoriSelectionBottomSheet extends BottomSheetDialogFragment impl
         bottomSheet.setOnKategoriSavedListener(this);
 
         bottomSheet.show(getParentFragmentManager(), "TambahKategoriBottomSheet");
+    }
+
+    private void navigateToKategori() {
+        NavController navController = NavHostFragment.findNavController(this);
+        navController.navigate(R.id.navigation_kategori, null, getNavOptions());
+    }
+
+    private NavOptions getNavOptions() {
+        return new NavOptions.Builder()
+                .setEnterAnim(R.anim.enter_from_right)
+                .setExitAnim(R.anim.exit_to_left)
+                .setPopEnterAnim(R.anim.enter_from_left)
+                .setPopExitAnim(R.anim.exit_to_right)
+                .build();
     }
 
     @Override

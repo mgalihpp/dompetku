@@ -82,7 +82,7 @@ public class TambahKategoriBottomSheet extends BottomSheetDialogFragment {
         tvSelection.setText(R.string.kategori);
 
         if (isEditMode && existingKategori != null) {
-            tvTitle.setText(R.string.edit_akun);
+            tvTitle.setText(R.string.edit_kategori);
             etNamaKategori.setText(existingKategori.getNama());
             btnSimpan.setText(R.string.perbarui);
         }
