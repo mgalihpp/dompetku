@@ -77,50 +77,61 @@ public class DatabaseInitializer {
                 double dailyFactor = isWeekend ? 1.2 : 1.0;
 
                 // Nasi Goreng sales (0–50 portions, IDR 15,000 each)
-                int nasiGorengCount = (int) (random.nextInt(51) + 0) * (int) (dailyFactor * seasonalFactor);
-                double nasiGorengRevenue = nasiGorengCount * 15000.0;
+                int nasiGorengCount = (int) (random.nextInt(51) * dailyFactor * seasonalFactor);
+                double nasiGorengRevenue = nasiGorengCount * 15000;
                 monthlyRevenue += nasiGorengRevenue;
 
-                // 70% Cash, 30% QRIS
-                double cashNasi = Math.round(nasiGorengRevenue * 0.7 / 1000.0) * 1000.0;
-                double qrisNasi = Math.round(nasiGorengRevenue * 0.3 / 1000.0) * 1000.0;
+                // Hitung transaksi cash (70%) dan QRIS (30%) berdasarkan jumlah porsi
+                int cashNasiCount = (int) Math.round(nasiGorengCount * 0.7);
+                int qrisNasiCount = nasiGorengCount - cashNasiCount; // Pastikan total porsi pas
+                double cashNasi = cashNasiCount * 15000;
+                double qrisNasi = qrisNasiCount * 15000;
 
-                if (cashNasi > 0) {
+                // Catat transaksi cash per porsi
+                for (int i = 0; i < cashNasiCount; i++) {
                     transaksiDao.insert(new Transaksi(
                             date, randomTime(10, 22), "Penjualan Nasi Goreng", "Kas",
-                            "pemasukan", cashNasi, "Penjualan " + nasiGorengCount + " porsi nasi goreng"
+                            "pemasukan", 15000, "Penjualan 1 porsi nasi goreng"
                     ));
-                    totalBalance += cashNasi;
+                    totalBalance += 15000;
                 }
-                if (qrisNasi > 0) {
+
+                // Catat transaksi QRIS per porsi
+                for (int i = 0; i < qrisNasiCount; i++) {
                     transaksiDao.insert(new Transaksi(
                             date, randomTime(10, 22), "Penjualan Nasi Goreng", "QRIS",
-                            "pemasukan", qrisNasi, "Penjualan " + nasiGorengCount + " porsi nasi goreng"
+                            "pemasukan", 15000, "Penjualan 1 porsi nasi goreng"
                     ));
-                    totalBalance += qrisNasi;
+                    totalBalance += 15000;
                 }
 
                 // Es Teh sales (0–30 portions, IDR 5,000 each)
-                int esTehCount = (int) (random.nextInt(31) + 0) * (int) (dailyFactor * seasonalFactor);
-                double esTehRevenue = esTehCount * 5000.0;
+                int esTehCount = (int) (random.nextInt(31) * dailyFactor * seasonalFactor);
+                double esTehRevenue = esTehCount * 5000;
                 monthlyRevenue += esTehRevenue;
 
-                double cashEsTeh = Math.round(esTehRevenue * 0.7 / 1000.0) * 1000.0;
-                double qrisEsTeh = Math.round(esTehRevenue * 0.3 / 1000.0) * 1000.0;
+                // Hitung transaksi cash (70%) dan QRIS (30%) berdasarkan jumlah gelas
+                int cashEsTehCount = (int) Math.round(esTehCount * 0.7);
+                int qrisEsTehCount = esTehCount - cashEsTehCount; // Pastikan total gelas pas
+                double cashEsTeh = cashEsTehCount * 5000;
+                double qrisEsTeh = qrisEsTehCount * 5000;
 
-                if (cashEsTeh > 0) {
+                // Catat transaksi cash per gelas
+                for (int i = 0; i < cashEsTehCount; i++) {
                     transaksiDao.insert(new Transaksi(
                             date, randomTime(10, 22), "Penjualan Es Teh", "Kas",
-                            "pemasukan", cashEsTeh, "Penjualan " + esTehCount + " gelas es teh"
+                            "pemasukan", 5000, "Penjualan 1 gelas es teh"
                     ));
-                    totalBalance += cashEsTeh;
+                    totalBalance += 5000;
                 }
-                if (qrisEsTeh > 0) {
+
+                // Catat transaksi QRIS per gelas
+                for (int i = 0; i < qrisEsTehCount; i++) {
                     transaksiDao.insert(new Transaksi(
                             date, randomTime(10, 22), "Penjualan Es Teh", "QRIS",
-                            "pemasukan", qrisEsTeh, "Penjualan " + esTehCount + " gelas es teh"
+                            "pemasukan", 5000, "Penjualan 1 gelas es teh"
                     ));
-                    totalBalance += qrisEsTeh;
+                    totalBalance += 5000;
                 }
             }
 
