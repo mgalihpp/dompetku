@@ -7,12 +7,19 @@ import com.neurallift.keuanganku.data.model.Akun;
 import com.neurallift.keuanganku.data.model.Kategori;
 import com.neurallift.keuanganku.data.model.Transaksi;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Random;
 
 /**
- * Utility class to populate the database with 200 realistic transactions for an UMKM
+ * Utility class to initialize the database with realistic transactions for an Indonesian UMKM (nasi goreng warung).
+ * Simulates transactions from January 2024 to June 2025, ensuring positive balance and realistic categories.
  */
 public class DatabaseInitializer {
+
+    private static final Random random = new Random();
+    private static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+    private static final SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
 
     public static void populateDatabase(AppDatabase db) {
         populateKategori(db.kategoriDao());
@@ -21,201 +28,182 @@ public class DatabaseInitializer {
     }
 
     private static void populateKategori(KategoriDao kategoriDao) {
-        // Kategori relevan untuk UMKM
-        kategoriDao.insert(new Kategori("Penjualan")); // Income from sales
-        kategoriDao.insert(new Kategori("Pembelian Bahan Baku")); // Supplier payments
-        kategoriDao.insert(new Kategori("Listrik")); // Electricity bills
-        kategoriDao.insert(new Kategori("Internet")); // Internet bills
-        kategoriDao.insert(new Kategori("Sewa Tempat")); // Rent
-        kategoriDao.insert(new Kategori("Gaji Karyawan")); // Employee wages
-        kategoriDao.insert(new Kategori("Pemasaran")); // Marketing/advertising
-        kategoriDao.insert(new Kategori("Peralatan")); // Equipment/tools
-        kategoriDao.insert(new Kategori("Lain-lain")); // Miscellaneous
+        String[] kategoriNames = {
+                "Penjualan Nasi Goreng", "Penjualan Es Teh", "Bahan Baku",
+                "Sewa", "Listrik", "Air", "Gaji Karyawan", "Peralatan", "Pemasaran"
+        };
+        for (String nama : kategoriNames) {
+            kategoriDao.insert(new Kategori(nama));
+        }
     }
 
     private static void populateAkun(AkunDao akunDao) {
-        // Akun relevan untuk UMKM
-        akunDao.insert(new Akun("Kas")); // Cash
-        akunDao.insert(new Akun("Bank")); // Bank account
-        akunDao.insert(new Akun("Dompet Digital")); // E.g., OVO, GoPay
+        String[] akunNames = {"Kas", "QRIS"};
+        for (String nama : akunNames) {
+            akunDao.insert(new Akun(nama));
+        }
     }
 
     private static void populateTransaksi(TransaksiDao transaksiDao) {
-        // Periode dari Januari 2024 hingga Juni 2025 (18 bulan)
-        Calendar startDate = Calendar.getInstance();
-        startDate.set(2024, Calendar.JANUARY, 1); // 1 Januari 2024
-        Calendar endDate = Calendar.getInstance();
-        endDate.set(2025, Calendar.JUNE, 30); // 30 Juni 2025
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(2025, Calendar.JANUARY, 1);
 
-        int targetTransactions = 200;
-        int transactionCount = 0;
+        double totalBalance = 0.0;
 
-        // Transaction distribution plan:
-        // - Daily sales (3 days/week, ~12/month) = 12 * 18 months = 216, take 120
-        // - Supplier payments (weekly, 4/month) = 4 * 18 = 72, take 36
-        // - Monthly rent = 1 * 18 = 18
-        // - Monthly utilities (electricity, internet) = 2 * 18 = 36
-        // - Monthly wages (1/month) = 1 * 18 = 18
-        // - Marketing (2/month) = 2 * 18 = 36, take 5
-        // - Equipment (occasional) = 3
-        // Total: 120 + 36 + 18 + 36 + 18 + 5 + 3 = 236, adjust to 200
+        while (calendar.get(Calendar.YEAR) <= 2025 &&
+                (calendar.get(Calendar.YEAR) < 2025 || calendar.get(Calendar.MONTH) <= Calendar.JUNE)) {
+            int daysInMonth = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
+            double monthlyRevenue = 0.0;
 
-        Calendar currentDate = (Calendar) startDate.clone();
-        int transactionId = 1;
+            // Determine seasonal factor
+            double seasonalFactor = 1.0;
+            int month = calendar.get(Calendar.MONTH);
+            int year = calendar.get(Calendar.YEAR);
+            if ((year == 2024 && month == Calendar.MARCH) || (year == 2024 && month == Calendar.APRIL) ||
+                    (year == 2025 && month == Calendar.MARCH) || (year == 2024 && month == Calendar.DECEMBER)) {
+                seasonalFactor = 1.3; // Ramadan, Idul Fitri, or Christmas/New Year
+            } else if (month == Calendar.FEBRUARY || (year == 2024 && month == Calendar.MAY)) {
+                seasonalFactor = 0.8; // Low season
+            }
 
-        while (!currentDate.after(endDate) && transactionCount < targetTransactions) {
-            String tanggal = String.format("%04d-%02d-%02d",
-                    currentDate.get(Calendar.YEAR),
-                    currentDate.get(Calendar.MONTH) + 1,
-                    currentDate.get(Calendar.DAY_OF_MONTH));
+            // Daily sales (nasi goreng and es teh)
+            for (int day = 1; day <= daysInMonth; day++) {
+                calendar.set(Calendar.DAY_OF_MONTH, day);
+                String date = dateFormat.format(calendar.getTime());
 
-            int dayOfWeek = currentDate.get(Calendar.DAY_OF_WEEK);
+                // Weekend boost
+                boolean isWeekend = calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY ||
+                        calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY;
+                double dailyFactor = isWeekend ? 1.2 : 1.0;
 
-            // Daily sales (Monday, Wednesday, Friday for variety, ~120 transactions)
-            if ((dayOfWeek == Calendar.MONDAY || dayOfWeek == Calendar.WEDNESDAY || dayOfWeek == Calendar.FRIDAY)
-                    && transactionCount < 120) {
-                double salesAmount = 500000.0 + (Math.random() * 500000); // Rp500,000 - Rp1,000,000
+                // Nasi Goreng sales (0–50 portions, IDR 15,000 each)
+                int nasiGorengCount = (int) (random.nextInt(51) + 0) * (int) (dailyFactor * seasonalFactor);
+                double nasiGorengRevenue = nasiGorengCount * 15000.0;
+                monthlyRevenue += nasiGorengRevenue;
+
+                // 70% Cash, 30% QRIS
+                double cashNasi = Math.round(nasiGorengRevenue * 0.7 / 1000.0) * 1000.0;
+                double qrisNasi = Math.round(nasiGorengRevenue * 0.3 / 1000.0) * 1000.0;
+
+                if (cashNasi > 0) {
+                    transaksiDao.insert(new Transaksi(
+                            date, randomTime(10, 22), "Penjualan Nasi Goreng", "Kas",
+                            "pemasukan", cashNasi, "Penjualan " + nasiGorengCount + " porsi nasi goreng"
+                    ));
+                    totalBalance += cashNasi;
+                }
+                if (qrisNasi > 0) {
+                    transaksiDao.insert(new Transaksi(
+                            date, randomTime(10, 22), "Penjualan Nasi Goreng", "QRIS",
+                            "pemasukan", qrisNasi, "Penjualan " + nasiGorengCount + " porsi nasi goreng"
+                    ));
+                    totalBalance += qrisNasi;
+                }
+
+                // Es Teh sales (0–30 portions, IDR 5,000 each)
+                int esTehCount = (int) (random.nextInt(31) + 0) * (int) (dailyFactor * seasonalFactor);
+                double esTehRevenue = esTehCount * 5000.0;
+                monthlyRevenue += esTehRevenue;
+
+                double cashEsTeh = Math.round(esTehRevenue * 0.7 / 1000.0) * 1000.0;
+                double qrisEsTeh = Math.round(esTehRevenue * 0.3 / 1000.0) * 1000.0;
+
+                if (cashEsTeh > 0) {
+                    transaksiDao.insert(new Transaksi(
+                            date, randomTime(10, 22), "Penjualan Es Teh", "Kas",
+                            "pemasukan", cashEsTeh, "Penjualan " + esTehCount + " gelas es teh"
+                    ));
+                    totalBalance += cashEsTeh;
+                }
+                if (qrisEsTeh > 0) {
+                    transaksiDao.insert(new Transaksi(
+                            date, randomTime(10, 22), "Penjualan Es Teh", "QRIS",
+                            "pemasukan", qrisEsTeh, "Penjualan " + esTehCount + " gelas es teh"
+                    ));
+                    totalBalance += qrisEsTeh;
+                }
+            }
+
+            // Monthly expenses
+            // Ingredients (45% of revenue, weekly purchases)
+            double ingredientCost = Math.round(monthlyRevenue * 0.45 / 1000.0) * 1000.0;
+            for (int i = 0; i < 4; i++) {
+                double weeklyIngredient = Math.round(ingredientCost / 4.0 / 1000.0) * 1000.0;
+                if (weeklyIngredient > 0) {
+                    calendar.set(Calendar.DAY_OF_MONTH, 7 * (i + 1));
+                    String date = dateFormat.format(calendar.getTime());
+                    transaksiDao.insert(new Transaksi(
+                            date, randomTime(8, 12), "Bahan Baku", "Kas",
+                            "pengeluaran", weeklyIngredient, "Pembelian bahan baku mingguan"
+                    ));
+                    totalBalance -= weeklyIngredient;
+                }
+            }
+
+            // Rent (IDR 1.5M/month, paid on 1st)
+            calendar.set(Calendar.DAY_OF_MONTH, 1);
+            transaksiDao.insert(new Transaksi(
+                    dateFormat.format(calendar.getTime()), randomTime(8, 12), "Sewa", "Kas",
+                    "pengeluaran", 1500000.0, "Sewa warung bulanan"
+            ));
+            totalBalance -= 1500000.0;
+
+            // Electricity (IDR 300K/month, paid on 5th)
+            calendar.set(Calendar.DAY_OF_MONTH, 5);
+            transaksiDao.insert(new Transaksi(
+                    dateFormat.format(calendar.getTime()), randomTime(8, 12), "Listrik", "Kas",
+                    "pengeluaran", 300000.0, "Tagihan listrik bulanan"
+            ));
+            totalBalance -= 300000.0;
+
+            // Water (IDR 100K/month, paid on 5th)
+            transaksiDao.insert(new Transaksi(
+                    dateFormat.format(calendar.getTime()), randomTime(8, 12), "Air", "Kas",
+                    "pengeluaran", 100000.0, "Tagihan air bulanan"
+            ));
+            totalBalance -= 100000.0;
+
+            // Labor (IDR 1.5M/month per employee, 2 employees, paid on 25th)
+            calendar.set(Calendar.DAY_OF_MONTH, 25);
+            transaksiDao.insert(new Transaksi(
+                    dateFormat.format(calendar.getTime()), randomTime(8, 12), "Gaji Karyawan", "Kas",
+                    "pengeluaran", 3000000.0, "Gaji 2 karyawan bulanan"
+            ));
+            totalBalance -= 3000000.0;
+
+            // Equipment maintenance (every 3 months, IDR 500K–1M)
+            if (month % 3 == 0) {
+                double equipmentCost = Math.round((random.nextInt(501) + 500) * 1000.0 / 1000.0) * 1000.0;
+                calendar.set(Calendar.DAY_OF_MONTH, 15);
                 transaksiDao.insert(new Transaksi(
-                        tanggal,
-                        "17:00",
-                        "Penjualan",
-                        Math.random() < 0.7 ? "Kas" : "Dompet Digital",
-                        "pemasukan",
-                        salesAmount,
-                        "Penjualan harian produk/jasa"
+                        dateFormat.format(calendar.getTime()), randomTime(8, 12), "Peralatan", "Kas",
+                        "pengeluaran", equipmentCost, "Perbaikan peralatan"
                 ));
-                transactionCount++;
-                transactionId++;
+                totalBalance -= equipmentCost;
             }
 
-            // Weekly supplier payments (every Tuesday, ~36 transactions)
-            if (dayOfWeek == Calendar.TUESDAY && transactionCount < 156) { // 120 + 36
+            // Marketing (every 3 months, IDR 200K–500K)
+            if (month % 3 == 0) {
+                double marketingCost = Math.round((random.nextInt(301) + 200) * 1000.0 / 1000.0) * 1000.0;
+                calendar.set(Calendar.DAY_OF_MONTH, 20);
                 transaksiDao.insert(new Transaksi(
-                        tanggal,
-                        "10:00",
-                        "Pembelian Bahan Baku",
-                        "Bank",
-                        "pengeluaran",
-                        2000000.0 + (Math.random() * 1000000), // Rp2,000,000 - Rp3,000,000
-                        "Pembayaran ke supplier bahan baku"
+                        dateFormat.format(calendar.getTime()), randomTime(8, 12), "Pemasaran", "Kas",
+                        "pengeluaran", marketingCost, "Biaya pemasaran (spanduk, promosi)"
                 ));
-                transactionCount++;
-                transactionId++;
+                totalBalance -= marketingCost;
             }
 
-            // Monthly fixed costs (day 1 of each month)
-            if (currentDate.get(Calendar.DAY_OF_MONTH) == 1) {
-                // Rent (~18 transactions)
-                if (transactionCount < 174) { // 120 + 36 + 18
-                    transaksiDao.insert(new Transaksi(
-                            tanggal,
-                            "09:00",
-                            "Sewa Tempat",
-                            "Bank",
-                            "pengeluaran",
-                            3000000.0, // Rp3,000,000
-                            "Pembayaran sewa tempat usaha"
-                    ));
-                    transactionCount++;
-                    transactionId++;
-                }
-
-                // Electricity (~18 transactions)
-                if (transactionCount < 192) { // 120 + 36 + 18 + 18
-                    transaksiDao.insert(new Transaksi(
-                            tanggal,
-                            "09:30",
-                            "Listrik",
-                            "Bank",
-                            "pengeluaran",
-                            500000.0 + (Math.random() * 200000), // Rp500,000 - Rp700,000
-                            "Tagihan listrik bulanan"
-                    ));
-                    transactionCount++;
-                    transactionId++;
-                }
-
-                // Internet (~18 transactions, take 8 to fit 200)
-                if (transactionCount < 200 && currentDate.get(Calendar.MONTH) % 2 == 0) { // Every 2 months
-                    transaksiDao.insert(new Transaksi(
-                            tanggal,
-                            "09:45",
-                            "Internet",
-                            "Dompet Digital",
-                            "pengeluaran",
-                            300000.0,
-                            "Tagihan internet bulanan"
-                    ));
-                    transactionCount++;
-                    transactionId++;
-                }
-
-                // Employee wages (~18 transactions, take 6)
-                if (transactionCount < 200 && currentDate.get(Calendar.MONTH) % 3 == 0) { // Every 3 months
-                    transaksiDao.insert(new Transaksi(
-                            tanggal,
-                            "10:00",
-                            "Gaji Karyawan",
-                            "Bank",
-                            "pengeluaran",
-                            4000000.0, // Rp4,000,000 for 2-3 employees
-                            "Pembayaran gaji karyawan"
-                    ));
-                    transactionCount++;
-                    transactionId++;
-                }
-            }
-
-            // Marketing (occasional, ~5 transactions)
-            if (dayOfWeek == Calendar.THURSDAY && Math.random() < 0.1 && transactionCount < 195) {
-                transaksiDao.insert(new Transaksi(
-                        tanggal,
-                        "14:00",
-                        "Pemasaran",
-                        "Dompet Digital",
-                        "pengeluaran",
-                        200000.0 + (Math.random() * 300000), // Rp200,000 - Rp500,000
-                        "Biaya iklan online atau promosi"
-                ));
-                transactionCount++;
-                transactionId++;
-            }
-
-            // Equipment (rare, ~3 transactions)
-            if (currentDate.get(Calendar.MONTH) == Calendar.MARCH ||
-                    currentDate.get(Calendar.MONTH) == Calendar.SEPTEMBER ||
-                    currentDate.get(Calendar.MONTH) == Calendar.DECEMBER) {
-                if (currentDate.get(Calendar.DAY_OF_MONTH) == 15 && transactionCount < 198) {
-                    transaksiDao.insert(new Transaksi(
-                            tanggal,
-                            "11:00",
-                            "Peralatan",
-                            "Bank",
-                            "pengeluaran",
-                            1000000.0 + (Math.random() * 2000000), // Rp1,000,000 - Rp3,000,000
-                            "Pembelian peralatan usaha"
-                    ));
-                    transactionCount++;
-                    transactionId++;
-                }
-            }
-
-            // Miscellaneous (fill remaining, ~2 transactions)
-            if (dayOfWeek == Calendar.SATURDAY && Math.random() < 0.05 && transactionCount < 200) {
-                transaksiDao.insert(new Transaksi(
-                        tanggal,
-                        String.format("%02d:%02d", 12 + (transactionId % 3), transactionId % 60),
-                        "Lain-lain",
-                        "Kas",
-                        "pengeluaran",
-                        50000.0 + (Math.random() * 150000), // Rp50,000 - Rp200,000
-                        "Biaya operasional lainnya"
-                ));
-                transactionCount++;
-                transactionId++;
-            }
-
-            currentDate.add(Calendar.DAY_OF_MONTH, 1);
+            // Move to next month
+            calendar.add(Calendar.MONTH, 1);
         }
+    }
+
+    private static String randomTime(int startHour, int endHour) {
+        int hour = random.nextInt(endHour - startHour + 1) + startHour;
+        int minute = random.nextInt(60);
+        Calendar time = Calendar.getInstance();
+        time.set(Calendar.HOUR_OF_DAY, hour);
+        time.set(Calendar.MINUTE, minute);
+        return timeFormat.format(time.getTime());
     }
 }
