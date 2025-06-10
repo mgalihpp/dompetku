@@ -97,7 +97,7 @@ public class DatabaseInitializer {
                     transaksiDao.insert(new Transaksi(
                         date,
                         randomTime(10, 22),
-                        "Penjualan",
+                        "Penjualan Nasi Goreng",
                         "Kas",
                         "pemasukan",
                         transactionAmount,
@@ -119,7 +119,7 @@ public class DatabaseInitializer {
                     transaksiDao.insert(new Transaksi(
                         date,
                         randomTime(10, 22),
-                        "Penjualan",
+                        "Penjualan Nasi Goreng",
                         "QRIS",
                         "pemasukan",
                         transactionAmount,
@@ -152,7 +152,7 @@ public class DatabaseInitializer {
                     transaksiDao.insert(new Transaksi(
                         date,
                         randomTime(10, 22),
-                        "Penjualan",
+                        "Penjualan Es Teh",
                         "Kas",
                         "pemasukan",
                         transactionAmount,
@@ -174,7 +174,7 @@ public class DatabaseInitializer {
                     transaksiDao.insert(new Transaksi(
                         date,
                         randomTime(10, 22),
-                        "Penjualan",
+                        "Penjualan Es Teh",
                         "QRIS",
                         "pemasukan",
                         transactionAmount,
