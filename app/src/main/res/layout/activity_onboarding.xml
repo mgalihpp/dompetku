@@ -39,29 +39,40 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="32dp"
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:padding="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
         <Button
-            android:id="@+id/skipButton"
-            style="@style/Widget.MaterialComponents.Button.TextButton"
-            android:layout_width="wrap_content"
+            android:id="@+id/nextButton"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_marginEnd="8dp"
-            android:text="@string/lewati" />
+            android:paddingVertical="20dp"
+            android:text="@string/lanjut"
+            android:textAllCaps="false"
+            app:cornerRadius="20dp"
+            android:textColor="@color/colorOnPrimary"
+            android:textSize="16sp"
+            android:textStyle="bold"/>
 
         <Button
-            android:id="@+id/nextButton"
-            style="@style/Widget.MaterialComponents.Button"
-            android:layout_width="wrap_content"
+            android:id="@+id/skipButton"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_marginStart="8dp"
-            android:text="@string/lanjut" />
+            android:text="@string/lewati"
+            android:textColor="?attr/colorPrimary"
+            android:paddingVertical="20dp"
+            android:layout_marginTop="8dp"
+            app:cornerRadius="20dp"
+            app:strokeColor="@color/colorSecondaryText"
+            app:strokeWidth=".5dp"
+            android:textAllCaps="false"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:backgroundTint="@color/colorCardBackground"/>
+
 
     </LinearLayout>
 

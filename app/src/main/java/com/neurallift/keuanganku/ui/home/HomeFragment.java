@@ -14,6 +14,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.NavOptions;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -31,6 +34,8 @@ import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class HomeFragment extends Fragment {
 
@@ -43,10 +48,19 @@ public class HomeFragment extends Fragment {
     private TransaksiAdapter transaksiAdapter;
     private PieChart pieChart;
     private TabLayout tabLayout;
+    private TextView tvLihatSemua;
+    private final ExecutorService executor = Executors.newSingleThreadExecutor();
 
     private int currentPeriod = 0; // 0: daily, 1: weekly, 2: monthly
     private static final String PREFS_NAME = "PERIOD_PREFS";
     private static final String SELECTED_TAB_KEY = "SelectedTab";
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
+    }
 
     @Nullable
     @Override
@@ -59,8 +73,6 @@ public class HomeFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
-
         // Initialize UI components
         tvSaldoTotal = view.findViewById(R.id.tvSaldoTotal);
         tvPemasukan = view.findViewById(R.id.tvPemasukan);
@@ -69,11 +81,24 @@ public class HomeFragment extends Fragment {
         rvTransaksi = view.findViewById(R.id.rvTransaksi);
         pieChart = view.findViewById(R.id.pieChart);
         tabLayout = view.findViewById(R.id.tabLayout);
+        tvLihatSemua = view.findViewById(R.id.tvLihatSemua);
 
         // Setup RecyclerView
         transaksiAdapter = new TransaksiAdapter();
         rvTransaksi.setAdapter(transaksiAdapter);
+        rvTransaksi.setItemViewCacheSize(20);
+        rvTransaksi.setDrawingCacheEnabled(true);
+        rvTransaksi.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
         rvTransaksi.setLayoutManager(new LinearLayoutManager(requireContext()));
+
+        transaksiAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+            @Override
+            public void onItemRangeInserted(int positionStart, int itemCount) {
+                if (positionStart == 0) {
+                    rvTransaksi.scrollToPosition(0); // Smooth scroll for new items
+                }
+            }
+        });
 
         // Setup Floating Action Button
         FloatingActionButton fab = view.findViewById(R.id.fab);
@@ -82,14 +107,27 @@ public class HomeFragment extends Fragment {
             bottomSheet.show(getChildFragmentManager(), "tambahTransaksi");
         });
 
+        tvLihatSemua.setOnClickListener(v -> {
+            navigateToTransaksi();
+        });
+
         // Setup Period Tabs
         setupTabLayout();
 
         // Setup swipe gesture to navigate between periods
         setupSwipeGesture();
 
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
         // Load chart
         updateChart();
+
+        // Load saldo total
+        updateSaldoTotal();
 
         // Load data based on current period
         loadDataByPeriod();
@@ -105,7 +143,8 @@ public class HomeFragment extends Fragment {
         if (tab != null) {
             currentPeriod = savedIndex;
             tab.select();
-            loadDataByPeriod();
+
+            executor.execute(() -> loadDataByPeriod());
         }
 
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
@@ -117,7 +156,9 @@ public class HomeFragment extends Fragment {
                 editor.apply();
 
                 currentPeriod = tab.getPosition();
-                loadDataByPeriod();
+
+                // Load data asynchronously
+                executor.execute(() -> loadDataByPeriod());
             }
 
             @Override
@@ -155,23 +196,19 @@ public class HomeFragment extends Fragment {
     }
 
     private void loadDataByPeriod() {
-        // Observe transactions based on selected period
-        switch (currentPeriod) {
-            case 0: // Daily
-                observeDailyData();
-                break;
-            case 1: // Weekly
-                observeWeeklyData();
-                break;
-            case 2: // Monthly
-                observeMonthlyData();
-                break;
-        }
+        // Post to main thread for UI updates
+        requireActivity().runOnUiThread(() -> {
+            switch (currentPeriod) {
+                case 0: observeDailyData(); break;
+                case 1: observeWeeklyData(); break;
+                case 2: observeMonthlyData();break;
+            }
+        });
     }
 
     private void observeDailyData() {
         homeViewModel.getTransaksiHarian().observe(getViewLifecycleOwner(), transaksi -> {
-            transaksiAdapter.submitList(transaksi);
+            transaksiAdapter.submitList(transaksi.size() > 30 ? transaksi.subList(0, 30) : transaksi);
 
             if (transaksi == null || transaksi.isEmpty()) {
                 tvEmptyState.setVisibility(View.VISIBLE);
@@ -191,13 +228,11 @@ public class HomeFragment extends Fragment {
             tvPengeluaran.setText(FormatUtils.formatCurrency(pengeluaran != null ? pengeluaran : 0));
             //updateChart();
         });
-
-        updateSaldoTotal();
     }
 
     private void observeWeeklyData() {
         homeViewModel.getTransaksiMingguan().observe(getViewLifecycleOwner(), transaksi -> {
-            transaksiAdapter.submitList(transaksi);
+            transaksiAdapter.submitList(transaksi.size() > 30 ? transaksi.subList(0, 30) : transaksi);
 
             if (transaksi == null || transaksi.isEmpty()) {
                 tvEmptyState.setVisibility(View.VISIBLE);
@@ -217,13 +252,11 @@ public class HomeFragment extends Fragment {
             tvPengeluaran.setText(FormatUtils.formatCurrency(pengeluaran != null ? pengeluaran : 0));
             //updateChart();
         });
-
-        updateSaldoTotal();
     }
 
     private void observeMonthlyData() {
         homeViewModel.getTransaksiBulanan().observe(getViewLifecycleOwner(), transaksi -> {
-            transaksiAdapter.submitList(transaksi);
+            transaksiAdapter.submitList(transaksi.size() > 30 ? transaksi.subList(0, 30) : transaksi);
 
             if (transaksi == null || transaksi.isEmpty()) {
                 tvEmptyState.setVisibility(View.VISIBLE);
@@ -243,8 +276,6 @@ public class HomeFragment extends Fragment {
             tvPengeluaran.setText(FormatUtils.formatCurrency(pengeluaran != null ? pengeluaran : 0));
             //updateChart();
         });
-
-        updateSaldoTotal();
     }
 
     private void updateSaldoTotal() {
@@ -315,6 +346,20 @@ public class HomeFragment extends Fragment {
         pieChart.invalidate();
     }
 
+    private void navigateToTransaksi(){
+        NavController navController = NavHostFragment.findNavController(this);
+        navController.navigate(R.id.navigation_transaksi, null, getNavOptions());
+    }
+
+    private NavOptions getNavOptions() {
+        return new NavOptions.Builder()
+                .setEnterAnim(R.anim.enter_from_right)
+                .setExitAnim(R.anim.exit_to_left)
+                .setPopEnterAnim(R.anim.enter_from_left)
+                .setPopExitAnim(R.anim.exit_to_right)
+                .build();
+    }
+
     // Formatter for percentage display in pie chart
     private static class PercentValueFormatter extends com.github.mikephil.charting.formatter.PercentFormatter {
 
@@ -322,5 +367,11 @@ public class HomeFragment extends Fragment {
         public String getFormattedValue(float value) {
             return FormatUtils.formatPercentage(value);
         }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        executor.shutdown();
     }
 }

@@ -76,8 +76,8 @@ public class DatabaseInitializer {
                         calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY;
                 double dailyFactor = isWeekend ? 1.2 : 1.0;
 
-                // Nasi Goreng sales (0–50 portions, IDR 15,000 each)
-                int nasiGorengCount = (int) (random.nextInt(51) * dailyFactor * seasonalFactor);
+                // Nasi Goreng sales (0–15 portions, IDR 15,000 each)
+                int nasiGorengCount = (int) (random.nextInt(21) * dailyFactor * seasonalFactor);
                 double nasiGorengRevenue = nasiGorengCount * 15000;
                 monthlyRevenue += nasiGorengRevenue;
 
@@ -88,25 +88,51 @@ public class DatabaseInitializer {
                 double qrisNasi = qrisNasiCount * 15000;
 
                 // Catat transaksi cash per porsi
-                for (int i = 0; i < cashNasiCount; i++) {
+                int remainingCashNasiCount = cashNasiCount;
+                while(remainingCashNasiCount > 0){
+                    int portionsInTransaction = Math.min(random.nextInt(remainingCashNasiCount) + 1, remainingCashNasiCount);
+
+                    double transactionAmount = portionsInTransaction * 15000;
+
                     transaksiDao.insert(new Transaksi(
-                            date, randomTime(10, 22), "Penjualan Nasi Goreng", "Kas",
-                            "pemasukan", 15000, "Penjualan 1 porsi nasi goreng"
+                        date,
+                        randomTime(10, 22),
+                        "Penjualan",
+                        "Kas",
+                        "pemasukan",
+                        transactionAmount,
+                        "Penjualan " + portionsInTransaction + " porsi nasi goreng"
                     ));
-                    totalBalance += 15000;
+
+                    // Total balance update
+                    totalBalance += transactionAmount;
+                    remainingCashNasiCount -= portionsInTransaction;
                 }
 
                 // Catat transaksi QRIS per porsi
-                for (int i = 0; i < qrisNasiCount; i++) {
+                int remainingQrisNasiCount = qrisNasiCount;
+                while(remainingQrisNasiCount > 0){
+                    int portionsInTransaction = Math.min(random.nextInt(remainingQrisNasiCount) + 1, remainingQrisNasiCount);
+
+                    double transactionAmount = portionsInTransaction * 15000;
+
                     transaksiDao.insert(new Transaksi(
-                            date, randomTime(10, 22), "Penjualan Nasi Goreng", "QRIS",
-                            "pemasukan", 15000, "Penjualan 1 porsi nasi goreng"
+                        date,
+                        randomTime(10, 22),
+                        "Penjualan",
+                        "QRIS",
+                        "pemasukan",
+                        transactionAmount,
+                        "Penjualan " + portionsInTransaction + " porsi nasi goreng"
                     ));
-                    totalBalance += 15000;
+
+                    // Total balance update
+                    totalBalance += transactionAmount;
+                    remainingQrisNasiCount -= portionsInTransaction;
                 }
 
-                // Es Teh sales (0–30 portions, IDR 5,000 each)
-                int esTehCount = (int) (random.nextInt(31) * dailyFactor * seasonalFactor);
+                // Es Teh sales (0–5 portions, IDR 5,000 each)
+                int esTehCount = (int) (random.nextInt(6) * dailyFactor * seasonalFactor);
                 double esTehRevenue = esTehCount * 5000;
                 monthlyRevenue += esTehRevenue;
 
@@ -117,21 +143,47 @@ public class DatabaseInitializer {
                 double qrisEsTeh = qrisEsTehCount * 5000;
 
                 // Catat transaksi cash per gelas
-                for (int i = 0; i < cashEsTehCount; i++) {
+                int remainingCashEsTehCount = cashEsTehCount;
+                while(remainingCashEsTehCount > 0){
+                    int portionsInTransaction = Math.min(random.nextInt(remainingCashEsTehCount) + 1, remainingCashEsTehCount);
+
+                    double transactionAmount = portionsInTransaction * 5000;
+
                     transaksiDao.insert(new Transaksi(
-                            date, randomTime(10, 22), "Penjualan Es Teh", "Kas",
-                            "pemasukan", 5000, "Penjualan 1 gelas es teh"
+                        date,
+                        randomTime(10, 22),
+                        "Penjualan",
+                        "Kas",
+                        "pemasukan",
+                        transactionAmount,
+                        "Penjualan " + portionsInTransaction + " gelas es teh"
                     ));
-                    totalBalance += 5000;
+
+                    // Total balance update
+                    totalBalance += transactionAmount;
+                    remainingCashEsTehCount -= portionsInTransaction;
                 }
 
                 // Catat transaksi QRIS per gelas
-                for (int i = 0; i < qrisEsTehCount; i++) {
+                int remainingQrisEsTehCount = qrisEsTehCount;
+                while(remainingQrisEsTehCount > 0){
+                    int portionsInTransaction = Math.min(random.nextInt(remainingQrisEsTehCount) + 1, remainingQrisEsTehCount);
+
+                    double transactionAmount = portionsInTransaction * 5000;
+
                     transaksiDao.insert(new Transaksi(
-                            date, randomTime(10, 22), "Penjualan Es Teh", "QRIS",
-                            "pemasukan", 5000, "Penjualan 1 gelas es teh"
+                        date,
+                        randomTime(10, 22),
+                        "Penjualan",
+                        "QRIS",
+                        "pemasukan",
+                        transactionAmount,
+                        "Penjualan " + portionsInTransaction + " gelas es teh"
                     ));
-                    totalBalance += 5000;
+
+                    // Total balance update
+                    totalBalance += transactionAmount;
+                    remainingQrisEsTehCount -= portionsInTransaction;
                 }
             }
 
@@ -174,13 +226,13 @@ public class DatabaseInitializer {
             ));
             totalBalance -= 100000.0;
 
-            // Labor (IDR 1.5M/month per employee, 2 employees, paid on 25th)
-            calendar.set(Calendar.DAY_OF_MONTH, 25);
-            transaksiDao.insert(new Transaksi(
-                    dateFormat.format(calendar.getTime()), randomTime(8, 12), "Gaji Karyawan", "Kas",
-                    "pengeluaran", 3000000.0, "Gaji 2 karyawan bulanan"
-            ));
-            totalBalance -= 3000000.0;
+            // Labor (IDR 1.5M/month per employee, 1 employees, paid on 25th)
+            //calendar.set(Calendar.DAY_OF_MONTH, 25);
+            //transaksiDao.insert(new Transaksi(
+            //        dateFormat.format(calendar.getTime()), randomTime(8, 12), "Gaji Karyawan", "Kas",
+            //        "pengeluaran", 2000000.0, "Gaji 1 karyawan bulanan"
+            //));
+            //totalBalance -= 2000000.0;
 
             // Equipment maintenance (every 3 months, IDR 500K–1M)
             if (month % 3 == 0) {

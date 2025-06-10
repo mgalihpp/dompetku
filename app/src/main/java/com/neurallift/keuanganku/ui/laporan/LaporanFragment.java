@@ -389,7 +389,7 @@ public class LaporanFragment extends Fragment {
             ));
         }
 
-        ChartLegendAdapter adapter = new ChartLegendAdapter(pemasukanItems);
+        ChartLegendAdapter adapter = new ChartLegendAdapter(pemasukanItems, "pemasukan");
         rvPemasukan.setAdapter(adapter);
 
         PieDataSet dataSet = new PieDataSet(entries, "");
@@ -453,7 +453,7 @@ public class LaporanFragment extends Fragment {
             ));
         }
 
-        ChartLegendAdapter adapter = new ChartLegendAdapter(pengeluaranItems);
+        ChartLegendAdapter adapter = new ChartLegendAdapter(pengeluaranItems, "pengeluaran");
         rvPengeluaran.setAdapter(adapter);
 
         PieDataSet dataSet = new PieDataSet(entries, "");

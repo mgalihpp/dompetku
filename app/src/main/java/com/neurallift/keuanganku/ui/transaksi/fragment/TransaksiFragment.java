@@ -1,6 +1,8 @@
 package com.neurallift.keuanganku.ui.transaksi.fragment;
 
+import android.content.Context;
 import android.os.Bundle;
+import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,11 +41,23 @@ public class TransaksiFragment extends Fragment implements TransaksiGroupAdapter
     private FloatingActionButton fabFilter;
     private FloatingActionButton fabAdd;
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        transaksiViewModel = new ViewModelProvider(this).get(TransaksiViewModel.class);
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
             @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_transaksi, container, false);
+        return inflater.inflate(R.layout.fragment_transaksi, container, false);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
         recyclerView = view.findViewById(R.id.rvTransaksi);
         tvEmpty = view.findViewById(R.id.layout_empty_state);
@@ -61,36 +75,29 @@ public class TransaksiFragment extends Fragment implements TransaksiGroupAdapter
         fabAdd.setOnClickListener(v -> {
             showAddTransactionBottomSheet();
         });
-
-        return view;
     }
 
     @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+    public void onStart() {
+        super.onStart();
 
-        transaksiViewModel = new ViewModelProvider(this).get(TransaksiViewModel.class);
-
-        // Observe the filtered transactions
-        transaksiViewModel.getFilteredTransaksi().observe(getViewLifecycleOwner(), transaksiGroups -> {
-            if (transaksiGroups != null && !transaksiGroups.isEmpty()) {
-                adapter.setTransaksiGroups(transaksiGroups);
-                recyclerView.setAdapter(adapter);
-                recyclerView.setItemViewCacheSize(20); // Cache 20 items
-                recyclerView.setDrawingCacheEnabled(true);
-                recyclerView.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
-                recyclerView.setVisibility(View.VISIBLE);
-                tvEmpty.setVisibility(View.GONE);
-            } else {
-                recyclerView.setVisibility(View.GONE);
-                tvEmpty.setVisibility(View.VISIBLE);
-            }
-
-        });
+            // Observe the filtered transactions
+            transaksiViewModel.getFilteredTransaksi().observe(getViewLifecycleOwner(), transaksiGroups -> {
+                if (transaksiGroups != null && !transaksiGroups.isEmpty()) {
+                    adapter.setTransaksiGroups(transaksiGroups);
+                    recyclerView.setAdapter(adapter);
+                    recyclerView.setVisibility(View.VISIBLE);
+                    tvEmpty.setVisibility(View.GONE);
+                } else {
+                    recyclerView.setVisibility(View.GONE);
+                    tvEmpty.setVisibility(View.VISIBLE);
+                }
+            });
     }
 
     private void setupRecyclerView() {
         adapter = new TransaksiGroupAdapter();
+        adapter.setHasStableIds(true);
         adapter.setOnTransaksiClickListener(this);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));

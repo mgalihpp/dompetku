@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.neurallift.keuanganku.R;
 import com.neurallift.keuanganku.ui.akun.model.AkunWithSaldo;
+import com.neurallift.keuanganku.utils.FormatUtils;
 
 import java.text.NumberFormat;
 import java.util.ArrayList;
@@ -113,8 +114,7 @@ public class AkunAdapter extends RecyclerView.Adapter<AkunAdapter.AkunViewHolder
             tvNamaAkun.setText(akunWithSaldo.getAkun().getNama());
 
             // Format saldo dengan IDR currency
-            NumberFormat currencyFormat = NumberFormat.getCurrencyInstance(new Locale("id", "ID"));
-            String formattedSaldo = currencyFormat.format(akunWithSaldo.getSaldo());
+             String formattedSaldo = FormatUtils.formatCurrency(akunWithSaldo.getSaldo());
             tvSaldo.setText(formattedSaldo);
 
             // Set color based on saldo (red for negative, green for positive)

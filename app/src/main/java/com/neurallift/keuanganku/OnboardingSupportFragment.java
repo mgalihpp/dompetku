@@ -31,21 +31,21 @@ public class OnboardingSupportFragment extends Fragment {
     private static final int[] TITLES = {
         R.string.onboarding_title_1,
         R.string.onboarding_title_2,
-        R.string.onboarding_title_3,
+        //R.string.onboarding_title_3,
         R.string.onboarding_title_4
     };
 
     private static final int[] DESCRIPTIONS = {
         R.string.onboarding_desc_1,
         R.string.onboarding_desc_2,
-        R.string.onboarding_desc_3,
+        //R.string.onboarding_desc_3,
         R.string.onboarding_desc_4
     };
 
     private static final int[] IMAGES = {
-        R.drawable.ic_onboarding_1,
+        R.drawable.ic_onboarding_5,
         R.drawable.ic_onboarding_2,
-        R.drawable.ic_onboarding_3,
+        //R.drawable.ic_onboarding_3,
         R.drawable.ic_onboarding_4
     };
 
