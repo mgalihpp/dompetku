@@ -1,6 +1,18 @@
-# Keuanganku - Personal Finance Management App
+# DompetKu - Personal Finance Management App
 
-Keuanganku is an Android application for managing personal finances, tracking income and expenses, and generating financial reports.
+DompetKu is an Android application for managing personal finances, tracking income and expenses, and generating financial reports.
+
+## Previews
+
+<p>
+    <img src='./github/onboarding.png' alt='onboarding'>
+    <img src='./github/home.png' alt='home'>
+    <img src='./github/akun.png' alt='akun'>
+    <img src='./github/transaksi.png' alt='transaksi'>
+    <img src='./github/tambah_transaksi.png' alt='tambah transaksi'>
+    <img src='./github/laporan1.png' alt='laporan1'>
+    <img src='./github/laporan2.png' alt='laporan2'>
+</p>
 
 ## Features
 
