@@ -1,6 +1,7 @@
 package com.neurallift.keuanganku.ui.transaksi.dialog;
 
 import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -9,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -18,6 +20,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.neurallift.keuanganku.R;
 import com.neurallift.keuanganku.data.model.Transaksi;
 import com.neurallift.keuanganku.ui.transaksi.viewmodel.TransaksiViewModel;
@@ -161,6 +165,27 @@ public class TambahTransaksiBottomSheet extends BottomSheetDialogFragment {
         btnSimpan.setOnClickListener(v -> saveTransaksi());
 
         return view;
+    }
+
+    @NonNull
+    @Override
+    public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
+        BottomSheetDialog dialog = (BottomSheetDialog) super.onCreateDialog(savedInstanceState);
+
+        // Set up the dialog to open in expanded state
+        dialog.setOnShowListener(dialogInterface -> {
+            BottomSheetDialog bottomSheetDialog = (BottomSheetDialog) dialogInterface;
+            FrameLayout bottomSheet = bottomSheetDialog.findViewById(com.google.android.material.R.id.design_bottom_sheet);
+            if (bottomSheet != null) {
+                BottomSheetBehavior<FrameLayout> behavior = BottomSheetBehavior.from(bottomSheet);
+                behavior.setState(BottomSheetBehavior.STATE_EXPANDED); // Set to expanded state
+                behavior.setSkipCollapsed(true); // Skip collapsed state
+                behavior.setFitToContents(true); // Allow full-screen expansion
+                behavior.setPeekHeight(bottomSheet.getResources().getDisplayMetrics().heightPixels);
+            }
+        });
+
+        return dialog;
     }
 
     private void showKategoriBottomSheet() {

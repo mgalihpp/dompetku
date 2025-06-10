@@ -117,4 +117,9 @@ public class TransaksiAdapter extends ListAdapter<Transaksi, TransaksiAdapter.Tr
             }
         }
     }
+
+    @Override
+    public int getItemViewType(int position) {
+        return position;
+    }
 }

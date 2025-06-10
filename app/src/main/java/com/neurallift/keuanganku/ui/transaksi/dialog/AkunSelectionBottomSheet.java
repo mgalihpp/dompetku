@@ -1,10 +1,12 @@
 package com.neurallift.keuanganku.ui.transaksi.dialog;
 
+import android.app.Dialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -14,6 +16,8 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.neurallift.keuanganku.R;
 import com.neurallift.keuanganku.data.model.Akun;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
@@ -81,6 +85,27 @@ public class AkunSelectionBottomSheet extends BottomSheetDialogFragment implemen
         });
 
         return view;
+    }
+
+    @NonNull
+    @Override
+    public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
+        BottomSheetDialog dialog = (BottomSheetDialog) super.onCreateDialog(savedInstanceState);
+
+        // Set up the dialog to open in expanded state
+        dialog.setOnShowListener(dialogInterface -> {
+            BottomSheetDialog bottomSheetDialog = (BottomSheetDialog) dialogInterface;
+            FrameLayout bottomSheet = bottomSheetDialog.findViewById(com.google.android.material.R.id.design_bottom_sheet);
+            if (bottomSheet != null) {
+                BottomSheetBehavior<FrameLayout> behavior = BottomSheetBehavior.from(bottomSheet);
+                behavior.setState(BottomSheetBehavior.STATE_EXPANDED); // Set to expanded state
+                behavior.setSkipCollapsed(true); // Skip collapsed state
+                behavior.setFitToContents(true); // Allow full-screen expansion
+                behavior.setPeekHeight(bottomSheet.getResources().getDisplayMetrics().heightPixels);
+            }
+        });
+
+        return dialog;
     }
 
     private void setupRecyclerView() {

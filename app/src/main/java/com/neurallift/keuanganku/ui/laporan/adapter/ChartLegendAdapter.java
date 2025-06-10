@@ -17,10 +17,12 @@ import java.util.List;
 
 public class ChartLegendAdapter extends RecyclerView.Adapter<ChartLegendAdapter.ViewHolder> {
     private final List<ChartLegendItem> legendItems;
+    private final String jenis;
 
-    public ChartLegendAdapter(List<ChartLegendItem> legendItems) {
+    public ChartLegendAdapter(List<ChartLegendItem> legendItems, String jenis) {
         this.legendItems = legendItems;
         this.legendItems.sort(Comparator.comparingDouble(ChartLegendItem::getNominal).reversed());
+        this.jenis = jenis;
     }
 
     @NonNull
@@ -36,6 +38,9 @@ public class ChartLegendAdapter extends RecyclerView.Adapter<ChartLegendAdapter.
         holder.colorIndicator.setBackgroundColor(item.getColor());
         holder.tvCategoryName.setText(item.getKategori());
         holder.tvAmount.setText(FormatUtils.formatCurrency(item.getNominal()));
+        holder.tvAmount.setTextColor(
+                holder.itemView.getContext().getResources().getColor(jenis.equals("pemasukan") ? R.color.colorIncome : R.color.colorExpense)
+        );
     }
 
     @Override

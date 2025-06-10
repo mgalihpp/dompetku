@@ -5,8 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:background="?android:attr/selectableItemBackground">
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -22,18 +21,19 @@
             android:textSize="16sp"
             android:textColor="@color/colorPrimaryText"
             android:layout_marginBottom="8dp"
-            tools:text="Gaji"
-            />
+            android:minHeight="34dp"
+            android:gravity="center_vertical"
+            tools:text="Gaji" />
 
         <ImageButton
             android:id="@+id/btn_menu"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
             android:src="@drawable/ic_more"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:layout_gravity="center_vertical"
+            android:padding="8dp"
             android:contentDescription="Menu" />
 
     </LinearLayout>
-
 </LinearLayout>

@@ -56,6 +56,7 @@ public class TransaksiGroupAdapter extends RecyclerView.Adapter<TransaksiGroupAd
     }
 
     class GroupViewHolder extends RecyclerView.ViewHolder{
+        RecyclerView.RecycledViewPool sharedPool = new RecyclerView.RecycledViewPool();
         private TextView tvTanggalGroup;
         private TextView tvTotalTransaksi;
         private RecyclerView rvTransaksiItems;
@@ -74,6 +75,7 @@ public class TransaksiGroupAdapter extends RecyclerView.Adapter<TransaksiGroupAd
             transaksiDetailAdapter.setOnTransaksiClickListener(listener);
             rvTransaksiItems.setLayoutManager(new LinearLayoutManager(itemView.getContext()));
             rvTransaksiItems.setAdapter(transaksiDetailAdapter);
+            rvTransaksiItems.setRecycledViewPool(sharedPool);
             rvTransaksiItems.setNestedScrollingEnabled(false);
         }
 
