@@ -21,7 +21,7 @@
     <string name="onboarding_image">Gambar Onboarding</string>
     
     <!-- Home Screen -->
-    <string name="total_saldo">Total Saldo</string>
+    <string name="total_saldo">Saldo Tersedia</string>
     <string name="pemasukan">Pemasukan</string>
     <string name="pengeluaran">Pengeluaran</string>
     <string name="ringkasan_keuangan">Ringkasan Keuangan</string>
