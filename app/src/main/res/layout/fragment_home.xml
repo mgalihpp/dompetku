@@ -47,41 +47,75 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                app:cardBackgroundColor="@color/colorCardBackground"
-                app:cardCornerRadius="12dp"
-                app:cardElevation="2dp">
+                app:cardCornerRadius="16dp"
+                app:cardElevation="4dp"
+                app:cardBackgroundColor="#37474F">
 
-                <LinearLayout
+                <FrameLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="16dp">
+                    android:layout_height="wrap_content">
 
-                    <TextView
+                    <!-- Decorative branch illustration -->
+                    <ImageView
+                        android:id="@+id/imageDecoration"
+                        android:layout_width="200dp"
+                        android:layout_height="150dp"
+                        android:layout_gravity="center|end"
+                        android:layout_marginTop="-10dp"
+                        android:layout_marginEnd="-40dp"
+                        android:scaleType="fitXY"
+                        android:alpha="0.9"
+                        android:src="@drawable/ranting" />
+
+                    <!-- Main content -->
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/total_saldo"
-                        android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
-                        android:textColor="@color/colorPrimaryText" />
+                        android:orientation="vertical"
+                        android:padding="20dp"
+                        android:gravity="top">
 
-                    <TextView
-                        android:id="@+id/tvSaldoTotal"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline4"
-                        android:textColor="@color/colorPrimary"
-                        android:textStyle="bold"
-                        android:maxLines="1"
-                        android:ellipsize="end"
-                        android:autoSizeTextType="uniform"
-                        android:autoSizeMinTextSize="12sp"
-                        android:autoSizeMaxTextSize="30sp"
-                        android:autoSizeStepGranularity="2sp"
-                        tools:text="Rp 10.000.000" />
+                        <TextView
+                            android:id="@+id/tvLabelSaldo"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Saldo tersedia"
+                            android:textColor="@android:color/white"
+                            android:textSize="14sp"
+                            android:alpha="0.9"
+                            android:layout_marginBottom="8dp" />
 
-                </LinearLayout>
+                        <TextView
+                            android:id="@+id/tvSaldoTotal"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@android:color/white"
+                            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline4"
+                            android:maxLines="1"
+                            android:ellipsize="end"
+                            android:autoSizeTextType="uniform"
+                            android:autoSizeMinTextSize="12sp"
+                            android:autoSizeMaxTextSize="30sp"
+                            android:autoSizeStepGranularity="2sp"
+                            tools:text="Rp 10.000.000"
+                            android:textStyle="bold"
+                            android:layout_marginBottom="16dp" />
+
+                        <TextView
+                            android:id="@+id/tvDetail"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Lihat detail"
+                            android:textColor="@android:color/white"
+                            android:textSize="14sp"
+                            android:alpha="0.9" />
+
+                    </LinearLayout>
+
+                </FrameLayout>
+
             </androidx.cardview.widget.CardView>
+
 
             <!-- Pemasukan dan Pengeluaran Cards -->
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -112,6 +146,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
+                        android:background="#D9E7E5"
                         android:padding="16dp">
 
                         <TextView
@@ -160,6 +195,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
+                        android:background="#E6E2E6"
                         android:padding="16dp">
 
                         <TextView
@@ -258,7 +294,7 @@
                 android:layout_weight="1"
                 android:clipToPadding="false"
                 android:nestedScrollingEnabled="true"
-                tools:itemCount="3"
+                tools:itemCount="1"
                 tools:listitem="@layout/item_transaksi" />
 
             <!-- Empty State -->

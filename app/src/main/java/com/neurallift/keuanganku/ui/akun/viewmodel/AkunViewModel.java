@@ -9,6 +9,7 @@ import androidx.lifecycle.MediatorLiveData;
 
 import com.neurallift.keuanganku.data.model.Akun;
 import com.neurallift.keuanganku.data.repository.AkunRepository;
+import com.neurallift.keuanganku.data.repository.TransaksiRepository;
 import com.neurallift.keuanganku.ui.akun.model.AkunWithSaldo;
 
 import java.util.ArrayList;
@@ -18,6 +19,7 @@ import java.util.Map;
 
 public class AkunViewModel extends AndroidViewModel {
 
+    private TransaksiRepository transaksiRepository;
     private AkunRepository akunRepository;
     private MediatorLiveData<List<AkunWithSaldo>> akunWithSaldoLiveData;
     private final Map<String, LiveData<Double>> saldoLiveDataMap = new HashMap<>();
@@ -26,6 +28,7 @@ public class AkunViewModel extends AndroidViewModel {
 
     public AkunViewModel(@NonNull Application application) {
         super(application);
+        transaksiRepository = new TransaksiRepository(application);
         akunRepository = new AkunRepository(application);
         akunWithSaldoLiveData = new MediatorLiveData<>();
         setupAkunWithSaldoLiveData();
@@ -95,6 +98,37 @@ public class AkunViewModel extends AndroidViewModel {
     public LiveData<Akun> getAkunByNama(String akun) {
         return akunRepository.getAkunByNama(akun);
     }
+
+    public LiveData<Double> getTotalSaldo() {
+        MediatorLiveData<Double> totalSaldo = new MediatorLiveData<>();
+
+        LiveData<Double> totalPemasukan = transaksiRepository.getTotalPemasukan();
+        LiveData<Double> totalPengeluaran = transaksiRepository.getTotalPengeluaran();
+
+        class SaldoHolder {
+            Double pemasukan = 0.0;
+            Double pengeluaran = 0.0;
+
+            void updateSaldo() {
+                totalSaldo.setValue(pemasukan - pengeluaran);
+            }
+        }
+
+        SaldoHolder holder = new SaldoHolder();
+
+        totalSaldo.addSource(totalPemasukan, pemasukan -> {
+            holder.pemasukan = pemasukan != null ? pemasukan : 0.0;
+            holder.updateSaldo();
+        });
+
+        totalSaldo.addSource(totalPengeluaran, pengeluaran -> {
+            holder.pengeluaran = pengeluaran != null ? pengeluaran : 0.0;
+            holder.updateSaldo();
+        });
+
+        return totalSaldo;
+    }
+
 
     public void insert(Akun akun) {
         akunRepository.insert(akun);

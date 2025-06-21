@@ -1,7 +1,6 @@
 package com.neurallift.keuanganku.ui.laporan;
 
 import android.app.Application;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -9,11 +8,8 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Transformations;
 
-import com.neurallift.keuanganku.data.model.Akun;
-import com.neurallift.keuanganku.data.repository.AkunRepository;
 import com.neurallift.keuanganku.data.repository.TransaksiRepository;
 import com.neurallift.keuanganku.data.model.Transaksi;
-import com.neurallift.keuanganku.ui.laporan.model.AkunWithTransaksi;
 import com.neurallift.keuanganku.utils.DateTimeUtils;
 
 import java.util.List;

@@ -24,6 +24,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.snackbar.Snackbar;
+import com.neurallift.keuanganku.MainActivity;
 import com.neurallift.keuanganku.R;
 import com.neurallift.keuanganku.data.model.Transaksi;
 import com.neurallift.keuanganku.ui.akun.viewmodel.DetailAkunViewModel;
@@ -182,6 +183,10 @@ public class DetailAkunFragment extends Fragment implements TransaksiGroupAdapte
         args.putInt(DetailTransaksiFragment.ARG_TRANSAKSI_ID, transaksi.getId());
         NavController navController = NavHostFragment.findNavController(this);
         navController.navigate(R.id.navigation_detail_transaksi, args, getNavOptions());
+
+        if (getActivity() instanceof MainActivity) {
+            ((MainActivity) getActivity()).selectBottomNav(R.id.navigation_detail_transaksi);
+        }
     }
 
     private NavOptions getNavOptions() {

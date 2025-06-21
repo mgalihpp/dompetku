@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -17,16 +18,18 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.neurallift.keuanganku.MainActivity;
 import com.neurallift.keuanganku.R;
 import com.neurallift.keuanganku.data.model.Akun;
 import com.neurallift.keuanganku.ui.akun.viewmodel.AkunViewModel;
 import com.neurallift.keuanganku.ui.akun.dialog.TambahAkunBottomSheet;
 import com.neurallift.keuanganku.ui.akun.adapter.AkunAdapter;
 import com.neurallift.keuanganku.ui.akun.model.AkunWithSaldo;
+import com.neurallift.keuanganku.utils.FormatUtils;
 
 public class AkunFragment extends Fragment implements TambahAkunBottomSheet.OnAkunSavedListener {
-
     private AkunViewModel akunViewModel;
+    private TextView tvSaldoTotal;
     private RecyclerView rvAkun;
     private View layoutEmptyState;
     private AkunAdapter akunAdapter;
@@ -46,6 +49,7 @@ public class AkunFragment extends Fragment implements TambahAkunBottomSheet.OnAk
     }
 
     private void initViews(View view) {
+        tvSaldoTotal = view.findViewById(R.id.tvSaldoTotal);
         rvAkun = view.findViewById(R.id.rv_akun);
         layoutEmptyState = view.findViewById(R.id.layout_empty_state);
         fabTambahAkun = view.findViewById(R.id.fab_tambah_akun);
@@ -71,6 +75,10 @@ public class AkunFragment extends Fragment implements TambahAkunBottomSheet.OnAk
 
     private void setupViewModel() {
         akunViewModel = new ViewModelProvider(this).get(AkunViewModel.class);
+
+        akunViewModel.getTotalSaldo().observe(getViewLifecycleOwner(), totalSaldo -> {
+            tvSaldoTotal.setText(FormatUtils.formatCurrency(totalSaldo));
+        });
 
         akunViewModel.getAllAkunWithSaldo().observe(getViewLifecycleOwner(), akunWithSaldoList -> {
 
@@ -130,6 +138,10 @@ public class AkunFragment extends Fragment implements TambahAkunBottomSheet.OnAk
 
         NavController navController = NavHostFragment.findNavController(this);
         navController.navigate(R.id.navigation_detail_akun, args, getNavOptions());
+
+        if (getActivity() instanceof MainActivity) {
+            ((MainActivity) getActivity()).selectBottomNav(R.id.navigation_detail_akun);
+        }
     }
 
     private NavOptions getNavOptions() {

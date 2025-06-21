@@ -1,6 +1,7 @@
 package com.neurallift.keuanganku.utils;
 
 import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -21,9 +22,16 @@ public class FormatUtils {
      * @return Formatted currency string
      */
     public static String formatCurrency(double value) {
+        Locale INDONESIA_LOCALE = new Locale("in", "ID");
         NumberFormat currencyFormatter = NumberFormat.getCurrencyInstance(INDONESIA_LOCALE);
         currencyFormatter.setMinimumFractionDigits(0);
         currencyFormatter.setMaximumFractionDigits(0);
+
+        // Tambahkan spasi setelah simbol Rp
+        DecimalFormatSymbols symbols = ((DecimalFormat) currencyFormatter).getDecimalFormatSymbols();
+        symbols.setCurrencySymbol("Rp "); // ← tambahkan spasi di sini
+        ((DecimalFormat) currencyFormatter).setDecimalFormatSymbols(symbols);
+
         return currencyFormatter.format(value);
     }
 

@@ -2,7 +2,6 @@ package com.neurallift.keuanganku.data.model;
 
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
-import androidx.room.TypeConverters;
 
 @Entity(tableName = "transaksi")
 public class Transaksi {

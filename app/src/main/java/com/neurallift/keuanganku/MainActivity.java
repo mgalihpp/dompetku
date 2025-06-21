@@ -43,9 +43,11 @@ public class MainActivity extends AppCompatActivity {
                 getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment)
         );
 
-        bottomNavigationView.setOnItemSelectedListener(item -> {
-            int destinationId = navController.getCurrentDestination().getId();
+        setupNavListener();
+    }
 
+    private void setupNavListener() {
+        bottomNavigationView.setOnItemSelectedListener(item -> {
             int id = item.getItemId();
             int currentId = navController.getCurrentDestination().getId();
 
@@ -64,7 +66,6 @@ public class MainActivity extends AppCompatActivity {
             }
             return false;
         });
-
     }
 
     private NavOptions getNavOptions() {
@@ -76,5 +77,19 @@ public class MainActivity extends AppCompatActivity {
                 .build();
     }
 
+    public void selectBottomNav(int id) {
+        if (bottomNavigationView != null && bottomNavigationView.getSelectedItemId() != id) {
+            bottomNavigationView.setOnItemSelectedListener(null); // temporarily disable listener
+            bottomNavigationView.setSelectedItemId(id);
+            setupNavListener(); // re-attach listener
+        }
+    }
+
+
+    public void setSelectedBottomNavItem(int itemId) {
+        if (bottomNavigationView != null) {
+            bottomNavigationView.setSelectedItemId(itemId);
+        }
+    }
 
 }

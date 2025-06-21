@@ -243,6 +243,8 @@ public class LaporanFragment extends Fragment {
 
             updateExpensePieChart(transaksiList);
         });
+
+        
     }
 
     private void updateLineChart(List<Transaksi> transaksiList) {

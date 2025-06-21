@@ -1,13 +1,10 @@
 package com.neurallift.keuanganku.ui.transaksi.fragment;
 
-import android.content.Context;
 import android.os.Bundle;
-import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -20,14 +17,12 @@ import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.neurallift.keuanganku.MainActivity;
 import com.neurallift.keuanganku.R;
 import com.neurallift.keuanganku.data.model.Transaksi;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.neurallift.keuanganku.ui.akun.adapter.TransaksiGroupAdapter;
-import com.neurallift.keuanganku.ui.akun.fragment.DetailAkunFragment;
-import com.neurallift.keuanganku.ui.akun.model.AkunWithSaldo;
-import com.neurallift.keuanganku.ui.transaksi.adapter.TransaksiAdapter;
 import com.neurallift.keuanganku.ui.transaksi.dialog.FilterTransaksiBottomSheet;
 import com.neurallift.keuanganku.ui.transaksi.dialog.TambahTransaksiBottomSheet;
 import com.neurallift.keuanganku.ui.transaksi.viewmodel.TransaksiViewModel;
@@ -137,6 +132,10 @@ public class TransaksiFragment extends Fragment implements TransaksiGroupAdapter
         args.putInt(DetailTransaksiFragment.ARG_TRANSAKSI_ID, transaksi.getId());
         NavController navController = NavHostFragment.findNavController(this);
         navController.navigate(R.id.navigation_detail_transaksi, args, getNavOptions());
+
+        if (getActivity() instanceof MainActivity) {
+            ((MainActivity) getActivity()).selectBottomNav(R.id.navigation_detail_transaksi);
+        }
     }
 
     private NavOptions getNavOptions() {

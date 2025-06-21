@@ -98,7 +98,13 @@
                         android:layout_weight="1"
                         android:textAppearance="?attr/textAppearanceHeadline5"
                         android:textStyle="bold"
-                        tools:text="Rp100.000"
+                        android:maxLines="1"
+                        android:ellipsize="end"
+                        android:autoSizeTextType="uniform"
+                        android:autoSizeMinTextSize="12sp"
+                        android:autoSizeMaxTextSize="30sp"
+                        android:autoSizeStepGranularity="2sp"
+                        tools:text="Rp100.000.000"
                         tools:textColor="@color/colorIncome" />
 
                     <com.google.android.material.chip.Chip

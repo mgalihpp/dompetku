@@ -8,9 +8,10 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -27,6 +28,7 @@ public class KategoriFragment extends Fragment implements TambahKategoriBottomSh
     private View layoutEmptyState;
     private KategoriAdapter kategoriAdapter;
     private FloatingActionButton fabTambahKategori;
+    private Toolbar toolbar;
 
     @Nullable
     @Override
@@ -34,6 +36,7 @@ public class KategoriFragment extends Fragment implements TambahKategoriBottomSh
         View view = inflater.inflate(R.layout.fragment_kategori, container, false);
 
         initViews(view);
+        setupToolbar();
         setupRecyclerView();
         setupViewModel();
         setupClickListeners();
@@ -42,9 +45,16 @@ public class KategoriFragment extends Fragment implements TambahKategoriBottomSh
     }
 
     private void initViews(View view) {
+        toolbar = view.findViewById(R.id.toolbar);
         rvKategori = view.findViewById(R.id.rv_kategori);
         layoutEmptyState = view.findViewById(R.id.layout_empty_state);
         fabTambahKategori = view.findViewById(R.id.fab_tambah_kategori);
+    }
+
+    private void setupToolbar(){
+        toolbar.setNavigationOnClickListener(v ->{
+            Navigation.findNavController(v).navigateUp();
+        });
     }
 
     private void setupRecyclerView() {

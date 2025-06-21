@@ -20,6 +20,7 @@ import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.neurallift.keuanganku.MainActivity;
 import com.neurallift.keuanganku.R;
 import com.neurallift.keuanganku.ui.AccessibleLinearLayout;
 import com.neurallift.keuanganku.ui.transaksi.dialog.TambahTransaksiBottomSheet;
@@ -48,6 +49,7 @@ public class HomeFragment extends Fragment {
     private TransaksiAdapter transaksiAdapter;
     private PieChart pieChart;
     private TabLayout tabLayout;
+    private TextView tvDetail;
     private TextView tvLihatSemua;
     private final ExecutorService executor = Executors.newSingleThreadExecutor();
 
@@ -81,6 +83,7 @@ public class HomeFragment extends Fragment {
         rvTransaksi = view.findViewById(R.id.rvTransaksi);
         pieChart = view.findViewById(R.id.pieChart);
         tabLayout = view.findViewById(R.id.tabLayout);
+        tvDetail = view.findViewById(R.id.tvDetail);
         tvLihatSemua = view.findViewById(R.id.tvLihatSemua);
 
         // Setup RecyclerView
@@ -105,6 +108,10 @@ public class HomeFragment extends Fragment {
         fab.setOnClickListener(v -> {
             TambahTransaksiBottomSheet bottomSheet = new TambahTransaksiBottomSheet();
             bottomSheet.show(getChildFragmentManager(), "tambahTransaksi");
+        });
+
+        tvDetail.setOnClickListener(v -> {
+            navigateToAkun();
         });
 
         tvLihatSemua.setOnClickListener(v -> {
@@ -221,12 +228,10 @@ public class HomeFragment extends Fragment {
 
         homeViewModel.getTotalPemasukanHarian().observe(getViewLifecycleOwner(), pemasukan -> {
             tvPemasukan.setText(FormatUtils.formatCurrency(pemasukan != null ? pemasukan : 0));
-            //updateChart();
         });
 
         homeViewModel.getTotalPengeluaranHarian().observe(getViewLifecycleOwner(), pengeluaran -> {
             tvPengeluaran.setText(FormatUtils.formatCurrency(pengeluaran != null ? pengeluaran : 0));
-            //updateChart();
         });
     }
 
@@ -245,12 +250,10 @@ public class HomeFragment extends Fragment {
 
         homeViewModel.getTotalPemasukanMingguan().observe(getViewLifecycleOwner(), pemasukan -> {
             tvPemasukan.setText(FormatUtils.formatCurrency(pemasukan != null ? pemasukan : 0));
-            //updateChart();
         });
 
         homeViewModel.getTotalPengeluaranMingguan().observe(getViewLifecycleOwner(), pengeluaran -> {
             tvPengeluaran.setText(FormatUtils.formatCurrency(pengeluaran != null ? pengeluaran : 0));
-            //updateChart();
         });
     }
 
@@ -269,12 +272,10 @@ public class HomeFragment extends Fragment {
 
         homeViewModel.getTotalPemasukanBulanan().observe(getViewLifecycleOwner(), pemasukan -> {
             tvPemasukan.setText(FormatUtils.formatCurrency(pemasukan != null ? pemasukan : 0));
-            //updateChart();
         });
 
         homeViewModel.getTotalPengeluaranBulanan().observe(getViewLifecycleOwner(), pengeluaran -> {
             tvPengeluaran.setText(FormatUtils.formatCurrency(pengeluaran != null ? pengeluaran : 0));
-            //updateChart();
         });
     }
 
@@ -346,9 +347,22 @@ public class HomeFragment extends Fragment {
         pieChart.invalidate();
     }
 
+    private void navigateToAkun(){
+        NavController navController = NavHostFragment.findNavController(this);
+        navController.navigate(R.id.navigation_akun, null, getNavOptions());
+
+        if (getActivity() instanceof MainActivity) {
+            ((MainActivity) getActivity()).selectBottomNav(R.id.navigation_akun);
+        }
+    }
+
     private void navigateToTransaksi(){
         NavController navController = NavHostFragment.findNavController(this);
         navController.navigate(R.id.navigation_transaksi, null, getNavOptions());
+
+        if (getActivity() instanceof MainActivity) {
+            ((MainActivity) getActivity()).selectBottomNav(R.id.navigation_transaksi);
+        }
     }
 
     private NavOptions getNavOptions() {

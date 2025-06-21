@@ -53,7 +53,14 @@ public class DatabaseInitializer {
         while (calendar.get(Calendar.YEAR) <= 2025 &&
                 (calendar.get(Calendar.YEAR) < 2025 || calendar.get(Calendar.MONTH) <= Calendar.JUNE)) {
             int daysInMonth = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
+            Calendar today = Calendar.getInstance();
             double monthlyRevenue = 0.0;
+
+            // Limit daysInMonth to the current day if the year and month match today's date
+            if (calendar.get(Calendar.YEAR) == today.get(Calendar.YEAR) &&
+                    calendar.get(Calendar.MONTH) == today.get(Calendar.MONTH)) {
+                daysInMonth = Math.min(daysInMonth, today.get(Calendar.DAY_OF_MONTH));
+            }
 
             // Determine seasonal factor
             double seasonalFactor = 1.0;

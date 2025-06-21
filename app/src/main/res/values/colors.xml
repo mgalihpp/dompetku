@@ -19,8 +19,8 @@
     
     <!-- Helper Colors -->
     <color name="colorDivider">#EEEEEE</color>
-    <color name="colorIncome">#4CAF50</color>
-    <color name="colorExpense">#F44336</color>
+    <color name="colorIncome">#34C759</color>
+    <color name="colorExpense">#FF3B30</color>
     <color name="colorPieIncome">#4CAF50</color>
     <color name="colorPieExpense">#F44336</color>
     <color name="colorOnBackground">#212121</color>

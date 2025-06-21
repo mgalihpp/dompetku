@@ -21,6 +21,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.neurallift.keuanganku.MainActivity;
 import com.neurallift.keuanganku.R;
 import com.neurallift.keuanganku.data.model.Kategori;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
@@ -194,6 +195,10 @@ public class KategoriSelectionBottomSheet extends BottomSheetDialogFragment impl
     private void navigateToKategori() {
         NavController navController = NavHostFragment.findNavController(this);
         navController.navigate(R.id.navigation_kategori, null, getNavOptions());
+
+        if (getActivity() instanceof MainActivity) {
+            ((MainActivity) getActivity()).selectBottomNav(R.id.navigation_kategori);
+        }
     }
 
     private NavOptions getNavOptions() {

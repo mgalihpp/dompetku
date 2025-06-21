@@ -6,10 +6,30 @@
     android:layout_height="match_parent"
     android:background="@color/colorBackground">
 
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorBackground"
+        app:elevation="2dp">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:navigationIcon="@drawable/ic_arrow_back"
+            app:title="@string/daftar_kategori"
+            app:titleTextColor="@color/colorPrimaryText" />
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fillViewport="true">
+        android:fillViewport="true"
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
+        >
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -17,31 +37,6 @@
             android:orientation="vertical"
             android:padding="16dp"
             >
-
-            <!-- Header -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginBottom="16dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/daftar_kategori"
-                    android:textSize="24sp"
-                    android:textStyle="bold"
-                    android:textColor="@color/colorPrimaryText"
-                    android:layout_marginBottom="8dp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Kelola kategori transaksi Anda"
-                    android:textSize="14sp"
-                    android:textColor="@color/colorSecondaryText" />
-
-            </LinearLayout>
 
             <!-- Kateogri List -->
             <androidx.recyclerview.widget.RecyclerView
