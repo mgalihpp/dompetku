@@ -54,6 +54,7 @@
     <string name="hapus">Hapus</string>
     <string name="pilih_kategori">Pilih Kategori</string>
     <string name="pilih_akun">Pilih Akun</string>
+    <string name="pilih_satuan">Pilih Satuan</string>
     <string name="periode">Periode</string>
     <string name="tanggal_mulai">Tanggal Mulai</string>
     <string name="tanggal_selesai">Tanggal Selesai</string>
@@ -84,6 +85,15 @@
     <string name="konfirmasi_hapus_akun">Hapus akun ini?</string>
     <string name="tambah_kategori">Tambah Kategori</string>
     <string name="masukkan_nama">Masukkan Nama</string>
+
+    <!-- Kasir Screen -->
+    <string name="kasir">Kasir</string>
+    <string name="pembayaran">Pembayaran</string>
+    <string name="invoice">Invoice</string>
+    <string name="tambah_barang">Tambah Barang</string>
+    <string name="barang_disimpan">Barang berhasil disimpan</string>
+    <string name="tambah_satuan">Tambah Satuan</string>
+    <string name="tidak_ada_barang">Tidak ada barang</string>
 
     <!-- Kategori Screen -->
     <string name="daftar_kategori">Daftar Kategori</string>

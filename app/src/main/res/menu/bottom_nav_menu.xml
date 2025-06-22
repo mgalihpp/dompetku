@@ -11,6 +11,12 @@
         android:title="@string/akun" />
 
     <item
+        android:id="@+id/navigation_kasir"
+        android:icon="@drawable/ic_kasir"
+        android:title="@string/kasir"
+        />
+
+    <item
         android:id="@+id/navigation_transaksi"
         android:icon="@drawable/ic_transaksi"
         android:title="@string/transaksi" />

@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:background="#F5F5F5">
+
+    <!-- Toolbar -->
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:navigationIcon="@drawable/ic_arrow_back_white"
+        android:background="@color/colorOnBackground"
+        android:minHeight="?attr/actionBarSize">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Pembayaran"
+            android:textSize="20sp"
+            android:textColor="@color/colorBackground"
+            android:layout_gravity="center"
+
+            />
+    </androidx.appcompat.widget.Toolbar>
+
+    <!-- Total Pembayaran -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:padding="16dp">
+
+        <TextView
+            android:id="@+id/tvTotal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Total yang harus dibayar"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="@color/colorPrimary"
+            android:layout_marginBottom="8dp"
+            android:gravity="center" />
+
+        <TextView
+            android:id="@+id/tv_total"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Rp 100.000"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:textColor="@color/colorPrimary"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline4"
+            android:autoSizeTextType="uniform"
+            android:autoSizeMinTextSize="12sp"
+            android:autoSizeMaxTextSize="30sp"
+            android:autoSizeStepGranularity="2sp" />
+    </LinearLayout>
+
+
+    <!-- Tab Tunai dan Non-Tunai -->
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tab_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorBackground">
+
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tunai"/>
+
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Non Tunai"/>
+    </com.google.android.material.tabs.TabLayout>
+
+    <!-- ViewPager untuk Tab (Opsional, bisa diganti dengan LinearLayout) -->
+    <FrameLayout
+        android:id="@+id/view_pager_container"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <!-- Konten Tunai/Non-Tunai -->
+        <LinearLayout
+            android:id="@+id/layout_payment_tunai"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="8dp"
+            android:layout_marginTop="16dp">
+
+            <!-- Input Nominal Pembayaran -->
+            <EditText
+                android:id="@+id/etNominal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/card_background"
+                android:hint="@string/masukkan_nominal"
+                android:inputType="number"
+                android:padding="12dp"
+                android:textColor="@color/colorPrimaryText"
+                android:textColorHint="@color/colorSecondaryText" />
+
+            <!-- Tombol Uang Pas -->
+            <Button
+                android:id="@+id/btn_exact_amount"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Uang Pas"
+                android:textColor="@color/colorOnBackground"
+                android:textSize="16sp"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/transaprent_border_background"
+                android:stateListAnimator="@null"
+                />
+
+            <!-- Kembalian --><LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="16dp"
+            android:padding="12dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Kembalian"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:gravity="start" />
+
+            <TextView
+                android:id="@+id/tv_change"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Rp 0"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:gravity="end" />
+        </LinearLayout>
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/layout_payment_nontunai"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:background="?attr/selectableItemBackground"
+            android:padding="8dp"
+            android:clickable="true"
+            android:focusable="true"
+            tools:visibility="gone">
+
+            <CheckBox
+                android:id="@+id/checkbox_payment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <ImageView
+                android:layout_width="80dp"
+                android:layout_height="50dp"
+                android:src="@drawable/qris"
+                android:layout_marginStart="8dp" />
+        </LinearLayout>
+
+
+    </FrameLayout>
+
+        <!-- Tombol Selesai -->
+    <Button
+        android:id="@+id/btn_finish"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Selesai"
+        android:background="#2196F3"
+        android:textColor="#FFFFFF"
+        android:textSize="16sp"
+        android:padding="12dp"
+        android:layout_margin="8dp"/>
+</LinearLayout>

@@ -18,6 +18,68 @@
         tools:layout="@layout/fragment_akun" />
 
     <fragment
+        android:id="@+id/navigation_kasir"
+        android:name="com.neurallift.keuanganku.ui.kasir.fragment.KasirFragment"
+        android:label="@string/kasir"
+        tools:layout="@layout/fragment_kasir"
+        />
+
+    <fragment
+        android:id="@+id/navigation_kasir_tambah_barang"
+        android:name="com.neurallift.keuanganku.ui.kasir.fragment.KasirTambahBarangFragment"
+        android:label="@string/tambah_barang"
+        tools:layout="@layout/fragment_kasir_tambah_barang"
+        />
+
+    <fragment
+        android:id="@+id/navigation_kasir_pembayaran"
+        android:name="com.neurallift.keuanganku.ui.kasir.fragment.KasirPembayaranFragment"
+        android:label="@string/pembayaran"
+        tools:layout="@layout/fragment_kasir_pembayaran"
+        >
+        <argument
+            android:name="total_pembayaran"
+            app:argType="float" />
+
+        <argument
+            android:name="barangList"
+
+            app:argType="com.neurallift.keuanganku.data.model.Barang" />
+
+        <argument
+            android:name="jumlahList"
+            app:argType="integer[]" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_kasir_invoice"
+        android:name="com.neurallift.keuanganku.ui.kasir.fragment.KasirInvoiceFragment"
+        android:label="@string/invoice"
+        tools:layout="@layout/fragment_kasir_invoice"
+        >
+
+        <argument
+            android:name="total_pembayaran"
+            app:argType="float" />
+
+        <argument
+            android:name="total_dibayar"
+            app:argType="float" />
+
+        <argument
+            android:name="total_kembalian"
+            app:argType="float" />
+        <argument
+            android:name="barangList"
+            app:argType="com.neurallift.keuanganku.data.model.Barang" />
+
+        <argument
+            android:name="jumlahList"
+            app:argType="integer[]" />
+
+    </fragment>
+
+    <fragment
         android:id="@+id/navigation_detail_akun"
         android:name="com.neurallift.keuanganku.ui.akun.fragment.DetailAkunFragment"
         android:label="@string/detail_akun"

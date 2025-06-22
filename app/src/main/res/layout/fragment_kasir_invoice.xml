@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    >
+
+    <LinearLayout
+        android:id="@+id/layout_invoice"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!-- Judul -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Detail Transaksi"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:paddingBottom="16dp"/>
+
+        <!-- ID Transaksi -->
+        <TextView
+            android:id="@+id/tv_id_transaksi"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="ID Transaksi: #XXXX"
+            android:textSize="18sp"
+            android:paddingBottom="8dp"/>
+
+        <!-- Tanggal -->
+        <TextView
+            android:id="@+id/tv_tanggal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Tanggal: DD/MM/YYYY"
+            android:textSize="18sp"
+            android:paddingBottom="8dp"/>
+
+        <!-- Daftar Item (RecyclerView) -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_invoice_items"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="16dp"
+            tools:listitem="@layout/item_kasir_invoice"
+            tools:itemCount="3"
+            />
+
+        <!-- Total -->
+        <TextView
+            android:id="@+id/tv_total_invoice"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Total: Rp 0"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:paddingBottom="8dp"/>
+
+        <!-- Nominal Dibayar -->
+        <TextView
+            android:id="@+id/tv_nominal_dibayar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Dibayar: Rp 0"
+            android:textSize="18sp"
+            android:paddingBottom="8dp"/>
+
+        <!-- Kembalian -->
+        <TextView
+            android:id="@+id/tv_kembalian_invoice"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Kembalian: Rp 0"
+            android:textSize="18sp"
+            android:paddingBottom="16dp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp"
+        >
+
+    <!-- Tombol Simpan Gambar -->
+    <Button
+        android:id="@+id/btn_save_image"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Simpan sebagai Gambar"
+        android:backgroundTint="#2196F3"
+        android:textColor="#FFFFFF"
+        android:layout_marginBottom="8dp"/>
+
+    <!-- Tombol Bagikan -->
+    <Button
+        android:id="@+id/btn_share"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Bagikan"
+        android:backgroundTint="#FFC107"
+        android:textColor="#FFFFFF"
+        android:layout_marginBottom="8dp"/>
+
+        <Button
+            android:id="@+id/btn_kembali"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Kembali"
+            android:textColor="@color/colorOnPrimary"/>
+
+    </LinearLayout>
+
+</LinearLayout>

@@ -196,7 +196,7 @@ public class DetailTransaksiFragment extends Fragment {
                 .setMessage(getString(R.string.konfirmasi_hapus_transaksi))
                 .setPositiveButton(getString(R.string.hapus), (dialog, which) -> {
                     transaksiViewModel.delete(transaksi);
-                    Toast.makeText(getContext(), getString(R.string.akun_berhasil_dihapus), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), getString(R.string.transaksi_dihapus), Toast.LENGTH_SHORT).show();
 
                     // Navigate back to the previous fragment
                     Navigation.findNavController(requireView()).navigateUp();

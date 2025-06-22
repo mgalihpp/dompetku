@@ -63,6 +63,9 @@ public class MainActivity extends AppCompatActivity {
             } else if (id == R.id.navigation_laporan && currentId != R.id.navigation_laporan) {
                 navController.navigate(R.id.navigation_laporan, null, getNavOptions());
                 return true;
+            } else if (id == R.id.navigation_kasir && currentId != R.id.navigation_kasir) {
+                navController.navigate(R.id.navigation_kasir, null, getNavOptions());
+                return true;
             }
             return false;
         });
