@@ -114,7 +114,7 @@ public class KasirInvoiceFragment extends Fragment {
         String id = prefix + date + random;
 
         tv_id_transaksi.setText(id);
-        tv_tanggal.setText( DateTimeUtils.formatDateFull(DateTimeUtils.formatDate(new Date())));
+        tv_tanggal.setText( DateTimeUtils.formatDateFull(DateTimeUtils.formatDate(new Date())) + ", " + DateTimeUtils.formatTime(new Date()));
         tv_total_invoice.setText("Total: " + FormatUtils.formatCurrency(totalPembayaran));
         tv_nominal_dibayar.setText("Dibayar: " + FormatUtils.formatCurrency(nominalDibayar));
         tv_kembalian_invoice.setText("Kembalian: " + FormatUtils.formatCurrency(kembalian));

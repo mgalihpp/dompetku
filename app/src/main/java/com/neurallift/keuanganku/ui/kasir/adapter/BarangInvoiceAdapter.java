@@ -65,7 +65,7 @@ public class BarangInvoiceAdapter extends RecyclerView.Adapter<BarangInvoiceAdap
 
             tv_nama_barang.setText(barang.getNama());
             tv_detail_harga.setText(jumlah + " x " + formattedHarga);
-            tv_total_harga.setText(FormatUtils.formatCurrency(barang.getHarga()));
+            tv_total_harga.setText(FormatUtils.formatCurrency(barang.getHarga() * jumlah));
         }
 
     }
