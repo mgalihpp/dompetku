@@ -63,6 +63,10 @@
             app:argType="float" />
 
         <argument
+            android:name="metode_pembayaran"
+            app:argType="string" />
+
+        <argument
             android:name="total_dibayar"
             app:argType="float" />
 

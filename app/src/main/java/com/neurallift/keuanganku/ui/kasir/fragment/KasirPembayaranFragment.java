@@ -230,6 +230,7 @@ public class KasirPembayaranFragment extends Fragment {
         float nominal = Float.parseFloat(etNominal.getText().toString().isEmpty() ? String.valueOf(totalPembayaran) : etNominal.getText().toString());
 
         args.putFloat("total_pembayaran", (float) totalHarga);
+        args.putString("metode_pembayaran", isTunai ? "Tunai" : "Non Tunai");
         args.putParcelableArrayList("barangList", barangList);
         args.putIntArray("jumlahList", jumlahList);
         args.putFloat("total_dibayar", nominal);

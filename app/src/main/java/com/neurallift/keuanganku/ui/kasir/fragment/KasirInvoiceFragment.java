@@ -58,8 +58,10 @@ public class KasirInvoiceFragment extends Fragment {
     public static final String ARG_TOTAL_KEMBALIAN = "total_kembalian";
     public static final String ARGS_BARANG_LIST = "barangList";
     public static final String ARGS_JUMLAH_LIST = "jumlahList";
+    public static final String ARGS_METODE_PEMBAYARAN = "metode_pembayaran";
 
     private double totalPembayaran;
+    private String metodePembayaran;
     private double nominalDibayar;
     private double kembalian;
     private final Map<Barang, Integer> selectedBarangMap = new HashMap<>();
@@ -68,6 +70,7 @@ public class KasirInvoiceFragment extends Fragment {
     private TextView tv_tanggal;
     private RecyclerView rv_invoice_items;
     private TextView tv_total_invoice;
+    private TextView tv_metode_pembayaran;
     private TextView tv_nominal_dibayar;
     private TextView tv_kembalian_invoice;
     private Button btn_save_image;
@@ -82,6 +85,7 @@ public class KasirInvoiceFragment extends Fragment {
             ArrayList<Barang> barangList = getArguments().getParcelableArrayList(ARGS_BARANG_LIST);
             int[] jumlahList = getArguments().getIntArray(ARGS_JUMLAH_LIST);
             totalPembayaran = getArguments().getFloat(ARG_TOTAL_PEMBAYARAN);
+            metodePembayaran = getArguments().getString(ARGS_METODE_PEMBAYARAN);
             nominalDibayar = getArguments().getFloat(ARG_TOTAL_DIBAYAR);
             kembalian = getArguments().getFloat(ARG_TOTAL_KEMBALIAN);
 
@@ -116,6 +120,7 @@ public class KasirInvoiceFragment extends Fragment {
         tv_id_transaksi.setText(id);
         tv_tanggal.setText( DateTimeUtils.formatDateFull(DateTimeUtils.formatDate(new Date())) + ", " + DateTimeUtils.formatTime(new Date()));
         tv_total_invoice.setText("Total: " + FormatUtils.formatCurrency(totalPembayaran));
+        tv_metode_pembayaran.setText("Metode Pembayaran: " + metodePembayaran);
         tv_nominal_dibayar.setText("Dibayar: " + FormatUtils.formatCurrency(nominalDibayar));
         tv_kembalian_invoice.setText("Kembalian: " + FormatUtils.formatCurrency(kembalian));
 
@@ -127,6 +132,7 @@ public class KasirInvoiceFragment extends Fragment {
         tv_tanggal = view.findViewById(R.id.tv_tanggal);
         rv_invoice_items = view.findViewById(R.id.rv_invoice_items);
         tv_total_invoice = view.findViewById(R.id.tv_total_invoice);
+        tv_metode_pembayaran = view.findViewById(R.id.tv_metode_pembayaran);
         tv_nominal_dibayar = view.findViewById(R.id.tv_nominal_dibayar);
         tv_kembalian_invoice = view.findViewById(R.id.tv_kembalian_invoice);
         btn_save_image = view.findViewById(R.id.btn_save_image);
