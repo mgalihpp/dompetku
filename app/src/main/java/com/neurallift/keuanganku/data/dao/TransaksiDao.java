@@ -66,6 +66,9 @@ public interface TransaksiDao {
     @Query("DELETE FROM transaksi WHERE akun = :akun")
     void deleteByAkun(String akun);
 
+    @Query("DELETE FROM transaksi WHERE kategori = :kategori")
+    void deleteByKategori(String kategori);
+
     @Query("SELECT * FROM transaksi WHERE akun = (SELECT nama FROM akun where id = :akunId) ORDER BY tanggal DESC, jam DESC")
     LiveData<List<Transaksi>> getTransaksiByAkunId(int akunId);
 }

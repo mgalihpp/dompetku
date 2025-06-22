@@ -6,6 +6,7 @@ import androidx.lifecycle.LiveData;
 
 import com.neurallift.keuanganku.data.AppDatabase;
 import com.neurallift.keuanganku.data.dao.KategoriDao;
+import com.neurallift.keuanganku.data.dao.TransaksiDao;
 import com.neurallift.keuanganku.data.model.Kategori;
 
 import java.util.List;
@@ -13,12 +14,14 @@ import java.util.List;
 public class KategoriRepository {
 
     private KategoriDao kategoriDao;
+    private TransaksiDao transaksiDao;
 
     private LiveData<List<Kategori>> allKategori;
 
     public KategoriRepository(Application application) {
         AppDatabase db = AppDatabase.getDatabase(application);
         kategoriDao = db.kategoriDao();
+        transaksiDao = db.transaksiDao();
 
         allKategori = kategoriDao.getAllKategori();
 
@@ -46,6 +49,7 @@ public class KategoriRepository {
 
     public void delete(Kategori kategori) {
         AppDatabase.databaseWriteExecutor.execute(() -> {
+            transaksiDao.deleteByKategori(kategori.getNama());
             kategoriDao.delete(kategori);
         });
     }
