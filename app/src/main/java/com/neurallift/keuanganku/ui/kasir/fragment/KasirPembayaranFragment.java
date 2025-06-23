@@ -3,7 +3,6 @@ package com.neurallift.keuanganku.ui.kasir.fragment;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,7 +31,6 @@ import com.neurallift.keuanganku.R;
 import com.neurallift.keuanganku.data.model.Akun;
 import com.neurallift.keuanganku.data.model.Barang;
 import com.neurallift.keuanganku.data.model.Transaksi;
-import com.neurallift.keuanganku.data.repository.AkunRepository;
 import com.neurallift.keuanganku.ui.akun.viewmodel.AkunViewModel;
 import com.neurallift.keuanganku.ui.transaksi.viewmodel.TransaksiViewModel;
 import com.neurallift.keuanganku.utils.DateTimeUtils;
@@ -42,7 +40,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class KasirPembayaranFragment extends Fragment {
@@ -263,7 +260,6 @@ public class KasirPembayaranFragment extends Fragment {
         SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd");
         String todayStr = inputFormat.format(new Date()); // "2025-06-21"
 
-        String tanggal = DateTimeUtils.formatDateFull(todayStr);
         String jam = DateTimeUtils.formatTime(new Date());
         String akunNama = isTunai ? "Kas" : "QRIS";
 
@@ -281,7 +277,7 @@ public class KasirPembayaranFragment extends Fragment {
             String catatan = "Penjualan " + entry.getValue() + " " + entry.getKey().getSatuan()  + " " + entry.getKey().getNama();
 
             Transaksi transaksi = new Transaksi(
-                    tanggal,
+                    todayStr,
                     jam,
                     kategori,
                     akunNama,
